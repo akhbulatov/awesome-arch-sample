@@ -26,6 +26,7 @@ class ReposViewModel @Inject constructor(
     private fun loadRepos() {
         viewModelScope.launch {
             try {
+                _uiState.value = uiState.value?.copy(emptyProgress = true)
                 val repos = getReposUseCase.invoke()
                 _uiState.value = uiState.value?.copy(repos = repos)
             } catch (e: Exception) {
@@ -33,6 +34,8 @@ class ReposViewModel @Inject constructor(
                     error = e,
                     errorListener = { _uiState.value = uiState.value?.copy(emptyError = it) }
                 )
+            } finally {
+                _uiState.value = uiState.value?.copy(emptyProgress = false)
             }
         }
     }

@@ -20,7 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="" />
+            tools:listitem="@layout/item_repo" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/repos_empty_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:visibility="gone" />
 
         <com.example.awesomearchsample.core.ui.view.ErrorView
             android:id="@+id/repos_error_view"

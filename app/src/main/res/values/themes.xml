@@ -1,5 +1,9 @@
 <resources>
+
     <style name="Theme.AwesomeArchSample" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:textColor">@color/black</item>
+
+        <item name="circularProgressIndicatorStyle">@style/Widget.App.ProgressBar</item>
     </style>
+
 </resources>

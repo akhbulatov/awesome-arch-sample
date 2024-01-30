@@ -98,4 +98,7 @@ dependencies {
 
     // Navigation
     implementation("com.github.aartikov.Alligator:alligator:4.3.0")
+
+    // Dev Tools
+    implementation("com.jakewharton.timber:timber:5.0.1")
 }

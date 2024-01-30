@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">AwesomeArchSample</string>
+
+    <!-- Actions -->
+    <string name="action_refresh">Обновить</string>
+
+    <!-- Errors -->
+    <string name="error_common_title">Что-то пошло не так</string>
+    <string name="error_user_not_authorized">Требуется авторизация</string>
+    <string name="error_network_title">Ошибка сети</string>
+    <string name="error_internal_title">Внутренняя ошибка</string>
+    <string name="error_unknown_title">Неизвестная ошибка</string>
 </resources>

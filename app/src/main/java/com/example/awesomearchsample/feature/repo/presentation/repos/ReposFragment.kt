@@ -1,6 +1,7 @@
 package com.example.awesomearchsample.feature.repo.presentation.repos
 
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.awesomearchsample.R
 import com.example.awesomearchsample.core.ui.base.BaseFragment
@@ -44,16 +45,21 @@ class ReposFragment : BaseFragment<FragmentReposBinding>(R.layout.fragment_repos
     }
 
     private fun setUiState(uiState: ReposUiState) {
-        setRepos(repos = uiState.repos)
+        setEmptyProgress(show = uiState.emptyProgress)
         setEmptyError(uiError = uiState.emptyError)
+        setRepos(repos = uiState.repos)
     }
 
-    private fun setRepos(repos: List<Repo>) {
-        repoAdapter.submitList(repos)
+    private fun setEmptyProgress(show: Boolean) {
+        binding.reposEmptyProgressBar.isVisible = show
     }
 
     private fun setEmptyError(uiError: UiError?) {
         binding.reposErrorView.setError(uiError)
+    }
+
+    private fun setRepos(repos: List<Repo>) {
+        repoAdapter.submitList(repos)
     }
 
     override fun onDestroyView() {

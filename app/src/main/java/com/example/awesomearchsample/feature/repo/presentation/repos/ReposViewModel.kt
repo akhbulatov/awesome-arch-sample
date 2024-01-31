@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
+import com.example.awesomearchsample.feature.repo.domain.model.Repo
+import com.example.awesomearchsample.feature.repo.domain.model.updatedByToggleInFavorites
 import com.example.awesomearchsample.feature.repo.domain.usecase.GetReposUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -43,5 +45,11 @@ class ReposViewModel @Inject constructor(
     fun onErrorActionClick() {
         _uiState.value = ReposUiState() // Задаем исходное состояние стейта
         loadRepos()
+    }
+
+    fun onFavoritesClick(repo: Repo) {
+        val uiState = uiState.value ?: return
+        val updatedRepos = uiState.repos.updatedByToggleInFavorites(repoBy = repo)
+        _uiState.value = uiState.copy(repos = updatedRepos)
     }
 }

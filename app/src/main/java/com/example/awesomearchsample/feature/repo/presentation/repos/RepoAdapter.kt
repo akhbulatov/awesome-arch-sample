@@ -10,7 +10,11 @@ import com.example.awesomearchsample.R
 import com.example.awesomearchsample.databinding.ItemRepoBinding
 import com.example.awesomearchsample.feature.repo.domain.model.Repo
 
-class RepoAdapter : ListAdapter<Repo, RepoAdapter.RepoViewHolder>(DIFF_CALLBACK) {
+private typealias OnRepoClickListener = (Repo) -> Unit
+
+class RepoAdapter(
+    private val favoritesClickListener: OnRepoClickListener
+) : ListAdapter<Repo, RepoAdapter.RepoViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -26,11 +30,27 @@ class RepoAdapter : ListAdapter<Repo, RepoAdapter.RepoViewHolder>(DIFF_CALLBACK)
 
         private val binding = ItemRepoBinding.bind(itemView)
 
+        init {
+            with(binding) {
+                repoFavoritesImage.setOnClickListener {
+                    val item = currentList[bindingAdapterPosition]
+                    favoritesClickListener.invoke(item)
+                }
+            }
+        }
+
         fun bind(item: Repo) {
             with(binding) {
                 repoNameLabel.text = item.name
                 repoAuthorLabel.text = item.author
                 repoDescriptionLabel.text = item.description
+
+                val favoritesIconRes = if (item.inFavorites) {
+                    R.drawable.ic_favorite
+                } else {
+                    R.drawable.ic_favorite_border
+                }
+                repoFavoritesImage.setImageResource(favoritesIconRes)
             }
         }
     }

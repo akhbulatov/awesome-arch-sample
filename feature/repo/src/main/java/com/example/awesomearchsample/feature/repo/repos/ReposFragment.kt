@@ -17,7 +17,7 @@ class ReposFragment : BaseFragment<FragmentReposBinding>(R.layout.fragment_repos
     private val viewModel by viewModels<ReposViewModel>()
 
     private val repoAdapter by lazy {
-        com.example.awesomearchsample.feature.repo.repos.RepoAdapter(
+        RepoAdapter(
             favoritesClickListener = { viewModel.onFavoritesClick(it) }
         )
     }

@@ -64,6 +64,9 @@ androidComponents {
 }
 
 dependencies {
+    implementation(project(":feature:main"))
+    implementation(project(":feature:repo"))
+
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 
     // Kotlin

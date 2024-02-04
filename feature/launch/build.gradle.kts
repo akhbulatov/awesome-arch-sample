@@ -1,20 +1,16 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "com.example.awesomearchsample"
-    compileSdk = 34
+    namespace = "com.example.mylibrarycom.example.awesomearchsample.feature"
+    compileSdk = libs.versions.compilesdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.example.awesomearchsample"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = libs.versions.minsdk.get().toInt()
     }
 
     buildTypes {
@@ -25,6 +21,11 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
     }
 
     compileOptions {
@@ -38,9 +39,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:launch"))
-    implementation(project(":feature:main"))
-    implementation(project(":feature:repo"))
+    implementation(project(":core:ui"))
+
+    implementation(libs.appcompat)
+    implementation(libs.fragment.ktx)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)

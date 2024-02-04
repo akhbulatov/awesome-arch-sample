@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import com.example.awesomearchsample.core.ui.list.BaseDiffItemCallback
 import com.example.awesomearchsample.core.ui.list.BaseListAdapter
 import com.example.awesomearchsample.core.ui.list.BaseViewHolder
-import com.example.awesomearchsample.domain.model.Repo
 import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.databinding.ItemRepoBinding
+import com.example.awesomearchsample.model.Repo
 
 private typealias OnRepoClickListener = (Repo) -> Unit
 

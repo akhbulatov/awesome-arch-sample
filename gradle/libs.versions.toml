@@ -17,6 +17,8 @@ retrofit = "2.9.0"
 # Kotlin
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
+javax-inject = "javax.inject:javax.inject:1"
+
 # AndroidX UI
 material = "com.google.android.material:material:1.11.0"
 activity = "androidx.activity:activity:1.8.2"

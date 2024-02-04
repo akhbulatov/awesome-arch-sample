@@ -40,7 +40,8 @@ android {
 
 dependencies {
     implementation(project(":core:ui"))
-    implementation(project(":domain:model"))
+    implementation(project(":domain"))
+    implementation(project(":model"))
 
     implementation(libs.material)
     implementation(libs.fragment.ktx)

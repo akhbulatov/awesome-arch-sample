@@ -5,6 +5,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -19,6 +20,9 @@ include(":app")
 include(":core:common")
 include(":core:network")
 include(":core:ui")
-include(":domain:model")
+include(":data:repo")
+include(":domain")
+include(":model")
+include(":feature:launch")
 include(":feature:main")
 include(":feature:repo")

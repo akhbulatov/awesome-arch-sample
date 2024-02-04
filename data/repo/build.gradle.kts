@@ -1,20 +1,16 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "com.example.awesomearchsample"
-    compileSdk = 34
+    namespace = "com.example.awesomearchsample.data.repo"
+    compileSdk = libs.versions.compilesdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.example.awesomearchsample"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = libs.versions.minsdk.get().toInt()
     }
 
     buildTypes {
@@ -38,12 +34,12 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:launch"))
-    implementation(project(":feature:main"))
-    implementation(project(":feature:repo"))
+    implementation(project(":domain"))
+    implementation(project(":model"))
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
 
-    implementation(libs.alligator)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.convertergson)
 }

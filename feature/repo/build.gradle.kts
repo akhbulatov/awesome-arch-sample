@@ -39,19 +39,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:ui"))
+    api(project(":core:ui"))
     implementation(project(":domain"))
     implementation(project(":model"))
-
-    implementation(libs.material)
-    implementation(libs.fragment.ktx)
-    implementation(libs.recyclerview)
 
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.livedata.ktx)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
-
-    implementation(libs.alligator)
 }

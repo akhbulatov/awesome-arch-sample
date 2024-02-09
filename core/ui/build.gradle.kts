@@ -61,14 +61,14 @@ androidComponents {
 dependencies {
     implementation(project(":core:common"))
 
-    implementation(libs.material)
-    implementation(libs.fragment.ktx)
-    implementation(libs.recyclerview)
+    api(libs.material)
+    api(libs.fragment.ktx)
+    api(libs.recyclerview)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
 
-    implementation(libs.alligator)
+    api(libs.alligator)
 
     implementation(libs.timber)
 }

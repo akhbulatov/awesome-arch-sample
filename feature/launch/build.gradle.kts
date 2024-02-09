@@ -39,13 +39,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:ui"))
-
-    implementation(libs.appcompat)
-    implementation(libs.fragment.ktx)
+    api(project(":core:ui"))
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
-
-    implementation(libs.alligator)
 }

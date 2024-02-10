@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.navigation
+package com.example.awesomearchsample.feature.repo.api.navigation
 
 import me.aartikov.alligator.Screen
 import java.io.Serializable

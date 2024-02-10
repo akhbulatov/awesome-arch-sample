@@ -1,9 +1,9 @@
-package com.example.awesomearchsample.data.repo.network
+package com.example.awesomearchsample.feature.repo.internal.network
 
 import com.example.awesomearchsample.model.Repo
 import javax.inject.Inject
 
-class RepoNetworkMapper @Inject constructor() {
+internal class RepoNetworkMapper @Inject constructor() {
 
     fun mapRepoFromNet(netModel: RepoNetModel): Repo {
         return Repo(

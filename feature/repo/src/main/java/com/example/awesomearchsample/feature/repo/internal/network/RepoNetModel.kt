@@ -1,8 +1,8 @@
-package com.example.awesomearchsample.data.repo.network
+package com.example.awesomearchsample.feature.repo.internal.network
 
 import com.google.gson.annotations.SerializedName
 
-data class RepoNetModel(
+internal data class RepoNetModel(
     @SerializedName("id") val id: Long,
     @SerializedName("name") val name: String,
     @SerializedName("owner") val owner: OwnerNetModel,

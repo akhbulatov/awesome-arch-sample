@@ -3,7 +3,7 @@ package com.example.awesomearchsample
 import com.example.awesomearchsample.feature.launch.navigation.LaunchMediator
 import com.example.awesomearchsample.feature.main.navigation.MainMediator
 import com.example.awesomearchsample.feature.main.navigation.MainScreens
-import com.example.awesomearchsample.feature.repo.navigation.RepoScreens
+import com.example.awesomearchsample.feature.repo.api.navigation.RepoScreens
 import me.aartikov.alligator.Screen
 import javax.inject.Inject
 

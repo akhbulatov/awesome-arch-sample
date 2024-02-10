@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.repos
+package com.example.awesomearchsample.feature.repo.api.repos
 
 import android.view.View
 import androidx.core.view.isVisible

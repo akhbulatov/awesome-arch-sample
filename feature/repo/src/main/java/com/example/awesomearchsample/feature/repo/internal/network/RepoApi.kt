@@ -1,8 +1,8 @@
-package com.example.awesomearchsample.data.repo.network
+package com.example.awesomearchsample.feature.repo.internal.network
 
 import retrofit2.http.GET
 
-interface RepoApi {
+internal interface RepoApi {
     @GET("repositories")
     suspend fun getRepos(): List<RepoNetModel>
 }

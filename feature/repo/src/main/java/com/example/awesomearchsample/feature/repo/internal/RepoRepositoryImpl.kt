@@ -1,12 +1,12 @@
-package com.example.awesomearchsample.data.repo
+package com.example.awesomearchsample.feature.repo.internal
 
-import com.example.awesomearchsample.data.repo.network.RepoApi
-import com.example.awesomearchsample.data.repo.network.RepoNetworkMapper
+import com.example.awesomearchsample.feature.repo.internal.network.RepoApi
+import com.example.awesomearchsample.feature.repo.internal.network.RepoNetworkMapper
 import com.example.awesomearchsample.domain.repo.repository.RepoRepository
 import com.example.awesomearchsample.model.Repo
 import javax.inject.Inject
 
-class RepoRepositoryImpl @Inject constructor(
+internal class RepoRepositoryImpl @Inject constructor(
     private val repoApi: RepoApi,
     private val repoNetworkMapper: RepoNetworkMapper
 ) : RepoRepository {

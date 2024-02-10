@@ -1,7 +1,7 @@
-package com.example.awesomearchsample.data.repo.di
+package com.example.awesomearchsample.feature.repo.internal.di
 
-import com.example.awesomearchsample.data.repo.RepoRepositoryImpl
-import com.example.awesomearchsample.data.repo.network.RepoApi
+import com.example.awesomearchsample.feature.repo.internal.RepoRepositoryImpl
+import com.example.awesomearchsample.feature.repo.internal.network.RepoApi
 import com.example.awesomearchsample.domain.repo.repository.RepoRepository
 import dagger.Binds
 import dagger.Module
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepoDataModule {
+internal abstract class RepoDataModule {
 
     @Binds
     @Singleton

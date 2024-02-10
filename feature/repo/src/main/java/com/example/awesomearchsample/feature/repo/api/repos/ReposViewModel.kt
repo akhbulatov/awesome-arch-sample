@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.repos
+package com.example.awesomearchsample.feature.repo.api.repos
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

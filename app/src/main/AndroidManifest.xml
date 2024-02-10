@@ -11,7 +11,7 @@
         android:theme="@style/Theme.AwesomeArchSample">
 
         <activity
-            android:name=".feature.launch.presentation.LaunchActivity"
+            android:name=".feature.launch.LaunchActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

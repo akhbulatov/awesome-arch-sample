@@ -5,6 +5,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -16,3 +17,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "AwesomeArchSample"
 include(":app")
+include(":core:common")
+include(":core:network")
+include(":core:ui")
+include(":domain")
+include(":model")
+include(":feature:launch")
+include(":feature:main")
+include(":feature:repo")

@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.model
+package com.example.awesomearchsample.domain.repo.model
 
 data class Repo(
     val id: Long,

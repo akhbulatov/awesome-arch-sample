@@ -1,6 +1,6 @@
 package com.example.awesomearchsample.feature.repo.internal.network
 
-import com.example.awesomearchsample.model.Repo
+import com.example.awesomearchsample.domain.repo.model.Repo
 import javax.inject.Inject
 
 internal class RepoNetworkMapper @Inject constructor() {

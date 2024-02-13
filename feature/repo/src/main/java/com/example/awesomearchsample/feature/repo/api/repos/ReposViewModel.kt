@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
+import com.example.awesomearchsample.domain.repo.model.Repo
+import com.example.awesomearchsample.domain.repo.model.updatedByToggleInFavorites
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
-import com.example.awesomearchsample.model.Repo
-import com.example.awesomearchsample.model.updatedByToggleInFavorites
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

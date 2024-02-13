@@ -3,6 +3,9 @@ package com.example.awesomearchsample.feature.repo.api.repos
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.awesomearchsample.core.ui.base.BaseFragment
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.domain.repo.model.Repo
@@ -10,6 +13,7 @@ import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.databinding.FragmentReposBinding
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ReposFragment : BaseFragment<FragmentReposBinding>(R.layout.fragment_repos) {
@@ -43,7 +47,11 @@ class ReposFragment : BaseFragment<FragmentReposBinding>(R.layout.fragment_repos
 
     override fun setupViewModel() {
         super.setupViewModel()
-        viewModel.uiState.observe(viewLifecycleOwner) { setUiState(it) }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { setUiState(it) }
+            }
+        }
     }
 
     private fun setUiState(uiState: ReposUiState) {

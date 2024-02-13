@@ -1,7 +1,5 @@
 package com.example.awesomearchsample.feature.repo.api.repos
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
@@ -9,6 +7,8 @@ import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.updatedByToggleInFavorites
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,8 +18,8 @@ class ReposViewModel @Inject constructor(
     private val errorHandler: UiErrorHandler
 ) : ViewModel() {
 
-    private val _uiState = MutableLiveData(ReposUiState())
-    val uiState: LiveData<ReposUiState> = _uiState
+    private val _uiState = MutableStateFlow(ReposUiState())
+    val uiState: StateFlow<ReposUiState> = _uiState
 
     init {
         loadRepos()
@@ -28,16 +28,16 @@ class ReposViewModel @Inject constructor(
     private fun loadRepos() {
         viewModelScope.launch {
             try {
-                _uiState.value = uiState.value?.copy(emptyProgress = true)
+                _uiState.value = uiState.value.copy(emptyProgress = true)
                 val repos = getReposUseCase.invoke()
-                _uiState.value = uiState.value?.copy(repos = repos)
+                _uiState.value = uiState.value.copy(repos = repos)
             } catch (e: Exception) {
                 errorHandler.proceed(
                     error = e,
-                    errorListener = { _uiState.value = uiState.value?.copy(emptyError = it) }
+                    errorListener = { _uiState.value = uiState.value.copy(emptyError = it) }
                 )
             } finally {
-                _uiState.value = uiState.value?.copy(emptyProgress = false)
+                _uiState.value = uiState.value.copy(emptyProgress = false)
             }
         }
     }
@@ -48,8 +48,7 @@ class ReposViewModel @Inject constructor(
     }
 
     fun onFavoritesClick(repo: Repo) {
-        val uiState = uiState.value ?: return
-        val updatedRepos = uiState.repos.updatedByToggleInFavorites(repoBy = repo)
-        _uiState.value = uiState.copy(repos = updatedRepos)
+        val updatedRepos = uiState.value.repos.updatedByToggleInFavorites(repoBy = repo)
+        _uiState.value = uiState.value.copy(repos = updatedRepos)
     }
 }

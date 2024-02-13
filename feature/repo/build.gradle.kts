@@ -43,10 +43,12 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.livedata.ktx)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
+
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.convertergson)

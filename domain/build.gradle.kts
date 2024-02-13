@@ -9,7 +9,5 @@ java {
 }
 
 dependencies {
-    implementation(project(":model"))
-
     implementation(libs.javax.inject)
 }

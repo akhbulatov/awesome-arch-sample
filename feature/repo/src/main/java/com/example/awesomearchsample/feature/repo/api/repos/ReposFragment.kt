@@ -5,9 +5,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.awesomearchsample.core.ui.base.BaseFragment
 import com.example.awesomearchsample.core.ui.error.UiError
+import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.databinding.FragmentReposBinding
-import com.example.awesomearchsample.model.Repo
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 

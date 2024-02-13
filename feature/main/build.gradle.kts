@@ -40,7 +40,6 @@ android {
 
 dependencies {
     api(project(":core:ui"))
-    implementation(project(":model"))
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)

@@ -41,7 +41,6 @@ android {
 dependencies {
     api(project(":core:ui"))
     implementation(project(":domain"))
-    implementation(project(":model"))
 
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.lifecycle.livedata.ktx)

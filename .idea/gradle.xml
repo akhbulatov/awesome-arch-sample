@@ -19,7 +19,6 @@
             <option value="$PROJECT_DIR$/feature/launch" />
             <option value="$PROJECT_DIR$/feature/main" />
             <option value="$PROJECT_DIR$/feature/repo" />
-            <option value="$PROJECT_DIR$/model" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

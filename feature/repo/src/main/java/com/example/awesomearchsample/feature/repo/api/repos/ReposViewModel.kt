@@ -9,6 +9,7 @@ import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,16 +29,18 @@ class ReposViewModel @Inject constructor(
     private fun loadRepos() {
         viewModelScope.launch {
             try {
-                _uiState.value = uiState.value.copy(emptyProgress = true)
+                _uiState.update { it.copy(emptyProgress = true) }
                 val repos = getReposUseCase.invoke()
-                _uiState.value = uiState.value.copy(repos = repos)
+                _uiState.update { uiState.value.copy(repos = repos) }
             } catch (e: Exception) {
                 errorHandler.proceed(
                     error = e,
-                    errorListener = { _uiState.value = uiState.value.copy(emptyError = it) }
+                    errorListener = { uiError ->
+                        _uiState.update { it.copy(emptyError = uiError) }
+                    }
                 )
             } finally {
-                _uiState.value = uiState.value.copy(emptyProgress = false)
+                _uiState.update { it.copy(emptyProgress = false) }
             }
         }
     }
@@ -49,6 +52,6 @@ class ReposViewModel @Inject constructor(
 
     fun onFavoritesClick(repo: Repo) {
         val updatedRepos = uiState.value.repos.updatedByToggleInFavorites(repoBy = repo)
-        _uiState.value = uiState.value.copy(repos = updatedRepos)
+        _uiState.update { it.copy(repos = updatedRepos) }
     }
 }

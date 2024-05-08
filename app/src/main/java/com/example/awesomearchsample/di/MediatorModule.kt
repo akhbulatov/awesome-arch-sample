@@ -15,9 +15,9 @@ import javax.inject.Singleton
 interface MediatorModule {
     @Binds
     @Singleton
-    abstract fun provideLaunchMediator(impl: LaunchMediatorImpl): LaunchMediator
+    fun bindLaunchMediator(impl: LaunchMediatorImpl): LaunchMediator
 
     @Binds
     @Singleton
-    abstract fun provideMainMediator(impl: MainMediatorImpl): MainMediator
+    fun bindMainMediator(impl: MainMediatorImpl): MainMediator
 }

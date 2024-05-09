@@ -5,4 +5,8 @@ import java.io.Serializable
 
 object RepoScreens {
     object Repos : Screen, Serializable
+
+    data class RepoDetails(
+        val repoId: Long
+    ) : Screen, Serializable
 }

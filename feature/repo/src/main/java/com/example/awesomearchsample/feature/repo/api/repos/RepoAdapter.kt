@@ -13,7 +13,8 @@ import com.example.awesomearchsample.feature.repo.databinding.ItemRepoBinding
 private typealias OnRepoClickListener = (Repo) -> Unit
 
 class RepoAdapter(
-    private val favoritesClickListener: OnRepoClickListener
+    private val favoritesClickListener: OnRepoClickListener,
+    private val repoClickListener: OnRepoClickListener
 ) : BaseListAdapter<Repo, RepoAdapter.RepoViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
@@ -32,6 +33,10 @@ class RepoAdapter(
                 repoFavoritesImage.setOnClickListener {
                     val item = currentList[bindingAdapterPosition]
                     favoritesClickListener.invoke(item)
+                }
+                root.setOnClickListener {
+                    val item = currentList[bindingAdapterPosition]
+                    repoClickListener.invoke(item)
                 }
             }
         }

@@ -6,15 +6,18 @@ import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.updatedByToggleInFavorites
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
+import com.example.awesomearchsample.feature.repo.api.navigation.RepoScreens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import me.aartikov.alligator.Navigator
 import javax.inject.Inject
 
 @HiltViewModel
 class ReposViewModel @Inject constructor(
+    private val navigator: Navigator,
     private val getReposUseCase: GetReposUseCase,
     private val errorHandler: UiErrorHandler
 ) : ViewModel() {
@@ -53,5 +56,9 @@ class ReposViewModel @Inject constructor(
     fun onFavoritesClick(repo: Repo) {
         val updatedRepos = uiState.value.repos.updatedByToggleInFavorites(repoBy = repo)
         _uiState.update { it.copy(repos = updatedRepos) }
+    }
+
+    fun onRepoClick(repo: Repo) {
+        navigator.goForward(RepoScreens.RepoDetails(repoId = repo.id))
     }
 }

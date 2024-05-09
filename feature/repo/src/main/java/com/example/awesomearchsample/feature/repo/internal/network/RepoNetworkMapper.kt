@@ -1,16 +1,24 @@
 package com.example.awesomearchsample.feature.repo.internal.network
 
 import com.example.awesomearchsample.domain.repo.model.Repo
-import javax.inject.Inject
+import com.example.awesomearchsample.domain.repo.model.RepoDetails
 
-internal class RepoNetworkMapper @Inject constructor() {
+internal fun RepoNetModel.mapRepoFromNet(): Repo {
+    return Repo(
+        id = id,
+        name = name,
+        author = owner.login,
+        description = description
+    )
+}
 
-    fun mapRepoFromNet(netModel: RepoNetModel): Repo {
-        return Repo(
-            id = netModel.id,
-            name = netModel.name,
-            author = netModel.owner.login,
-            description = netModel.description
-        )
-    }
+internal fun RepoDetailsNetModel.mapRepoDetailsFromNet(): RepoDetails {
+    return RepoDetails(
+        id = id,
+        name = name,
+        author = owner.login,
+        description = description,
+        starsCount = stargazersCount,
+        forksCount = forksCount
+    )
 }

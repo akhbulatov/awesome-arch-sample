@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Repos -->
+    <string name="repos_title">Repositories</string>
+
+    <!-- Repo Details -->
+    <string name="repo_details_stars">Stars: %d</string>
+    <string name="repo_details_forks">Forks: %d</string>
+    <string name="repo_details_author">Author: %s</string>
+</resources>

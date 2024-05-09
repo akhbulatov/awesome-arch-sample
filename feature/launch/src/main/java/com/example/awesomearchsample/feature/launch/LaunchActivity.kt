@@ -3,6 +3,7 @@ package com.example.awesomearchsample.feature.launch
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import com.example.awesomearchsample.core.ui.navigation.ContainerIdProvider
 import com.example.awesomearchsample.feature.launch.navigation.LaunchMediator
 import com.example.mylibrarycom.example.awesomearchsample.feature.R
@@ -25,6 +26,11 @@ class LaunchActivity : AppCompatActivity(R.layout.activity_launch) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navigator.goBack()
+            }
+        })
         if (savedInstanceState == null) {
             navigator.reset(launchMediator.getMainFlowScreen())
         }

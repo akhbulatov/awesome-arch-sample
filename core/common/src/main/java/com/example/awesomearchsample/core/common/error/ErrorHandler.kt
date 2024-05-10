@@ -1,8 +1,9 @@
 package com.example.awesomearchsample.core.common.error
 
 import com.example.awesomearchsample.core.network.error.NetworkErrorResponseParser
-import retrofit2.HttpException
-import java.io.IOException
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.statement.bodyAsText
+import io.ktor.utils.io.errors.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,12 +12,12 @@ class ErrorHandler @Inject constructor(
     private val errorResponseParser: NetworkErrorResponseParser
 ) {
 
-    fun getError(throwable: Throwable): ErrorEntity = when (throwable) {
+    suspend fun getError(throwable: Throwable): ErrorEntity = when (throwable) {
         is IOException -> ErrorEntity.Network
-        is HttpException -> {
-            when (throwable.code()) {
+        is ClientRequestException -> {
+            when (throwable.response.status.value) {
                 in 400..499 -> {
-                    val response = throwable.response()?.errorBody()?.string()
+                    val response = throwable.response.bodyAsText()
                     val errorNetModel = errorResponseParser.parseError(response)
                     when {
                         errorNetModel != null -> {

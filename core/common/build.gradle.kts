@@ -43,5 +43,5 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
 
-    implementation(libs.retrofit)
+    implementation(libs.ktor.client.core)
 }

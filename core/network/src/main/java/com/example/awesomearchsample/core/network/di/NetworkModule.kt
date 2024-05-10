@@ -1,14 +1,21 @@
 package com.example.awesomearchsample.core.network.di
 
+import com.example.awesomearchsample.core.network.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -17,9 +24,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder()
-            .build()
+    fun provideHttpClientEngine(): HttpClientEngine {
+        return OkHttp.create()
     }
 
     @Provides
@@ -34,12 +40,23 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient, json: Json): Retrofit =
-        Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
-            .client(client)
-            .addConverterFactory(
-                json.asConverterFactory(contentType = "application/json; charset=UTF8".toMediaType())
-            )
-            .build()
+    fun provideHttpClient(engine: HttpClientEngine, json: Json): HttpClient {
+        return HttpClient(engine = engine) {
+            expectSuccess = true
+            defaultRequest {
+                url(urlString = "https://api.github.com/")
+            }
+            install(plugin = ContentNegotiation) {
+                json(json = json)
+            }
+            install(plugin = Logging) {
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        Timber.d(message)
+                    }
+                }
+                level = if (BuildConfig.DEBUG) LogLevel.BODY else LogLevel.NONE
+            }
+        }
+    }
 }

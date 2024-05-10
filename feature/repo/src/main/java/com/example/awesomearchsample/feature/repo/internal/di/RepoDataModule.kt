@@ -8,8 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import retrofit2.create
+import io.ktor.client.HttpClient
 import javax.inject.Singleton
 
 @Module
@@ -23,6 +22,6 @@ internal abstract class RepoDataModule {
     companion object {
         @Provides
         @Singleton
-        fun provideRepoApi(retrofit: Retrofit): RepoApi = retrofit.create()
+        fun provideRepoApi(httpClient: HttpClient): RepoApi = RepoApi(httpClient = httpClient)
     }
 }

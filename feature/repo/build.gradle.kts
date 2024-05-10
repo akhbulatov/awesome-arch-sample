@@ -51,6 +51,6 @@ dependencies {
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
 
-    implementation(libs.retrofit)
+    implementation(libs.ktor.client.core)
     implementation(libs.serialization.json)
 }

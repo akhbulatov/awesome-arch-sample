@@ -15,7 +15,7 @@ class UiErrorHandler @Inject constructor(
     private val errorHandler: ErrorHandler,
 ) {
 
-    fun proceed(error: Throwable, errorListener: (UiError) -> Unit = {}) {
+    suspend fun proceed(error: Throwable, errorListener: (UiError) -> Unit = {}) {
         Timber.e(error)
         errorHandler.recordError(error)
         when (val errorEntity = errorHandler.getError(error)) {

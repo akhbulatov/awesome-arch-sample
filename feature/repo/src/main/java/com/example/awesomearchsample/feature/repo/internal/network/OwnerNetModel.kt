@@ -1,7 +1,9 @@
 package com.example.awesomearchsample.feature.repo.internal.network
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class OwnerNetModel(
-    @SerializedName("login") val login: String
+    @SerialName("login") val login: String
 )

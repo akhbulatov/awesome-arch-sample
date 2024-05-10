@@ -1,21 +1,21 @@
 package com.example.awesomearchsample.core.network.error
 
-import com.google.gson.Gson
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class NetworkErrorResponseParser @Inject constructor(
-    private val gson: Gson
+    private val json: Json
 ) {
 
     fun parseError(response: String?): ErrorNetModel? {
-        return try {
-            gson.fromJson(response, ErrorNetModel::class.java)
-        } catch (e: Exception) {
-            if (!response.isNullOrBlank()) {
+        return if (!response.isNullOrBlank()) {
+            try {
+                json.decodeFromString<ErrorNetModel>(response)
+            } catch (e: Exception) {
                 ErrorNetModel(message = response)
-            } else {
-                null
             }
+        } else {
+            null
         }
     }
 }

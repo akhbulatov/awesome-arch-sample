@@ -1,7 +1,9 @@
 package com.example.awesomearchsample.core.network.error
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ErrorNetModel(
-    @SerializedName("message") val message: String?
+    @SerialName("message") val message: String?
 )

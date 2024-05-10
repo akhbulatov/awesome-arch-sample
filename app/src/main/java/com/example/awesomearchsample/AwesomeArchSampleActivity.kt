@@ -1,12 +1,10 @@
-package com.example.awesomearchsample.feature.launch
+package com.example.awesomearchsample
 
-import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import com.example.awesomearchsample.core.ui.navigation.ContainerIdProvider
-import com.example.awesomearchsample.feature.launch.navigation.LaunchMediator
-import com.example.mylibrarycom.example.awesomearchsample.feature.R
+import com.example.awesomearchsample.feature.launch.navigation.LaunchScreens
 import dagger.hilt.android.AndroidEntryPoint
 import me.aartikov.alligator.DestinationType
 import me.aartikov.alligator.NavigationContext
@@ -15,14 +13,12 @@ import me.aartikov.alligator.Navigator
 import me.aartikov.alligator.navigationfactories.NavigationFactory
 import javax.inject.Inject
 
-@SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
-class LaunchActivity : AppCompatActivity(R.layout.activity_launch) {
+class AwesomeArchSampleActivity : AppCompatActivity(R.layout.activity_container) {
 
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var navigationFactory: NavigationFactory
     @Inject lateinit var navigationContextBinder: NavigationContextBinder
-    @Inject lateinit var launchMediator: LaunchMediator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +28,7 @@ class LaunchActivity : AppCompatActivity(R.layout.activity_launch) {
             }
         })
         if (savedInstanceState == null) {
-            navigator.reset(launchMediator.getMainFlowScreen())
+            navigator.reset(LaunchScreens.LaunchFlow)
         }
     }
 
@@ -44,8 +40,7 @@ class LaunchActivity : AppCompatActivity(R.layout.activity_launch) {
     private fun bindNavigationContext() {
         val navigationContext = NavigationContext.Builder(this, navigationFactory)
             .apply {
-                val currentFlowFragment =
-                    supportFragmentManager.findFragmentById(R.id.launch_fragment_container)
+                val currentFlowFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
                 if (currentFlowFragment is ContainerIdProvider) {
                     this.fragmentNavigation(
                         currentFlowFragment.childFragmentManager,
@@ -53,7 +48,7 @@ class LaunchActivity : AppCompatActivity(R.layout.activity_launch) {
                     )
                 }
             }
-            .flowFragmentNavigation(supportFragmentManager, R.id.launch_fragment_container)
+            .flowFragmentNavigation(supportFragmentManager, R.id.fragment_container)
             .transitionListener { _, destinationType, _, _ ->
                 if (destinationType == DestinationType.FLOW_FRAGMENT) {
                     // Rebind NavigationContext because a current flow fragment has been changed.

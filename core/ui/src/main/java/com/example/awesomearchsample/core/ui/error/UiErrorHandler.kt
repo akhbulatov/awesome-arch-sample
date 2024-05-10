@@ -3,9 +3,9 @@ package com.example.awesomearchsample.core.ui.error
 import android.content.Context
 import com.example.awesomearchsample.core.common.error.ErrorEntity
 import com.example.awesomearchsample.core.common.error.ErrorHandler
+import com.example.awesomearchsample.core.common.util.AppLogger
 import com.example.awesomearchsample.core.ui.R
 import dagger.hilt.android.qualifiers.ApplicationContext
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,7 +16,7 @@ class UiErrorHandler @Inject constructor(
 ) {
 
     suspend fun proceed(error: Throwable, errorListener: (UiError) -> Unit = {}) {
-        Timber.e(error)
+        AppLogger.e(error)
         errorHandler.recordError(error)
         when (val errorEntity = errorHandler.getError(error)) {
             is ErrorEntity.AuthRequired -> errorListener(

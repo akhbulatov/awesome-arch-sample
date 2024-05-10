@@ -1,10 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
-    namespace = "com.example.awesomearchsample.core.common"
+    namespace = "com.example.awesomearchsample.core.commonimpl"
     compileSdk = libs.versions.compilesdk.get().toInt()
 
     defaultConfig {
@@ -21,6 +23,10 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -32,5 +38,11 @@ android {
 }
 
 dependencies {
-    implementation(libs.napier)
+    implementation(project(":core:common"))
+    implementation(project(":core:network"))
+
+    implementation(libs.dagger.hilt.android)
+    ksp(libs.dagger.hilt.android.compiler)
+
+    implementation(libs.ktor.client.core)
 }

@@ -69,6 +69,4 @@ dependencies {
     ksp(libs.dagger.hilt.android.compiler)
 
     api(libs.alligator)
-
-    implementation(libs.timber)
 }

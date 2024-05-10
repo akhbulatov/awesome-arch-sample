@@ -51,6 +51,9 @@ class RepoDetailsFragment : BaseFragment<FragmentRepoDetailsBinding>(R.layout.fr
                     requireActivity().onBackPressedDispatcher.onBackPressed()
                 }
             }
+            repoDetailsAuthorLabel.setOnClickListener {
+                viewModel.onAuthorClick()
+            }
             repoDetailsErrorView.actionButton.setOnClickListener {
                 viewModel.onErrorActionClick()
             }

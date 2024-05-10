@@ -5,15 +5,19 @@ import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
+import com.example.awesomearchsample.feature.repo.api.navigation.RepoMediator
 import com.example.awesomearchsample.feature.repo.api.navigation.RepoScreens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import me.aartikov.alligator.Navigator
 import javax.inject.Inject
 
 @HiltViewModel
 class RepoDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    private val navigator: Navigator,
+    private val repoMediator: RepoMediator,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
 ) : BaseViewModel<RepoDetailsUiState>(initialUiState = RepoDetailsUiState()) {
@@ -40,6 +44,12 @@ class RepoDetailsViewModel @Inject constructor(
             } finally {
                 mutableUiState.update { it.copy(emptyProgress = false) }
             }
+        }
+    }
+
+    fun onAuthorClick() {
+        uiState.value.repoDetails?.let { repoDetails ->
+            navigator.goForward(repoMediator.getUserDetailsScreen(login = repoDetails.author))
         }
     }
 

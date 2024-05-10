@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt.android)
 }
@@ -51,5 +52,5 @@ dependencies {
     implementation(libs.coroutines.android)
 
     implementation(libs.retrofit)
-    implementation(libs.retrofit.convertergson)
+    implementation(libs.serialization.json)
 }

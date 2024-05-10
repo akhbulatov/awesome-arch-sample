@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt.android)
 }
@@ -42,8 +43,9 @@ dependencies {
     ksp(libs.dagger.hilt.android.compiler)
 
     implementation(libs.retrofit)
-    implementation(libs.retrofit.convertergson)
+    implementation(libs.retrofit.converter.serialization)
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
     implementation(libs.okhttp.logginginterceptor)
+    implementation(libs.serialization.json)
 }

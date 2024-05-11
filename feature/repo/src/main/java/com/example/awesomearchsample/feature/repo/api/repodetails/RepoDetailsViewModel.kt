@@ -3,6 +3,7 @@ package com.example.awesomearchsample.feature.repo.api.repodetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
+import com.example.awesomearchsample.core.ui.mvvm.BaseUiEvent
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.api.navigation.RepoMediator
@@ -20,7 +21,7 @@ class RepoDetailsViewModel @Inject constructor(
     private val repoMediator: RepoMediator,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<RepoDetailsUiState>(initialUiState = RepoDetailsUiState()) {
+) : BaseViewModel<RepoDetailsUiState, BaseUiEvent>(initialUiState = RepoDetailsUiState()) {
 
     private val screenArg: RepoScreens.RepoDetails = requireNotNull(savedStateHandle[ARG_SCREEN])
 

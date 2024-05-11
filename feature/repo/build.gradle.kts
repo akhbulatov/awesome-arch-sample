@@ -27,6 +27,7 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+        compose = true
     }
 
     compileOptions {
@@ -36,6 +37,10 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
     }
 }
 

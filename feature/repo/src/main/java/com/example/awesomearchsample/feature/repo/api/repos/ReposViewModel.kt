@@ -18,7 +18,7 @@ class ReposViewModel @Inject constructor(
     private val navigator: Navigator,
     private val getReposUseCase: GetReposUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<ReposUiState>(initialUiState = ReposUiState()) {
+) : BaseViewModel<ReposUiState, ReposUiEvent>(initialUiState = ReposUiState()) {
 
     init {
         loadRepos()
@@ -44,7 +44,7 @@ class ReposViewModel @Inject constructor(
     }
 
     fun onErrorActionClick() {
-        mutableUiState.value = ReposUiState() // Задаем исходное состояние стейта
+        mutableUiState.value = ReposUiState()
         loadRepos()
     }
 

@@ -1,7 +1,7 @@
 package com.example.awesomearchsample.feature.launch.navigation
 
-import me.aartikov.alligator.Screen
+import cafe.adriel.voyager.core.screen.Screen
 
 interface LaunchMediator {
-    fun getMainFlowScreen(): Screen
+    fun getMainHostScreen(): Screen
 }

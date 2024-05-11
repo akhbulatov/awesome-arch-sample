@@ -3,6 +3,7 @@ package com.example.awesomearchsample.feature.user.api.userdetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
+import com.example.awesomearchsample.core.ui.mvvm.BaseUiEvent
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.user.usecase.GetUserDetailsUseCase
 import com.example.awesomearchsample.feature.user.api.navigation.UserScreens
@@ -16,7 +17,7 @@ class UserDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<UserDetailsUiState>(initialUiState = UserDetailsUiState()) {
+) : BaseViewModel<UserDetailsUiState, BaseUiEvent>(initialUiState = UserDetailsUiState()) {
 
     private val screenArg: UserScreens.UserDetails = requireNotNull(savedStateHandle[ARG_SCREEN])
 

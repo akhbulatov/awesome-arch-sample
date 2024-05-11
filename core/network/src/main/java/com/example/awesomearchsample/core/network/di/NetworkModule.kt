@@ -1,5 +1,6 @@
 package com.example.awesomearchsample.core.network.di
 
+import com.example.awesomearchsample.core.common.util.AppLogger
 import com.example.awesomearchsample.core.network.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -15,7 +16,6 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -52,7 +52,7 @@ object NetworkModule {
             install(plugin = Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
-                        Timber.d(message)
+                        AppLogger.d(message)
                     }
                 }
                 level = if (BuildConfig.DEBUG) LogLevel.BODY else LogLevel.NONE

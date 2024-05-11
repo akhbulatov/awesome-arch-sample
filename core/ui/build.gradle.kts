@@ -59,7 +59,7 @@ androidComponents {
 }
 
 dependencies {
-    implementation(project(":core:common"))
+    implementation(project(":core:common-factory"))
 
     api(libs.material)
     api(libs.fragment.ktx)
@@ -69,6 +69,4 @@ dependencies {
     ksp(libs.dagger.hilt.android.compiler)
 
     api(libs.alligator)
-
-    implementation(libs.timber)
 }

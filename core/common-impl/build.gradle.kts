@@ -1,13 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
-    namespace = "com.example.awesomearchsample.feature.repo"
+    namespace = "com.example.awesomearchsample.core.commonimpl"
     compileSdk = libs.versions.compilesdk.get().toInt()
 
     defaultConfig {
@@ -26,7 +23,6 @@ android {
 
     buildFeatures {
         buildConfig = true
-        viewBinding = true
     }
 
     compileOptions {
@@ -40,19 +36,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common-factory"))
+    implementation(project(":core:common"))
     implementation(project(":core:network"))
-    api(project(":core:ui"))
-    implementation(project(":domain"))
 
-    implementation(libs.lifecycle.viewmodel.ktx)
-
-    implementation(libs.dagger.hilt.android)
-    ksp(libs.dagger.hilt.android.compiler)
-
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
+    implementation(libs.javax.inject)
 
     implementation(libs.ktor.client.core)
-    implementation(libs.serialization.json)
 }

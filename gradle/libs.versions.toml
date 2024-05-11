@@ -61,5 +61,5 @@ serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
 # Navigation
 alligator = "com.github.aartikov.Alligator:alligator:4.5.0"
 
-# Dev Tools
-timber = "com.jakewharton.timber:timber:5.0.1"
+# Dev Util
+napier = "io.github.aakira:napier:2.7.1"

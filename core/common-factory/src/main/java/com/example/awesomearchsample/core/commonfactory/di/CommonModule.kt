@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.core.commonimpl.di
+package com.example.awesomearchsample.core.commonfactory.di
 
 import com.example.awesomearchsample.core.common.error.ErrorHandler
 import com.example.awesomearchsample.core.commonimpl.error.ErrorHandlerImpl
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal abstract class CommonModule {
+abstract class CommonModule {
 
     @Binds
     @Singleton

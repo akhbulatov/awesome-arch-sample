@@ -8,7 +8,7 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.utils.io.errors.IOException
 import javax.inject.Inject
 
-internal class ErrorHandlerImpl @Inject constructor(
+class ErrorHandlerImpl @Inject constructor(
     private val errorResponseParser: NetworkErrorResponseParser
 ) : ErrorHandler {
 

@@ -37,6 +37,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common-factory"))
+    implementation(project(":core:network"))
     api(project(":core:ui"))
     implementation(project(":domain"))
 

@@ -8,10 +8,10 @@ plugins {
 
 android {
     namespace = "com.example.awesomearchsample.core.network"
-    compileSdk = libs.versions.compilesdk.get().toInt()
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = libs.versions.minsdk.get().toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
     }
 
     buildTypes {

@@ -1,11 +1,11 @@
 [versions]
-minsdk = "24"
-compilesdk = "34"
-targetsdk = "34"
-buildtools = "34.0.0"
+minSdk = "24"
+compileSdk = "34"
+targetSdk = "34"
+buildTools = "34.0.0"
 
-versioncode = "1"
-versionname = "1.0"
+versionCode = "1"
+versionName = "1.0"
 
 agp = "8.4.0"
 kotlin = "1.9.23"

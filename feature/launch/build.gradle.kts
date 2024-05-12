@@ -7,10 +7,10 @@ plugins {
 
 android {
     namespace = "com.example.mylibrarycom.example.awesomearchsample.feature"
-    compileSdk = libs.versions.compilesdk.get().toInt()
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = libs.versions.minsdk.get().toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
     }
 
     buildTypes {

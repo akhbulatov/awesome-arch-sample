@@ -69,8 +69,6 @@ dependencies {
     api(libs.material)
     api(libs.activity)
     api(libs.activity.compose)
-    api(libs.fragment.ktx)
-    api(libs.recyclerview)
 
     api(platform(libs.compose.bom))
     api(libs.compose.foundation)
@@ -78,12 +76,12 @@ dependencies {
     api(libs.compose.runtime)
     api(libs.compose.ui)
 
+    api(libs.lifecycle.viewmodel.ktx)
     api(libs.lifecycle.viewmodel.compose)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
 
-    api(libs.alligator)
     api(libs.voyager.navigator)
     api(libs.voyager.hilt)
 }

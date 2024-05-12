@@ -29,8 +29,7 @@ dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "da
 [libraries]
 javax-inject = "javax.inject:javax.inject:1"
 
-# AndroidX UI
-material = "com.google.android.material:material:1.12.0"
+# AndroidX
 activity = { module = "androidx.activity:activity", version.ref = "activity" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 
@@ -43,7 +42,6 @@ compose-ui = { module = "androidx.compose.ui:ui" }
 
 # Lifecycle
 lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 
 # UI
 coil-compose = "io.coil-kt:coil-compose:2.6.0"

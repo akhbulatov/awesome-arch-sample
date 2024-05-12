@@ -66,7 +66,6 @@ androidComponents {
 dependencies {
     implementation(project(":core:common-factory"))
 
-    api(libs.material)
     api(libs.activity)
     api(libs.activity.compose)
 
@@ -77,7 +76,6 @@ dependencies {
     api(libs.compose.ui)
 
     api(libs.lifecycle.viewmodel.ktx)
-    api(libs.lifecycle.viewmodel.compose)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)

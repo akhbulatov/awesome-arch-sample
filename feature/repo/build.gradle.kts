@@ -26,7 +26,6 @@ android {
 
     buildFeatures {
         buildConfig = true
-        viewBinding = true
         compose = true
     }
 
@@ -49,8 +48,6 @@ dependencies {
     implementation(project(":core:network"))
     api(project(":core:ui"))
     implementation(project(":domain"))
-
-    implementation(libs.lifecycle.viewmodel.ktx)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)

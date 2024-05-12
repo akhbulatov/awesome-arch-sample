@@ -7,7 +7,6 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseUiEvent
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.api.navigation.RepoMediator
-import com.example.awesomearchsample.feature.repo.api.navigation.RepoScreens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -23,7 +22,7 @@ class RepoDetailsViewModel @Inject constructor(
     private val errorHandler: UiErrorHandler
 ) : BaseViewModel<RepoDetailsUiState, BaseUiEvent>(initialUiState = RepoDetailsUiState()) {
 
-    private val screenArg: RepoScreens.RepoDetails = requireNotNull(savedStateHandle[ARG_SCREEN])
+    private val repoIdArg: Long = requireNotNull(savedStateHandle[ARG_REPO_ID])
 
     init {
         loadRepoDetails()
@@ -33,7 +32,7 @@ class RepoDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 mutableUiState.update { it.copy(emptyProgress = true) }
-                val repoDetails = getRepoDetailsUseCase.invoke(repoId = screenArg.repoId)
+                val repoDetails = getRepoDetailsUseCase.invoke(repoId = repoIdArg)
                 mutableUiState.update { uiState.value.copy(repoDetails = repoDetails) }
             } catch (e: Exception) {
                 errorHandler.proceed(
@@ -60,6 +59,6 @@ class RepoDetailsViewModel @Inject constructor(
     }
 
     companion object {
-        const val ARG_SCREEN = "screen"
+        private const val ARG_REPO_ID = "repo_id"
     }
 }

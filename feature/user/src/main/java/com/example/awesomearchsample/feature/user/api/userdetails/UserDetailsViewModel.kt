@@ -1,25 +1,23 @@
 package com.example.awesomearchsample.feature.user.api.userdetails
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEvent
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.user.usecase.GetUserDetailsUseCase
-import com.example.awesomearchsample.feature.user.api.navigation.UserScreens
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class UserDetailsViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+@HiltViewModel(assistedFactory = UserDetailsViewModel.Factory::class)
+class UserDetailsViewModel @AssistedInject constructor(
+    @Assisted private val login: String,
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
     private val errorHandler: UiErrorHandler
 ) : BaseViewModel<UserDetailsUiState, BaseUiEvent>(initialUiState = UserDetailsUiState()) {
-
-    private val screenArg: UserScreens.UserDetails = requireNotNull(savedStateHandle[ARG_SCREEN])
 
     init {
         loadUserDetails()
@@ -29,7 +27,7 @@ class UserDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 mutableUiState.update { it.copy(emptyProgress = true) }
-                val userDetails = getUserDetailsUseCase.invoke(login = screenArg.login)
+                val userDetails = getUserDetailsUseCase.invoke(login = login)
                 mutableUiState.update { uiState.value.copy(userDetails = userDetails) }
             } catch (e: Exception) {
                 errorHandler.proceed(
@@ -49,7 +47,8 @@ class UserDetailsViewModel @Inject constructor(
         loadUserDetails()
     }
 
-    companion object {
-        const val ARG_SCREEN = "screen"
+    @AssistedFactory
+    interface Factory {
+        fun create(login: String): UserDetailsViewModel
     }
 }

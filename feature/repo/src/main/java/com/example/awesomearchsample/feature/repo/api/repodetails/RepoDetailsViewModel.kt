@@ -12,12 +12,10 @@ import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import me.aartikov.alligator.Navigator
 
 @HiltViewModel(assistedFactory = RepoDetailsViewModel.Factory::class)
 class RepoDetailsViewModel @AssistedInject constructor(
     @Assisted private val repoId: Long,
-    private val navigator: Navigator,
     private val repoMediator: RepoMediator,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
@@ -48,7 +46,11 @@ class RepoDetailsViewModel @AssistedInject constructor(
 
     fun onAuthorClick() {
         uiState.value.repoDetails?.let { repoDetails ->
-            navigator.goForward(repoMediator.getUserDetailsScreen(login = repoDetails.author))
+            viewModelScope.launch {
+                mutableUiEvent.send(
+                    RepoDetailsUiEvent.NavigateTo(repoMediator.getUserDetailsScreen(login = repoDetails.author))
+                )
+            }
         }
     }
 

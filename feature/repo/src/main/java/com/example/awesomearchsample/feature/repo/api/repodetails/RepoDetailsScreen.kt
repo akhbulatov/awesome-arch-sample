@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -36,21 +37,13 @@ import com.example.awesomearchsample.feature.repo.R
 
 data class RepoDetailsScreen(private val repoId: Long) : BaseScreen() {
 
-    @OptIn(ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalVoyagerApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val viewModel = getViewModel<RepoDetailsViewModel>(
-//            viewModelFactory = ,
-//            extrasProducer = {
-//                MutableCreationExtras(initialExtras = defaultViewModelCreationExtras).apply {
-//                    set(
-//                        key = DEFAULT_ARGS_KEY,
-//                        t = bundleOf(RepoDetailsViewModel.ARG_REPO_ID to screen)
-//                    )
-//                }
-//            }
-        )
+        val viewModel = getViewModel<RepoDetailsViewModel, RepoDetailsViewModel.Factory> { factory ->
+            factory.create(repoId = repoId)
+        }
         val state by viewModel.uiState.collectAsState()
 
         Scaffold(

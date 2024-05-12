@@ -26,6 +26,7 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+        compose = true
     }
 
     compileOptions {
@@ -35,6 +36,10 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
     }
 }
 
@@ -61,12 +66,20 @@ androidComponents {
 dependencies {
     implementation(project(":core:common-factory"))
 
-    api(libs.material)
-    api(libs.fragment.ktx)
-    api(libs.recyclerview)
+    api(libs.activity)
+    api(libs.activity.compose)
+
+    api(platform(libs.compose.bom))
+    api(libs.compose.foundation)
+    api(libs.compose.material3)
+    api(libs.compose.runtime)
+    api(libs.compose.ui)
+
+    api(libs.lifecycle.viewmodel.ktx)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
 
-    api(libs.alligator)
+    api(libs.voyager.navigator)
+    api(libs.voyager.hilt)
 }

@@ -23,7 +23,7 @@ android {
 
     buildFeatures {
         buildConfig = true
-        viewBinding = true
+        compose = true
     }
 
     compileOptions {
@@ -34,6 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
+    }
 }
 
 dependencies {
@@ -42,9 +46,7 @@ dependencies {
     api(project(":core:ui"))
     implementation(project(":domain"))
 
-    implementation(libs.lifecycle.viewmodel.ktx)
-
-    implementation(libs.coil)
+    implementation(libs.coil.compose)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)

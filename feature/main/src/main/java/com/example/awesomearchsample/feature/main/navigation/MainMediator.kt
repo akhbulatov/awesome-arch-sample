@@ -1,6 +1,6 @@
 package com.example.awesomearchsample.feature.main.navigation
 
-import me.aartikov.alligator.Screen
+import cafe.adriel.voyager.core.screen.Screen
 
 interface MainMediator {
     fun getReposScreen(): Screen

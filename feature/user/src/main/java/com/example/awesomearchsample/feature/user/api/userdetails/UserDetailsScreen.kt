@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.hilt.getViewModel
@@ -38,7 +39,7 @@ import com.example.awesomearchsample.domain.user.model.UserDetails
 
 data class UserDetailsScreen(private val login: String) : BaseScreen() {
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalVoyagerApi::class)
+    @OptIn(ExperimentalVoyagerApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -47,42 +48,56 @@ data class UserDetailsScreen(private val login: String) : BaseScreen() {
         }
         val state by viewModel.uiState.collectAsState()
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(text = state.userDetails?.login.orEmpty())
-                    },
-                    navigationIcon = {
-                        IconButton(
-                            onClick = { navigator.pop() }
-                        ) {
-                            Image(
-                                painter = painterResource(com.example.awesomearchsample.core.ui.R.drawable.ic_arrow_back),
-                                contentDescription = null
-                            )
-                        }
+        UserDetailsContent(
+            state = state,
+            onNavigationClick = { navigator.pop() },
+            onErrorActionClick = viewModel::onErrorActionClick
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun UserDetailsContent(
+    state: UserDetailsUiState,
+    onNavigationClick: () -> Unit,
+    onErrorActionClick: () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = state.userDetails?.login.orEmpty())
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onNavigationClick
+                    ) {
+                        Image(
+                            painter = painterResource(com.example.awesomearchsample.core.ui.R.drawable.ic_arrow_back),
+                            contentDescription = null
+                        )
                     }
+                }
+            )
+        }
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            if (state.emptyProgress) {
+                EmptyProgress()
+            }
+            state.emptyError?.let { emptyError ->
+                EmptyError(
+                    error = emptyError,
+                    onActionClick = onErrorActionClick
                 )
             }
-        ) { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
-                if (state.emptyProgress) {
-                    EmptyProgress()
-                }
-                state.emptyError?.let { emptyError ->
-                    EmptyError(
-                        error = emptyError,
-                        onActionClick = viewModel::onErrorActionClick
-                    )
-                }
-                state.userDetails?.let { userDetails ->
-                    UserDetails(userDetails)
-                }
+            state.userDetails?.let { userDetails ->
+                UserDetails(userDetails)
             }
         }
     }
@@ -169,4 +184,25 @@ private fun UserDetails(userDetails: UserDetails) {
             style = MaterialTheme.typography.bodyMedium
         )
     }
+}
+
+// --- Preview --- //
+
+@Preview(showBackground = true)
+@Composable
+private fun UserDetailsContentPreview() {
+    UserDetailsContent(
+        state = UserDetailsUiState(
+            userDetails = UserDetails(
+                id = 1,
+                login = "akhbulatov",
+                name = "Alidibir Akhbulatov",
+                avatarUrl = null,
+                location = "Makhachkala",
+                bio = "Android developer"
+            )
+        ),
+        onNavigationClick = {},
+        onErrorActionClick = {}
+    )
 }

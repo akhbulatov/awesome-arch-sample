@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
 import cafe.adriel.voyager.hilt.getViewModel
@@ -38,7 +39,7 @@ import com.example.awesomearchsample.feature.repo.R
 
 data class RepoDetailsScreen(private val repoId: Long) : BaseScreen() {
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalVoyagerApi::class)
+    @OptIn(ExperimentalVoyagerApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -57,45 +58,61 @@ data class RepoDetailsScreen(private val repoId: Long) : BaseScreen() {
             }
         }
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(text = state.repoDetails?.name.orEmpty())
-                    },
-                    navigationIcon = {
-                        IconButton(
-                            onClick = { navigator.pop() }
-                        ) {
-                            Image(
-                                painter = painterResource(com.example.awesomearchsample.core.ui.R.drawable.ic_arrow_back),
-                                contentDescription = null
-                            )
-                        }
+        RepoDetailsContent(
+            state = state,
+            onNavigationClick = { navigator.pop() },
+            onErrorActionClick = viewModel::onErrorActionClick,
+            onAuthorClick = viewModel::onAuthorClick
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun RepoDetailsContent(
+    state: RepoDetailsUiState,
+    onNavigationClick: () -> Unit,
+    onErrorActionClick: () -> Unit,
+    onAuthorClick: () -> Unit
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = state.repoDetails?.name.orEmpty())
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onNavigationClick
+                    ) {
+                        Image(
+                            painter = painterResource(com.example.awesomearchsample.core.ui.R.drawable.ic_arrow_back),
+                            contentDescription = null
+                        )
                     }
+                }
+            )
+        }
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            if (state.emptyProgress) {
+                EmptyProgress()
+            }
+            state.emptyError?.let { emptyError ->
+                EmptyError(
+                    error = emptyError,
+                    onActionClick = onErrorActionClick
                 )
             }
-        ) { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
-                if (state.emptyProgress) {
-                    EmptyProgress()
-                }
-                state.emptyError?.let { emptyError ->
-                    EmptyError(
-                        error = emptyError,
-                        onActionClick = viewModel::onErrorActionClick
-                    )
-                }
-                state.repoDetails?.let { repoDetails ->
-                    RepoDetails(
-                        repoDetails = repoDetails,
-                        onAuthorClick = viewModel::onAuthorClick
-                    )
-                }
+            state.repoDetails?.let { repoDetails ->
+                RepoDetails(
+                    repoDetails = repoDetails,
+                    onAuthorClick = onAuthorClick
+                )
             }
         }
     }
@@ -172,4 +189,26 @@ private fun RepoDetails(repoDetails: RepoDetails, onAuthorClick: () -> Unit) {
             style = MaterialTheme.typography.labelSmall
         )
     }
+}
+
+// --- Preview --- //
+
+@Preview(showBackground = true)
+@Composable
+private fun RepoDetailsContentPreview() {
+    RepoDetailsContent(
+        state = RepoDetailsUiState(
+            repoDetails = RepoDetails(
+                id = 1,
+                name = "AwesomeArchSample",
+                author = "akhbulatov",
+                description = "Awesome open-source arch sample written in Kotlin",
+                starsCount = 99,
+                forksCount = 10
+            )
+        ),
+        onNavigationClick = { },
+        onErrorActionClick = { },
+        onAuthorClick = {}
+    )
 }

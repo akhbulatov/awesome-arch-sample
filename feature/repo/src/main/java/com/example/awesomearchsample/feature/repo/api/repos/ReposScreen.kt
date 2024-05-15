@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.hilt.getViewModel
@@ -41,7 +42,6 @@ private typealias OnRepoItemClick = (Repo) -> Unit
 
 object ReposScreen : BaseScreen() {
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -58,35 +58,49 @@ object ReposScreen : BaseScreen() {
             }
         }
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(text = stringResource(R.string.repos_title))
-                    }
+        ReposContent(
+            state = state,
+            onErrorActionClick = viewModel::onErrorActionClick,
+            onRepoClick = viewModel::onRepoClick
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ReposContent(
+    state: ReposUiState,
+    onErrorActionClick: () -> Unit,
+    onRepoClick: OnRepoItemClick
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(R.string.repos_title))
+                }
+            )
+        }
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            if (state.emptyProgress) {
+                EmptyProgress()
+            }
+            state.emptyError?.let { emptyError ->
+                EmptyError(
+                    error = emptyError,
+                    onActionClick = onErrorActionClick
                 )
             }
-        ) { innerPadding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
-                if (state.emptyProgress) {
-                    EmptyProgress()
-                }
-                state.emptyError?.let { emptyError ->
-                    EmptyError(
-                        error = emptyError,
-                        onActionClick = viewModel::onErrorActionClick
-                    )
-                }
-                if (state.repos.isNotEmpty()) {
-                    RepoList(
-                        repos = state.repos,
-                        onRepoItemClick = viewModel::onRepoClick
-                    )
-                }
+            if (state.repos.isNotEmpty()) {
+                RepoList(
+                    repos = state.repos,
+                    onRepoItemClick = onRepoClick
+                )
             }
         }
     }
@@ -165,3 +179,37 @@ private fun RepoItem(repo: Repo, onRepoItemClick: OnRepoItemClick) {
         )
     }
 }
+
+// --- Preview --- //
+
+@Preview(showBackground = true)
+@Composable
+private fun ReposContentPreview() {
+    ReposContent(
+        state = ReposUiState(
+            repos = buildList {
+                repeat(5) { index ->
+                    add(createRepoForPreview(index))
+                }
+            }
+        ),
+        onErrorActionClick = {},
+        onRepoClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RepoItemPreview() {
+    RepoItem(
+        repo = createRepoForPreview(index = 0),
+        onRepoItemClick = {}
+    )
+}
+
+private fun createRepoForPreview(index: Int) = Repo(
+    id = index.toLong(),
+    name = "AwesomeArchSample: $index",
+    author = "akhbulatov",
+    description = "Awesome open-source arch sample written in Kotlin"
+)

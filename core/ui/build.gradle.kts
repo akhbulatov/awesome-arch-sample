@@ -74,6 +74,8 @@ dependencies {
     api(libs.compose.material3)
     api(libs.compose.runtime)
     api(libs.compose.ui)
+    api(libs.compose.ui.tooling)
+    api(libs.compose.ui.tooling.preview)
 
     api(libs.lifecycle.viewmodel.ktx)
 

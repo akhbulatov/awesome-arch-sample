@@ -57,6 +57,7 @@ dependencies {
     api(libs.compose.ui.tooling)
     api(libs.compose.ui.tooling.preview)
 
+    api(libs.lifecycle.runtime.compose)
     api(libs.lifecycle.viewmodel.ktx)
 
     implementation(libs.dagger.hilt.android)

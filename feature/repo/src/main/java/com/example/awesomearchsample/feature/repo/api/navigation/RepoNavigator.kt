@@ -2,6 +2,6 @@ package com.example.awesomearchsample.feature.repo.api.navigation
 
 import cafe.adriel.voyager.core.screen.Screen
 
-interface RepoMediator {
+interface RepoNavigator {
     fun getUserDetailsScreen(login: String): Screen
 }

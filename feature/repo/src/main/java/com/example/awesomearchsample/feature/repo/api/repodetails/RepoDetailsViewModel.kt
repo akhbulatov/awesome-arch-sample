@@ -5,7 +5,7 @@ import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEvent
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
-import com.example.awesomearchsample.feature.repo.api.navigation.RepoMediator
+import com.example.awesomearchsample.feature.repo.api.navigation.RepoNavigator
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel(assistedFactory = RepoDetailsViewModel.Factory::class)
 class RepoDetailsViewModel @AssistedInject constructor(
     @Assisted private val repoId: Long,
-    private val repoMediator: RepoMediator,
+    private val repoNavigator: RepoNavigator,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
 ) : BaseViewModel<RepoDetailsUiState, BaseUiEvent>(initialUiState = RepoDetailsUiState()) {
@@ -48,7 +48,7 @@ class RepoDetailsViewModel @AssistedInject constructor(
         uiState.value.repoDetails?.let { repoDetails ->
             viewModelScope.launch {
                 mutableUiEvent.send(
-                    RepoDetailsUiEvent.NavigateTo(repoMediator.getUserDetailsScreen(login = repoDetails.author))
+                    RepoDetailsUiEvent.NavigateTo(repoNavigator.getUserDetailsScreen(login = repoDetails.author))
                 )
             }
         }

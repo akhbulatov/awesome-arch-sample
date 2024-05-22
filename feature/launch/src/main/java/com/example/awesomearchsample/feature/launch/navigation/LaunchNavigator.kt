@@ -2,6 +2,6 @@ package com.example.awesomearchsample.feature.launch.navigation
 
 import cafe.adriel.voyager.core.screen.Screen
 
-interface LaunchMediator {
+interface LaunchNavigator {
     fun getMainHostScreen(): Screen
 }

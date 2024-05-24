@@ -16,4 +16,8 @@ object AppLogger {
     fun e(throwable: Throwable) {
         Napier.e(throwable = throwable, message = { "" })
     }
+
+    fun e(message: String) {
+        Napier.e(message = message)
+    }
 }

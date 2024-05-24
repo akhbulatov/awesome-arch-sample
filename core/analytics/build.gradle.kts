@@ -1,13 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
-    namespace = "com.example.awesomearchsample.feature.repo"
+    namespace = "com.example.awesomearchsample.core.analytics"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -26,7 +25,6 @@ android {
 
     buildFeatures {
         buildConfig = true
-        compose = true
     }
 
     compileOptions {
@@ -37,25 +35,13 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
-    }
 }
 
 dependencies {
     implementation(project(":core:common-factory"))
-    implementation(project(":core:network"))
-    api(project(":core:ui"))
-    implementation(project(":domain"))
-    implementation(project(":feature:common"))
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
 
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
-
-    implementation(libs.ktor.client.core)
-    implementation(libs.serialization.json)
+    implementation(libs.napier)
 }

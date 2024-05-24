@@ -1,11 +1,13 @@
 package com.example.awesomearchsample.feature.repo.api.repos
 
 import androidx.lifecycle.viewModelScope
+import com.example.awesomearchsample.core.analytics.api.AnalyticsEvents
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.updatedByToggleInFavorites
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
+import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
 import com.example.awesomearchsample.feature.repo.api.repodetails.RepoDetailsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -15,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ReposViewModel @Inject constructor(
     private val getReposUseCase: GetReposUseCase,
-    private val errorHandler: UiErrorHandler
+    private val errorHandler: UiErrorHandler,
+    private val analyticsEventSender: AnalyticsEventSender
 ) : BaseViewModel<ReposUiState, ReposUiEvent>(initialUiState = ReposUiState()) {
 
     init {
@@ -55,6 +58,9 @@ class ReposViewModel @Inject constructor(
         viewModelScope.launch {
             mutableUiEvent.send(
                 ReposUiEvent.NavigateTo(RepoDetailsScreen(repoId = repo.id))
+            )
+            analyticsEventSender.sendEvent(
+                AnalyticsEvents.Repo.RepoClick(repoId = repo.id, repoName = repo.name)
             )
         }
     }

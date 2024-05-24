@@ -17,12 +17,14 @@ dependencyResolutionManagement {
 
 rootProject.name = "AwesomeArchSample"
 include(":app")
+include(":core:analytics")
 include(":core:common")
 include(":core:common-factory")
 include(":core:common-impl")
 include(":core:network")
 include(":core:ui")
 include(":domain")
+include(":feature:common")
 include(":feature:launch")
 include(":feature:main")
 include(":feature:repo")

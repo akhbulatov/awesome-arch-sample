@@ -6,7 +6,7 @@ import com.example.awesomearchsample.core.analytics.api.AnalyticsRepository
 import com.example.awesomearchsample.core.common.util.AppLogger
 import javax.inject.Inject
 
-class AnalyticsRepositoryImpl @Inject constructor(
+internal class AnalyticsRepositoryImpl @Inject constructor(
     private val analyticsSet: Set<@JvmSuppressWildcards Analytics>,
 ) : AnalyticsRepository {
 

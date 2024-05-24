@@ -7,7 +7,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 //import com.google.firebase.analytics.FirebaseAnalytics
 import javax.inject.Inject
 
-class AppFirebaseAnalytics @Inject constructor(
+internal class AppFirebaseAnalytics @Inject constructor(
     @ApplicationContext context: Context
 ) : Analytics {
 

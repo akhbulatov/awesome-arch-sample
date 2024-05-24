@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.mylibrarycom.example.awesomearchsample.feature"
+    namespace = "com.example.awesomearchsample.feature.launch"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {

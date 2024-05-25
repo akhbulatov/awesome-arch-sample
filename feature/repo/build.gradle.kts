@@ -43,7 +43,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common-factory"))
+    implementation(project(":core:common"))
     api(project(":core:ui"))
     implementation(project(":domain"))
     implementation(project(":feature:common"))

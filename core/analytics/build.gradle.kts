@@ -38,7 +38,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common-factory"))
+    implementation(project(":core:common"))
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)

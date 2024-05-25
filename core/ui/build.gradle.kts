@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common-factory"))
+    implementation(project(":core:common"))
 
     api(libs.activity)
     api(libs.activity.compose)

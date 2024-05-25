@@ -6,7 +6,7 @@ import com.example.awesomearchsample.feature.main.host.MainHostScreen
 import com.example.awesomearchsample.feature.main.navigation.MainNavigator
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
 import com.example.awesomearchsample.feature.repo.repos.ReposScreen
-import com.example.awesomearchsample.feature.user.api.userdetails.UserDetailsScreen
+import com.example.awesomearchsample.feature.user.userdetails.UserDetailsScreen
 import javax.inject.Inject
 
 // launch

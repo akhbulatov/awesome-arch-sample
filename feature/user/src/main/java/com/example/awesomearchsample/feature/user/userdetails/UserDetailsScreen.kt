@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.user.api.userdetails
+package com.example.awesomearchsample.feature.user.userdetails
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

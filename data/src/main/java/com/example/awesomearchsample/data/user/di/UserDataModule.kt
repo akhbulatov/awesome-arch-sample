@@ -1,8 +1,8 @@
-package com.example.awesomearchsample.feature.user.internal.di
+package com.example.awesomearchsample.data.user.di
 
+import com.example.awesomearchsample.data.user.UserRepositoryImpl
+import com.example.awesomearchsample.data.user.network.UserApi
 import com.example.awesomearchsample.domain.user.repository.UserRepository
-import com.example.awesomearchsample.feature.user.internal.UserRepositoryImpl
-import com.example.awesomearchsample.feature.user.internal.network.UserApi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

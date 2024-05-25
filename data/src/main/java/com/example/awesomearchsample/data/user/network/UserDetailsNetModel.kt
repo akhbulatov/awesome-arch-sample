@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.user.internal.network
+package com.example.awesomearchsample.data.user.network
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

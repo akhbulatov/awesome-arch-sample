@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.user.api.userdetails
+package com.example.awesomearchsample.feature.user.userdetails
 
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler

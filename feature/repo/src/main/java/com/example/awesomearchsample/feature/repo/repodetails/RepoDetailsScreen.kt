@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.api.repodetails
+package com.example.awesomearchsample.feature.repo.repodetails
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

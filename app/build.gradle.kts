@@ -47,6 +47,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":data"))
     implementation(project(":feature:launch"))
     implementation(project(":feature:main"))
     implementation(project(":feature:repo"))

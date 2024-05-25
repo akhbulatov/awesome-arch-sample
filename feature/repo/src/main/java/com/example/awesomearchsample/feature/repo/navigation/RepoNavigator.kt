@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.api.navigation
+package com.example.awesomearchsample.feature.repo.navigation
 
 import cafe.adriel.voyager.core.screen.Screen
 

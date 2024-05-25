@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.internal.network
+package com.example.awesomearchsample.data.repo.network
 
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.RepoDetails

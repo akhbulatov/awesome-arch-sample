@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.internal.network
+package com.example.awesomearchsample.data.repo.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

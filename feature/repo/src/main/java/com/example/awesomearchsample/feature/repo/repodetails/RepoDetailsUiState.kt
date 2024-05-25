@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.api.repodetails
+package com.example.awesomearchsample.feature.repo.repodetails
 
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.domain.repo.model.RepoDetails

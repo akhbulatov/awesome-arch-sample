@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.api.repodetails
+package com.example.awesomearchsample.feature.repo.repodetails
 
 import cafe.adriel.voyager.core.screen.Screen
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEvent

@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.api.repos
+package com.example.awesomearchsample.feature.repo.repos
 
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvents
@@ -8,7 +8,7 @@ import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.updatedByToggleInFavorites
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
-import com.example.awesomearchsample.feature.repo.api.repodetails.RepoDetailsScreen
+import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch

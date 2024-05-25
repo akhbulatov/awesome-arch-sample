@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt.android)
 }
@@ -42,7 +41,6 @@ android {
 
 dependencies {
     implementation(project(":core:common-factory"))
-    implementation(project(":core:network"))
     api(project(":core:ui"))
     implementation(project(":domain"))
 
@@ -53,7 +51,4 @@ dependencies {
 
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
-
-    implementation(libs.ktor.client.core)
-    implementation(libs.serialization.json)
 }

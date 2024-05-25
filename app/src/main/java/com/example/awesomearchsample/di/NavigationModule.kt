@@ -5,7 +5,7 @@ import com.example.awesomearchsample.MainNavigatorImpl
 import com.example.awesomearchsample.RepoNavigatorImpl
 import com.example.awesomearchsample.feature.launch.navigation.LaunchNavigator
 import com.example.awesomearchsample.feature.main.navigation.MainNavigator
-import com.example.awesomearchsample.feature.repo.api.navigation.RepoNavigator
+import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

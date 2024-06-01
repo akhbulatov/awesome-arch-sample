@@ -41,7 +41,7 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-    api(project(":core:ui"))
+    implementation(project(":core:ui"))
     implementation(project(":domain"))
 
     implementation(libs.coil.compose)

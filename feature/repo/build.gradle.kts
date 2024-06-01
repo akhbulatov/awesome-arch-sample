@@ -43,8 +43,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:analytics"))
     implementation(project(":core:common"))
-    api(project(":core:ui"))
+    implementation(project(":core:ui"))
     implementation(project(":domain"))
     implementation(project(":feature:common"))
 

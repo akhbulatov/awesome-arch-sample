@@ -8,7 +8,6 @@ plugins {
 android {
     namespace = "com.example.awesomearchsample"
     compileSdk = libs.versions.compileSdk.get().toInt()
-    buildToolsVersion = libs.versions.buildTools.get()
 
     defaultConfig {
         applicationId = "com.example.awesomearchsample"
@@ -48,6 +47,7 @@ android {
 
 dependencies {
     implementation(project(":core:common-factory"))
+    implementation(project(":core:ui"))
     implementation(project(":data"))
     implementation(project(":feature:launch"))
     implementation(project(":feature:main"))

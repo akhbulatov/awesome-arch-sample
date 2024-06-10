@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.data.repo.network
+package com.example.awesomearchsample.data.repo.network.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

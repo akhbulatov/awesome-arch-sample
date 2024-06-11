@@ -52,6 +52,7 @@ dependencies {
     implementation(project(":feature:launch"))
     implementation(project(":feature:main"))
     implementation(project(":feature:repo"))
+    implementation(project(":feature:search"))
     implementation(project(":feature:user"))
 
     implementation(libs.dagger.hilt.android)

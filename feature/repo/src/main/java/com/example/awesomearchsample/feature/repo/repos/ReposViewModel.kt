@@ -8,6 +8,7 @@ import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.updatedByToggleInFavorites
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
+import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
 import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReposViewModel @Inject constructor(
+    private val repoNavigator: RepoNavigator,
     private val getReposUseCase: GetReposUseCase,
     private val errorHandler: UiErrorHandler,
     private val analyticsEventSender: AnalyticsEventSender
@@ -41,6 +43,14 @@ class ReposViewModel @Inject constructor(
             } finally {
                 mutableUiState.update { it.copy(emptyProgress = false) }
             }
+        }
+    }
+
+    fun onSearchClick() {
+        viewModelScope.launch {
+            mutableUiEvent.send(
+                ReposUiEvent.NavigateTo(repoNavigator.getSearchScreen())
+            )
         }
     }
 

@@ -12,6 +12,11 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+            arg("room.incremental", "true")
+        }
     }
 
     buildTypes {
@@ -43,4 +48,7 @@ dependencies {
 
     implementation(libs.ktor.client.core)
     implementation(libs.serialization.json)
+
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 }

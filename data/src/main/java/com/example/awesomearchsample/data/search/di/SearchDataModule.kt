@@ -1,6 +1,8 @@
 package com.example.awesomearchsample.data.search.di
 
+import com.example.awesomearchsample.data.AppDatabase
 import com.example.awesomearchsample.data.search.SearchRepositoryImpl
+import com.example.awesomearchsample.data.search.database.SearchQueryDao
 import com.example.awesomearchsample.data.search.network.SearchApi
 import com.example.awesomearchsample.domain.search.repository.SearchRepository
 import dagger.Binds
@@ -23,5 +25,10 @@ internal abstract class SearchDataModule {
         @Provides
         @Singleton
         fun provideSearchApi(httpClient: HttpClient): SearchApi = SearchApi(httpClient = httpClient)
+
+        @Provides
+        @Singleton
+        fun provideSearchQueryDao(appDatabase: AppDatabase): SearchQueryDao =
+            appDatabase.searchQueryDao()
     }
 }

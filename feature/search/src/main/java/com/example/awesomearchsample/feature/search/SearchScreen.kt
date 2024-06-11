@@ -46,6 +46,7 @@ import com.example.awesomearchsample.core.ui.compose.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.BaseScreen
 import com.example.awesomearchsample.domain.repo.model.Repo
+import com.example.awesomearchsample.domain.search.model.SearchQuery
 import com.example.awesomearchsample.domain.search.model.SearchResult
 
 private typealias OnRepoResultItemClick = (Repo) -> Unit
@@ -158,6 +159,9 @@ private fun SearchContent(
                     )
                 }
             }
+            if (state.recentQueries.isNotEmpty()) {
+                RecentQueryList(queries = state.recentQueries)
+            }
         }
     }
 }
@@ -220,6 +224,31 @@ private fun RepoResultItem(item: Repo, onItemClick: OnRepoResultItemClick) {
     }
 }
 
+@Composable
+private fun RecentQueryList(queries: List<SearchQuery>) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        items(
+            items = queries,
+            key = { query -> query.value }
+        ) { query ->
+            RecentQueryItem(query = query)
+        }
+    }
+}
+
+@Composable
+private fun RecentQueryItem(query: SearchQuery) {
+    Text(
+        text = query.value,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 15.dp, vertical = 10.dp)
+    )
+}
+
 // --- Preview --- //
 @Preview(showBackground = true)
 @Composable
@@ -253,3 +282,11 @@ private fun createRepoForPreview(index: Int) = Repo(
     author = "akhbulatov",
     description = "Awesome open-source arch sample written in Kotlin"
 )
+
+@Preview(showBackground = true)
+@Composable
+private fun RecentQueryItemPreview() {
+    RecentQueryItem(
+        query = SearchQuery("awesome arch sample")
+    )
+}

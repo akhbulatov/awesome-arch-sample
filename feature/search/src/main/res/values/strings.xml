@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Search -->
+    <string name="search_repo_hint">Search repository…</string>
+    <string name="search_no_result">No result</string>
+</resources>

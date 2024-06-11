@@ -1,33 +1,27 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
-    namespace = "com.example.awesomearchsample"
+    namespace = "com.example.awesomearchsample.feature.search"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.example.awesomearchsample"
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = libs.versions.versionCode.get().toInt()
-        versionName = libs.versions.versionName.get()
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 
@@ -46,15 +40,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common-factory"))
+    implementation(project(":core:common"))
     implementation(project(":core:ui"))
-    implementation(project(":data"))
-    implementation(project(":feature:launch"))
-    implementation(project(":feature:main"))
-    implementation(project(":feature:repo"))
-    implementation(project(":feature:search"))
-    implementation(project(":feature:user"))
+    implementation(project(":domain"))
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
+
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
 }

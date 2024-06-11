@@ -25,9 +25,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -71,6 +69,8 @@ object SearchScreen : BaseScreen() {
 
         SearchContent(
             state = state,
+            queryInput = viewModel.queryInput,
+            onQueryInputChange = viewModel::onSearchQueryInputChanged,
             onNavigationClick = { navigator.pop() },
             onErrorActionClick = viewModel::onErrorActionClick,
             onSearchActionClick = viewModel::onSearchActionClick,
@@ -83,12 +83,13 @@ object SearchScreen : BaseScreen() {
 @Composable
 private fun SearchContent(
     state: SearchUiState,
+    queryInput: String,
+    onQueryInputChange: (String) -> Unit,
     onNavigationClick: () -> Unit,
     onErrorActionClick: () -> Unit,
-    onSearchActionClick: (query: String) -> Unit,
+    onSearchActionClick: () -> Unit,
     onRepoResultItemClick: OnRepoResultItemClick
 ) {
-    var queryInput by remember { mutableStateOf(value = "") }
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -104,7 +105,7 @@ private fun SearchContent(
                 title = {
                     OutlinedTextField(
                         value = queryInput,
-                        onValueChange = { queryInput = it },
+                        onValueChange = { onQueryInputChange.invoke(it) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .focusRequester(focusRequester),
@@ -119,7 +120,7 @@ private fun SearchContent(
                         keyboardActions = KeyboardActions(
                             onSearch = {
                                 keyboardController?.hide()
-                                onSearchActionClick.invoke(queryInput)
+                                onSearchActionClick.invoke()
                             }
                         )
                     )
@@ -263,6 +264,8 @@ private fun SearchContentPreview() {
                 }
             )
         ),
+        queryInput = "awesome arch sample",
+        onQueryInputChange = {},
         onNavigationClick = {},
         onErrorActionClick = {},
         onSearchActionClick = {},

@@ -1,5 +1,8 @@
 package com.example.awesomearchsample.feature.search
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
@@ -30,6 +33,9 @@ class SearchViewModel @Inject constructor(
     private val resourceManager: ResourceManager
 ) : BaseViewModel<SearchUiState, SearchUiEvent>(initialUiState = SearchUiState()) {
 
+    var queryInput by mutableStateOf(value = "")
+        private set
+
     init {
         observeSearchQueries()
     }
@@ -47,9 +53,13 @@ class SearchViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onSearchActionClick(query: String) {
-        saveSearchQuery(query)
-        loadSearchResult(query)
+    fun onSearchQueryInputChanged(query: String) {
+        queryInput = query
+    }
+
+    fun onSearchActionClick() {
+        saveSearchQuery(queryInput)
+        loadSearchResult(queryInput)
     }
 
     private fun saveSearchQuery(query: String) {
@@ -94,6 +104,6 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onErrorActionClick() {
-
+        loadSearchResult(query = queryInput)
     }
 }

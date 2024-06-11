@@ -69,6 +69,9 @@ serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
+# Preferences
+datastore = "androidx.datastore:datastore-preferences:1.1.1"
+
 # Navigation
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-hilt = { module = "cafe.adriel.voyager:voyager-hilt", version.ref = "voyager" }

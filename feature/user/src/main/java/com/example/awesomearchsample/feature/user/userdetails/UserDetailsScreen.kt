@@ -32,7 +32,7 @@ import cafe.adriel.voyager.hilt.getViewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil.compose.AsyncImage
-import com.example.awesomearchsample.core.ui.compose.EmptyErrorComponent
+import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.BaseScreen
 import com.example.awesomearchsample.domain.user.model.UserDetails

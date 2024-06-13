@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.core.ui.compose
+package com.example.awesomearchsample.core.ui.designsystem
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

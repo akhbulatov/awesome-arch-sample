@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.core.ui.compose
+package com.example.awesomearchsample.core.ui.designsystem
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

@@ -46,14 +46,14 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common-factory"))
-    implementation(project(":core:ui"))
-    implementation(project(":data"))
-    implementation(project(":feature:launch"))
-    implementation(project(":feature:main"))
-    implementation(project(":feature:repo"))
-    implementation(project(":feature:search"))
-    implementation(project(":feature:user"))
+    implementation(projects.core.commonFactory)
+    implementation(projects.core.ui)
+    implementation(projects.data)
+    implementation(projects.feature.launch)
+    implementation(projects.feature.main)
+    implementation(projects.feature.repo)
+    implementation(projects.feature.search)
+    implementation(projects.feature.user)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)

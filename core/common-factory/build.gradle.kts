@@ -34,8 +34,8 @@ android {
 }
 
 dependencies {
-    api(project(":core:common"))
-    implementation(project(":core:common-impl"))
+    api(projects.core.common)
+    implementation(projects.core.commonImpl)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)

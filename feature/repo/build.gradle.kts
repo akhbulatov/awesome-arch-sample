@@ -43,11 +43,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:analytics"))
-    implementation(project(":core:common"))
-    implementation(project(":core:ui"))
-    implementation(project(":domain"))
-    implementation(project(":feature:common"))
+    implementation(projects.core.analytics)
+    implementation(projects.core.common)
+    implementation(projects.core.ui)
+    implementation(projects.domain)
+    implementation(projects.feature.common)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)

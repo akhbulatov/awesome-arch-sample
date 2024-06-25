@@ -32,8 +32,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:network"))
+    implementation(projects.core.common)
+    implementation(projects.core.network)
 
     implementation(libs.javax.inject)
 

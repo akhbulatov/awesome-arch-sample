@@ -40,9 +40,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:preferences"))
-    implementation(project(":domain"))
+    implementation(projects.core.common)
+    implementation(projects.core.preferences)
+    implementation(projects.domain)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)

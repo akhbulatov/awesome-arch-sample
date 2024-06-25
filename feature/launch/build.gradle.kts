@@ -43,9 +43,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:ui"))
-    implementation(project(":domain"))
+    implementation(projects.core.common)
+    implementation(projects.core.ui)
+    implementation(projects.domain)
 
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)

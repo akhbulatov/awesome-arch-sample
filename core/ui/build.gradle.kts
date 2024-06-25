@@ -42,7 +42,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
+    implementation(projects.core.common)
 
     api(libs.activity)
     api(libs.activity.compose)

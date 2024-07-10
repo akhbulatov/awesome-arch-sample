@@ -16,7 +16,7 @@ class LaunchViewModel @Inject constructor(
     private val launchNavigator: LaunchNavigator,
     private val isFirstLaunchUseCase: IsFirstLaunchUseCase,
     private val setIsFirstLaunchUseCase: SetIsFirstLaunchUseCase
-) : BaseViewModel<Unit, LaunchUiEvent>(initialUiState = Unit) {
+) : BaseViewModel<Unit, LaunchUiEffect>(initialUiState = Unit) {
 
     init {
         viewModelScope.launch {
@@ -25,8 +25,8 @@ class LaunchViewModel @Inject constructor(
                 setIsFirstLaunchUseCase.invoke(true)
             }
 
-            mutableUiEvent.send(
-                LaunchUiEvent.ResetAll(screen = launchNavigator.getMainHostScreen())
+            mutableUiEffect.send(
+                LaunchUiEffect.ResetAll(screen = launchNavigator.getMainHostScreen())
             )
         }
     }

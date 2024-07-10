@@ -2,7 +2,7 @@ package com.example.awesomearchsample.feature.repo.repodetails
 
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
-import com.example.awesomearchsample.core.ui.mvvm.BaseUiEvent
+import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
@@ -19,7 +19,7 @@ class RepoDetailsViewModel @AssistedInject constructor(
     private val repoNavigator: RepoNavigator,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<RepoDetailsUiState, BaseUiEvent>(initialUiState = RepoDetailsUiState()) {
+) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState()) {
 
     init {
         loadRepoDetails()
@@ -47,8 +47,8 @@ class RepoDetailsViewModel @AssistedInject constructor(
     fun onAuthorClick() {
         uiState.value.repoDetails?.let { repoDetails ->
             viewModelScope.launch {
-                mutableUiEvent.send(
-                    RepoDetailsUiEvent.NavigateTo(repoNavigator.getUserDetailsScreen(login = repoDetails.author))
+                mutableUiEffect.send(
+                    RepoDetailsUiEffect.NavigateTo(repoNavigator.getUserDetailsScreen(login = repoDetails.author))
                 )
             }
         }

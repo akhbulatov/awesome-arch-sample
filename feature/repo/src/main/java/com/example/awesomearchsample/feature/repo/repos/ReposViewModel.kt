@@ -21,7 +21,7 @@ class ReposViewModel @Inject constructor(
     private val getReposUseCase: GetReposUseCase,
     private val errorHandler: UiErrorHandler,
     private val analyticsEventSender: AnalyticsEventSender
-) : BaseViewModel<ReposUiState, ReposUiEvent>(initialUiState = ReposUiState()) {
+) : BaseViewModel<ReposUiState, ReposUiEffect>(initialUiState = ReposUiState()) {
 
     init {
         loadRepos()
@@ -48,8 +48,8 @@ class ReposViewModel @Inject constructor(
 
     fun onSearchClick() {
         viewModelScope.launch {
-            mutableUiEvent.send(
-                ReposUiEvent.NavigateTo(repoNavigator.getSearchScreen())
+            mutableUiEffect.send(
+                ReposUiEffect.NavigateTo(repoNavigator.getSearchScreen())
             )
         }
     }
@@ -66,8 +66,8 @@ class ReposViewModel @Inject constructor(
 
     fun onRepoClick(repo: Repo) {
         viewModelScope.launch {
-            mutableUiEvent.send(
-                ReposUiEvent.NavigateTo(RepoDetailsScreen(repoId = repo.id))
+            mutableUiEffect.send(
+                ReposUiEffect.NavigateTo(RepoDetailsScreen(repoId = repo.id))
             )
             analyticsEventSender.sendEvent(
                 AnalyticsEvents.Repo.RepoClick(repoId = repo.id, repoName = repo.name)

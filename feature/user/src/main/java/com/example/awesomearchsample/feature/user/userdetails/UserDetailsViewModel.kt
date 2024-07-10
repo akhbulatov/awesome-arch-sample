@@ -2,7 +2,7 @@ package com.example.awesomearchsample.feature.user.userdetails
 
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
-import com.example.awesomearchsample.core.ui.mvvm.BaseUiEvent
+import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.user.usecase.GetUserDetailsUseCase
 import dagger.assisted.Assisted
@@ -17,7 +17,7 @@ class UserDetailsViewModel @AssistedInject constructor(
     @Assisted private val login: String,
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<UserDetailsUiState, BaseUiEvent>(initialUiState = UserDetailsUiState()) {
+) : BaseViewModel<UserDetailsUiState, BaseUiEffect>(initialUiState = UserDetailsUiState()) {
 
     init {
         loadUserDetails()

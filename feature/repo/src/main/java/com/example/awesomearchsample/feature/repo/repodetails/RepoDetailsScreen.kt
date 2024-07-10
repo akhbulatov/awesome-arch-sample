@@ -49,9 +49,9 @@ data class RepoDetailsScreen(private val repoId: Long) : BaseScreen() {
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 
         LaunchedEffect(Unit) {
-            viewModel.uiEvent.collect { event ->
+            viewModel.uiEffect.collect { event ->
                 when (event) {
-                    is RepoDetailsUiEvent.NavigateTo -> {
+                    is RepoDetailsUiEffect.NavigateTo -> {
                         navigator.push(event.screen)
                     }
                 }

@@ -31,7 +31,7 @@ class SearchViewModel @Inject constructor(
     private val saveSearchQueryUseCase: SaveSearchQueryUseCase,
     private val errorHandler: UiErrorHandler,
     private val resourceManager: ResourceManager
-) : BaseViewModel<SearchUiState, SearchUiEvent>(initialUiState = SearchUiState()) {
+) : BaseViewModel<SearchUiState, SearchUiEffect>(initialUiState = SearchUiState()) {
 
     var queryInput by mutableStateOf(value = "")
         private set
@@ -97,8 +97,8 @@ class SearchViewModel @Inject constructor(
 
     fun onRepoResultItemClick(repo: Repo) {
         viewModelScope.launch {
-            mutableUiEvent.send(
-                SearchUiEvent.NavigateTo(searchNavigator.getRepoDetailsScreen(repoId = repo.id))
+            mutableUiEffect.send(
+                SearchUiEffect.NavigateTo(searchNavigator.getRepoDetailsScreen(repoId = repo.id))
             )
         }
     }

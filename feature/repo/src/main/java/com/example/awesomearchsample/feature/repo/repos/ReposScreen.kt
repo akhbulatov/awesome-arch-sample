@@ -52,9 +52,9 @@ object ReposScreen : BaseScreen() {
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 
         LaunchedEffect(Unit) {
-            viewModel.uiEvent.collect { event ->
+            viewModel.uiEffect.collect { event ->
                 when (event) {
-                    is ReposUiEvent.NavigateTo -> {
+                    is ReposUiEffect.NavigateTo -> {
                         navigator.push(event.screen)
                     }
                 }

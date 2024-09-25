@@ -15,10 +15,10 @@ object LaunchScreen : BaseScreen() {
         val viewModel = getViewModel<LaunchViewModel>()
 
         LaunchedEffect(Unit) {
-            viewModel.uiEffect.collect { event ->
-                when (event) {
+            viewModel.uiEffect.collect { effect ->
+                when (effect) {
                     is LaunchUiEffect.ResetAll -> {
-                        navigator.replaceAll(event.screen)
+                        navigator.replaceAll(effect.screen)
                     }
                 }
             }

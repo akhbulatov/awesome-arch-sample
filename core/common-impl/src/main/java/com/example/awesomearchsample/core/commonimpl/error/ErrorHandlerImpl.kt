@@ -5,7 +5,7 @@ import com.example.awesomearchsample.core.common.error.ErrorHandler
 import com.example.awesomearchsample.core.network.error.NetworkErrorResponseParser
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.statement.bodyAsText
-import io.ktor.utils.io.errors.IOException
+import kotlinx.io.IOException
 import javax.inject.Inject
 
 class ErrorHandlerImpl @Inject constructor(

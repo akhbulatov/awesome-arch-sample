@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.awesomearchsample.core.commonfactory.di.CoreFactory
+import com.example.awesomearchsample.core.corefactory.di.CoreFactory
 import com.example.awesomearchsample.domain.di.DomainFactory
 import com.example.awesomearchsample.feature.search.SearchViewModel
 import com.example.awesomearchsample.feature.search.navigation.SearchNavigator

@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.commonFactory)
+    implementation(projects.core.coreFactory)
     implementation(projects.core.network)
     implementation(projects.core.preferences)
     implementation(projects.domain)

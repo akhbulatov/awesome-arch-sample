@@ -1,6 +1,6 @@
 package com.example.awesomearchsample.data.search.di
 
-import com.example.awesomearchsample.core.commonfactory.di.CoreFactory
+import com.example.awesomearchsample.core.corefactory.di.CoreFactory
 import com.example.awesomearchsample.data.AppDatabase
 import com.example.awesomearchsample.data.search.SearchRepositoryImpl
 import com.example.awesomearchsample.data.search.database.SearchQueryDao

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.awesomearchsample.core.commonfactory"
+    namespace = "com.example.awesomearchsample.core.corefactory"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {

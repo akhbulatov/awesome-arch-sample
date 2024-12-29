@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.core.commonfactory.di
+package com.example.awesomearchsample.core.corefactory.di
 
 import android.content.Context
 import com.example.awesomearchsample.core.analytics.di.AnalyticsFactory

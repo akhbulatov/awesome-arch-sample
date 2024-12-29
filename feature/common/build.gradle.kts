@@ -37,6 +37,6 @@ android {
 
 dependencies {
     implementation(projects.core.analytics)
-    implementation(projects.core.commonFactory)
+    implementation(projects.core.coreFactory)
     implementation(projects.domain)
 }

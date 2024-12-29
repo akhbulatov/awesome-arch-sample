@@ -1,7 +1,7 @@
 package com.example.awesomearchsample
 
 import android.content.Context
-import com.example.awesomearchsample.core.commonfactory.di.CoreFactory
+import com.example.awesomearchsample.core.corefactory.di.CoreFactory
 import com.example.awesomearchsample.data.di.DataFactory
 import com.example.awesomearchsample.di.NavigationFactory
 import com.example.awesomearchsample.domain.di.DomainFactory

@@ -15,16 +15,13 @@ import com.example.awesomearchsample.domain.search.usecase.GetSearchQueriesUseCa
 import com.example.awesomearchsample.domain.search.usecase.GetSearchResultUseCase
 import com.example.awesomearchsample.domain.search.usecase.SaveSearchQueryUseCase
 import com.example.awesomearchsample.feature.search.navigation.SearchNavigator
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class SearchViewModel @Inject constructor(
+class SearchViewModel(
     private val searchNavigator: SearchNavigator,
     private val getSearchResultUseCase: GetSearchResultUseCase,
     private val getSearchQueriesUseCase: GetSearchQueriesUseCase,

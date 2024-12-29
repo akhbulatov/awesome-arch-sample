@@ -37,8 +37,6 @@ android {
 
 dependencies {
     implementation(projects.core.analytics)
-    implementation(projects.core.common)
+    implementation(projects.core.commonFactory)
     implementation(projects.domain)
-
-    implementation(libs.javax.inject)
 }

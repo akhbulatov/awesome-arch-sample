@@ -10,9 +10,8 @@ import com.example.awesomearchsample.domain.search.model.SearchResult
 import com.example.awesomearchsample.domain.search.repository.SearchRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-internal class SearchRepositoryImpl @Inject constructor(
+internal class SearchRepositoryImpl(
     private val searchApi: SearchApi,
     private val searchQueryDao: SearchQueryDao
 ) : SearchRepository {

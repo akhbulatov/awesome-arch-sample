@@ -2,9 +2,8 @@ package com.example.awesomearchsample.domain.repo.usecase
 
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.repository.RepoRepository
-import javax.inject.Inject
 
-class GetReposUseCase @Inject constructor(
+class GetReposUseCase(
     private val repoRepository: RepoRepository
 ) {
 

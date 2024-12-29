@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.hilt.getViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
@@ -40,6 +40,7 @@ import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.BaseScreen
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.feature.repo.R
+import com.example.awesomearchsample.feature.repo.repos.di.getReposFactory
 
 private typealias OnRepoItemClick = (Repo) -> Unit
 
@@ -48,7 +49,8 @@ object ReposScreen : BaseScreen() {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val viewModel = getViewModel<ReposViewModel>()
+        val factory = getReposFactory()
+        val viewModel = viewModel<ReposViewModel>(factory = factory.createViewModelFactory())
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 
         LaunchedEffect(Unit) {

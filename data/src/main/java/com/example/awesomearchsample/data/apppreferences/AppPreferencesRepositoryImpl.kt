@@ -3,9 +3,8 @@ package com.example.awesomearchsample.data.apppreferences
 import com.example.awesomearchsample.core.preferences.AppPreferences
 import com.example.awesomearchsample.domain.apppreferences.repository.AppPreferencesRepository
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
-internal class AppPreferencesRepositoryImpl @Inject constructor(
+internal class AppPreferencesRepositoryImpl(
     private val appPreferences: AppPreferences
 ) : AppPreferencesRepository {
 

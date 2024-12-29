@@ -2,8 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -45,13 +43,12 @@ android {
 dependencies {
     implementation(projects.core.commonFactory)
     implementation(projects.core.ui)
+    implementation(projects.domain)
     implementation(projects.data)
+    implementation(projects.feature.common)
     implementation(projects.feature.launch)
     implementation(projects.feature.main)
     implementation(projects.feature.repo)
     implementation(projects.feature.search)
     implementation(projects.feature.user)
-
-    implementation(libs.dagger.hilt.android)
-    ksp(libs.dagger.hilt.android.compiler)
 }

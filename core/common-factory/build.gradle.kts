@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -34,9 +32,10 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.analytics)
     api(projects.core.common)
     implementation(projects.core.commonImpl)
-
-    implementation(libs.dagger.hilt.android)
-    ksp(libs.dagger.hilt.android.compiler)
+    implementation(projects.core.network)
+    implementation(projects.core.preferences)
+    implementation(projects.core.ui)
 }

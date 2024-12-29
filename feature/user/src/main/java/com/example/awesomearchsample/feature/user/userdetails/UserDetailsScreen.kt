@@ -27,8 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
-import cafe.adriel.voyager.hilt.getViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil.compose.AsyncImage
@@ -36,16 +35,17 @@ import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.BaseScreen
 import com.example.awesomearchsample.domain.user.model.UserDetails
+import com.example.awesomearchsample.feature.user.userdetails.di.getUserDetailsFactory
 
 data class UserDetailsScreen(private val login: String) : BaseScreen() {
 
-    @OptIn(ExperimentalVoyagerApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val viewModel = getViewModel<UserDetailsViewModel, UserDetailsViewModel.Factory> { factory ->
-            factory.create(login = login)
-        }
+        val factory = getUserDetailsFactory()
+        val viewModel = viewModel<UserDetailsViewModel>(
+            factory = factory.createViewModelFactory(login = login)
+        )
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 
         UserDetailsContent(

@@ -1,12 +1,11 @@
 package com.example.awesomearchsample.data.user
 
-import com.example.awesomearchsample.domain.user.model.UserDetails
-import com.example.awesomearchsample.domain.user.repository.UserRepository
 import com.example.awesomearchsample.data.user.network.UserApi
 import com.example.awesomearchsample.data.user.network.mapUserDetailsFromNet
-import javax.inject.Inject
+import com.example.awesomearchsample.domain.user.model.UserDetails
+import com.example.awesomearchsample.domain.user.repository.UserRepository
 
-internal class UserRepositoryImpl @Inject constructor(
+internal class UserRepositoryImpl(
     private val userApi: UserApi
 ) : UserRepository {
 

@@ -6,16 +6,11 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@HiltViewModel(assistedFactory = RepoDetailsViewModel.Factory::class)
-class RepoDetailsViewModel @AssistedInject constructor(
-    @Assisted private val repoId: Long,
+class RepoDetailsViewModel(
+    private val repoId: Long,
     private val repoNavigator: RepoNavigator,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
@@ -57,10 +52,5 @@ class RepoDetailsViewModel @AssistedInject constructor(
     fun onErrorActionClick() {
         mutableUiState.value = RepoDetailsUiState()
         loadRepoDetails()
-    }
-
-    @AssistedFactory
-    interface Factory {
-        fun create(repoId: Long): RepoDetailsViewModel
     }
 }

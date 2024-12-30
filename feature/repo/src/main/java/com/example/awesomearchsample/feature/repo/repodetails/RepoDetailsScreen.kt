@@ -35,14 +35,14 @@ import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.BaseScreen
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.feature.repo.R
-import com.example.awesomearchsample.feature.repo.repodetails.di.getRepoDetailsFactory
+import com.example.awesomearchsample.feature.repo.repodetails.di.rememberRepoDetailsFactory
 
 data class RepoDetailsScreen(private val repoId: Long) : BaseScreen() {
 
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val factory = getRepoDetailsFactory()
+        val factory = rememberRepoDetailsFactory()
         val viewModel = viewModel<RepoDetailsViewModel>(
             factory = factory.createViewModelFactory(repoId = repoId)
         )

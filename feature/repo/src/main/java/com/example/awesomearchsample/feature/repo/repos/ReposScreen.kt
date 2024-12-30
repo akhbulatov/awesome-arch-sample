@@ -40,7 +40,7 @@ import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.BaseScreen
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.feature.repo.R
-import com.example.awesomearchsample.feature.repo.repos.di.getReposFactory
+import com.example.awesomearchsample.feature.repo.repos.di.rememberReposFactory
 
 private typealias OnRepoItemClick = (Repo) -> Unit
 
@@ -49,7 +49,7 @@ object ReposScreen : BaseScreen() {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val factory = getReposFactory()
+        val factory = rememberReposFactory()
         val viewModel = viewModel<ReposViewModel>(factory = factory.createViewModelFactory())
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 

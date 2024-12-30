@@ -1,10 +1,10 @@
 package com.example.awesomearchsample.feature.launch.di
 
-import android.app.Application
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.awesomearchsample.core.ui.util.getApplicationInstance
 import com.example.awesomearchsample.domain.di.DomainFactory
 import com.example.awesomearchsample.feature.launch.LaunchViewModel
 import com.example.awesomearchsample.feature.launch.navigation.LaunchNavigator
@@ -27,11 +27,11 @@ class LaunchFactory(
 }
 
 interface LaunchFactoryProvider {
-    val launchFactory: LaunchFactory
+    fun getLaunchFactory(): LaunchFactory
 }
 
 @Composable
-fun getLaunchFactory(): LaunchFactory {
-    val application = (LocalContext.current.applicationContext as Application)
-    return (application as LaunchFactoryProvider).launchFactory
+fun rememberLaunchFactory(): LaunchFactory {
+    val application = getApplicationInstance()
+    return remember { (application as LaunchFactoryProvider).getLaunchFactory() }
 }

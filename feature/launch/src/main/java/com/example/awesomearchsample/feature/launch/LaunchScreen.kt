@@ -6,14 +6,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.awesomearchsample.core.ui.navigation.BaseScreen
-import com.example.awesomearchsample.feature.launch.di.getLaunchFactory
+import com.example.awesomearchsample.feature.launch.di.rememberLaunchFactory
 
 object LaunchScreen : BaseScreen() {
 
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val factory = getLaunchFactory()
+        val factory = rememberLaunchFactory()
         val viewModel = viewModel<LaunchViewModel>(factory = factory.createViewModelFactory())
 
         LaunchedEffect(Unit) {

@@ -1,11 +1,10 @@
 package com.example.awesomearchsample.feature.user.userdetails.di
 
-import android.app.Application
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.awesomearchsample.core.corefactory.di.CoreFactory
+import com.example.awesomearchsample.core.ui.util.getApplicationInstance
 import com.example.awesomearchsample.domain.di.DomainFactory
 import com.example.awesomearchsample.feature.user.userdetails.UserDetailsViewModel
 
@@ -29,11 +28,11 @@ class UserDetailsFactory(
 }
 
 interface UserDetailsFactoryProvider {
-    val userDetailsFactory: UserDetailsFactory
+    fun getUserDetailsFactory(): UserDetailsFactory
 }
 
 @Composable
-fun getUserDetailsFactory(): UserDetailsFactory {
-    val application = (LocalContext.current.applicationContext as Application)
-    return (application as UserDetailsFactoryProvider).userDetailsFactory
+fun rememberUserDetailsFactory(): UserDetailsFactory {
+    val application = getApplicationInstance()
+    return (application as UserDetailsFactoryProvider).getUserDetailsFactory()
 }

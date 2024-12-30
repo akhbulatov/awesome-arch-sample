@@ -1,11 +1,11 @@
 package com.example.awesomearchsample.feature.repo.repos.di
 
-import android.app.Application
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.awesomearchsample.core.corefactory.di.CoreFactory
+import com.example.awesomearchsample.core.ui.util.getApplicationInstance
 import com.example.awesomearchsample.domain.di.DomainFactory
 import com.example.awesomearchsample.feature.common.di.CommonFeatureFactory
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
@@ -32,11 +32,11 @@ class ReposFactory(
 }
 
 interface ReposFactoryProvider {
-    val reposFactory: ReposFactory
+    fun getReposFactory(): ReposFactory
 }
 
 @Composable
-fun getReposFactory(): ReposFactory {
-    val application = (LocalContext.current.applicationContext as Application)
-    return (application as ReposFactoryProvider).reposFactory
+fun rememberReposFactory(): ReposFactory {
+    val application = getApplicationInstance()
+    return remember { (application as ReposFactoryProvider).getReposFactory() }
 }

@@ -35,14 +35,14 @@ import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.BaseScreen
 import com.example.awesomearchsample.domain.user.model.UserDetails
-import com.example.awesomearchsample.feature.user.userdetails.di.getUserDetailsFactory
+import com.example.awesomearchsample.feature.user.userdetails.di.rememberUserDetailsFactory
 
 data class UserDetailsScreen(private val login: String) : BaseScreen() {
 
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val factory = getUserDetailsFactory()
+        val factory = rememberUserDetailsFactory()
         val viewModel = viewModel<UserDetailsViewModel>(
             factory = factory.createViewModelFactory(login = login)
         )

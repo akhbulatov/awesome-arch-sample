@@ -1,11 +1,10 @@
 package com.example.awesomearchsample.feature.search.di
 
-import android.app.Application
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.awesomearchsample.core.corefactory.di.CoreFactory
+import com.example.awesomearchsample.core.ui.util.getApplicationInstance
 import com.example.awesomearchsample.domain.di.DomainFactory
 import com.example.awesomearchsample.feature.search.SearchViewModel
 import com.example.awesomearchsample.feature.search.navigation.SearchNavigator
@@ -32,11 +31,11 @@ class SearchFactory(
 }
 
 interface SearchFactoryProvider {
-    val searchFactory: SearchFactory
+    fun getSearchFactory(): SearchFactory
 }
 
 @Composable
-fun getSearchFactory(): SearchFactory {
-    val application = (LocalContext.current.applicationContext as Application)
-    return (application as SearchFactoryProvider).searchFactory
+fun rememberSearchFactory(): SearchFactory {
+    val application = getApplicationInstance()
+    return (application as SearchFactoryProvider).getSearchFactory()
 }

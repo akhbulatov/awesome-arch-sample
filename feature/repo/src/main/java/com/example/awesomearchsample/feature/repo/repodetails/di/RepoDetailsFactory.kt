@@ -1,11 +1,10 @@
 package com.example.awesomearchsample.feature.repo.repodetails.di
 
-import android.app.Application
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.awesomearchsample.core.corefactory.di.CoreFactory
+import com.example.awesomearchsample.core.ui.util.getApplicationInstance
 import com.example.awesomearchsample.domain.di.DomainFactory
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
 import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsViewModel
@@ -32,11 +31,11 @@ class RepoDetailsFactory(
 }
 
 interface RepoDetailsFactoryProvider {
-    val repoDetailsFactory: RepoDetailsFactory
+    fun getRepoDetailsFactory(): RepoDetailsFactory
 }
 
 @Composable
-fun getRepoDetailsFactory(): RepoDetailsFactory {
-    val application = (LocalContext.current.applicationContext as Application)
-    return (application as RepoDetailsFactoryProvider).repoDetailsFactory
+fun rememberRepoDetailsFactory(): RepoDetailsFactory {
+    val application = getApplicationInstance()
+    return (application as RepoDetailsFactoryProvider).getRepoDetailsFactory()
 }

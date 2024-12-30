@@ -25,36 +25,42 @@ class AwesomeArchSampleApp : Application(),
         )
     }
 
-    override val launchFactory: LaunchFactory
-        get() = LaunchFactory(
+    override fun getLaunchFactory(): LaunchFactory {
+        return LaunchFactory(
             launchNavigator = appFactory.navigationFactory.launchNavigator,
             domainFactory = appFactory.domainFactory
         )
+    }
 
-    override val reposFactory: ReposFactory
-        get() = ReposFactory(
+    override fun getReposFactory(): ReposFactory {
+        return ReposFactory(
             repoNavigator = appFactory.navigationFactory.repoNavigator,
             domainFactory = appFactory.domainFactory,
             coreFactory = appFactory.coreFactory,
             commonFeatureFactory = appFactory.commonFeatureFactory
         )
-    override val repoDetailsFactory: RepoDetailsFactory
-        get() = RepoDetailsFactory(
+    }
+
+    override fun getRepoDetailsFactory(): RepoDetailsFactory {
+        return RepoDetailsFactory(
             repoNavigator = appFactory.navigationFactory.repoNavigator,
             domainFactory = appFactory.domainFactory,
             coreFactory = appFactory.coreFactory,
         )
+    }
 
-    override val searchFactory: SearchFactory
-        get() = SearchFactory(
+    override fun getSearchFactory(): SearchFactory {
+        return SearchFactory(
             searchNavigator = appFactory.navigationFactory.searchNavigator,
             domainFactory = appFactory.domainFactory,
             coreFactory = appFactory.coreFactory
         )
+    }
 
-    override val userDetailsFactory: UserDetailsFactory
-        get() = UserDetailsFactory(
+    override fun getUserDetailsFactory(): UserDetailsFactory {
+        return UserDetailsFactory(
             domainFactory = appFactory.domainFactory,
             coreFactory = appFactory.coreFactory
         )
+    }
 }

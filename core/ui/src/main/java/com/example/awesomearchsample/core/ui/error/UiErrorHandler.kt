@@ -5,13 +5,9 @@ import com.example.awesomearchsample.core.common.error.ErrorEntity
 import com.example.awesomearchsample.core.common.error.ErrorHandler
 import com.example.awesomearchsample.core.common.util.AppLogger
 import com.example.awesomearchsample.core.ui.R
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class UiErrorHandler @Inject constructor(
-    @ApplicationContext private val context: Context,
+class UiErrorHandler(
+    private val context: Context,
     private val errorHandler: ErrorHandler,
 ) {
 

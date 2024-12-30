@@ -35,7 +35,5 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.core.network)
 
-    implementation(libs.javax.inject)
-
     implementation(libs.ktor.client.core)
 }

@@ -6,13 +6,10 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.apppreferences.usecase.IsFirstLaunchUseCase
 import com.example.awesomearchsample.domain.apppreferences.usecase.SetIsFirstLaunchUseCase
 import com.example.awesomearchsample.feature.launch.navigation.LaunchNavigator
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class LaunchViewModel @Inject constructor(
+class LaunchViewModel(
     private val launchNavigator: LaunchNavigator,
     private val isFirstLaunchUseCase: IsFirstLaunchUseCase,
     private val setIsFirstLaunchUseCase: SetIsFirstLaunchUseCase

@@ -10,13 +10,10 @@ import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
 import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsScreen
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class ReposViewModel @Inject constructor(
+class ReposViewModel(
     private val repoNavigator: RepoNavigator,
     private val getReposUseCase: GetReposUseCase,
     private val errorHandler: UiErrorHandler,

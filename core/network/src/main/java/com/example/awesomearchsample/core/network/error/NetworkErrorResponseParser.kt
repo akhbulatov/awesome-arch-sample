@@ -1,9 +1,8 @@
 package com.example.awesomearchsample.core.network.error
 
 import kotlinx.serialization.json.Json
-import javax.inject.Inject
 
-class NetworkErrorResponseParser @Inject constructor(
+class NetworkErrorResponseParser(
     private val json: Json
 ) {
 

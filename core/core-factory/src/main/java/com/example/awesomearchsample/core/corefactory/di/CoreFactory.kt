@@ -5,6 +5,7 @@ import com.example.awesomearchsample.core.analytics.di.AnalyticsFactory
 import com.example.awesomearchsample.core.commonimpl.di.CommonImplFactory
 import com.example.awesomearchsample.core.network.di.NetworkFactory
 import com.example.awesomearchsample.core.preferences.di.PreferencesFactory
+import com.example.awesomearchsample.core.serialization.di.SerializationFactory
 import com.example.awesomearchsample.core.ui.di.UiFactory
 
 class CoreFactory(
@@ -17,8 +18,14 @@ class CoreFactory(
         )
     }
 
+    private val serializationFactory: SerializationFactory by lazy {
+        SerializationFactory()
+    }
+
     val networkFactory: NetworkFactory by lazy {
-        NetworkFactory()
+        NetworkFactory(
+            json = serializationFactory.json
+        )
     }
 
     val preferencesFactory: PreferencesFactory by lazy {

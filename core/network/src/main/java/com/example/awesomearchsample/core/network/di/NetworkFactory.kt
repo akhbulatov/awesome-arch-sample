@@ -14,18 +14,12 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-class NetworkFactory {
+class NetworkFactory(
+    private val json: Json
+) {
 
     private val httpClientEngine: HttpClientEngine by lazy {
         OkHttp.create()
-    }
-
-    private val json: Json by lazy {
-        Json {
-            explicitNulls = false
-            ignoreUnknownKeys = true
-            isLenient = true
-        }
     }
 
     val httpClient: HttpClient by lazy {

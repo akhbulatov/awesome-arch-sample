@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "com.example.awesomearchsample.core.network"
+    namespace = "com.example.awesomearchsample.core.serialization"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -22,10 +21,6 @@ android {
         }
     }
 
-    buildFeatures {
-        buildConfig = true
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -37,12 +32,5 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.common)
-    implementation(projects.core.serialization)
-
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.contentNegotiation)
-    implementation(libs.ktor.client.logging)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.serialization.json)
+    api(libs.serialization.json)
 }

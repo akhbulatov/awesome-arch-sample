@@ -1,8 +1,8 @@
 package com.example.awesomearchsample.feature.user.userdetails
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
@@ -49,14 +49,13 @@ class UserDetailsViewModel(
         fun factory(
             login: String,
             dependencies: UserDetailsDependencies
-        ) = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return UserDetailsViewModel(
+        ) = viewModelFactory {
+            initializer {
+                UserDetailsViewModel(
                     login = login,
                     getUserDetailsUseCase = dependencies.getUserDetailsUseCase,
                     errorHandler = dependencies.uiErrorHandler
-                ) as T
+                )
             }
         }
     }

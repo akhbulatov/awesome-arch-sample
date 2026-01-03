@@ -1,8 +1,8 @@
 package com.example.awesomearchsample.feature.repo.repodetails
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
@@ -61,15 +61,14 @@ class RepoDetailsViewModel(
         fun factory(
             repoId: Long,
             dependencies: RepoDetailsDependencies
-        ) = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return RepoDetailsViewModel(
+        ) = viewModelFactory {
+            initializer {
+                RepoDetailsViewModel(
                     repoId = repoId,
                     repoNavigator = dependencies.repoNavigator,
                     getRepoDetailsUseCase = dependencies.getRepoDetailsUseCase,
                     errorHandler = dependencies.uiErrorHandler
-                ) as T
+                )
             }
         }
     }

@@ -1,8 +1,8 @@
 package com.example.awesomearchsample.feature.launch
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.common.util.AppLogger
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.apppreferences.usecase.IsFirstLaunchUseCase
@@ -32,14 +32,13 @@ class LaunchViewModel(
     }
 
     companion object {
-        fun factory(dependencies: LaunchDependencies) = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return LaunchViewModel(
+        fun factory(dependencies: LaunchDependencies) = viewModelFactory {
+            initializer {
+                LaunchViewModel(
                     launchNavigator = dependencies.launchNavigator,
                     isFirstLaunchUseCase = dependencies.isFirstLaunchUseCase,
                     setIsFirstLaunchUseCase = dependencies.setIsFirstLaunchUseCase
-                ) as T
+                )
             }
         }
     }

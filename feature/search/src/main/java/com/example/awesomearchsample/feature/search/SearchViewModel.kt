@@ -3,9 +3,9 @@ package com.example.awesomearchsample.feature.search
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
@@ -108,17 +108,16 @@ class SearchViewModel(
     }
 
     companion object {
-        fun factory(dependencies: SearchDependencies) = object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return SearchViewModel(
+        fun factory(dependencies: SearchDependencies) = viewModelFactory {
+            initializer {
+                SearchViewModel(
                     searchNavigator = dependencies.searchNavigator,
                     getSearchResultUseCase = dependencies.getSearchResultUseCase,
                     getSearchQueriesUseCase = dependencies.getSearchQueriesUseCase,
                     saveSearchQueryUseCase = dependencies.saveSearchQueryUseCase,
                     errorHandler = dependencies.uiErrorHandler,
                     resourceManager = dependencies.resourceManager
-                ) as T
+                )
             }
         }
     }

@@ -1,8 +1,8 @@
 package com.example.awesomearchsample.feature.repo.repos
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvents
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
@@ -77,15 +77,14 @@ class ReposViewModel(
 
     companion object {
         fun factory(dependencies: ReposDependencies) =
-            object : ViewModelProvider.Factory {
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    @Suppress("UNCHECKED_CAST")
-                    return ReposViewModel(
+            viewModelFactory {
+                initializer {
+                    ReposViewModel(
                         repoNavigator = dependencies.repoNavigator,
                         getReposUseCase = dependencies.getReposUseCase,
                         errorHandler = dependencies.uiErrorHandler,
                         analyticsEventSender = dependencies.analyticsEventSender
-                    ) as T
+                    )
                 }
             }
     }

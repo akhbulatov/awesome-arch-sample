@@ -27,8 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.core.annotation.ExperimentalVoyagerApi
-import cafe.adriel.voyager.hilt.getViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
@@ -36,16 +35,20 @@ import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.BaseScreen
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.feature.repo.R
+import com.example.awesomearchsample.feature.repo.repodetails.di.rememberRepoDetailsDependencies
 
 data class RepoDetailsScreen(private val repoId: Long) : BaseScreen() {
 
-    @OptIn(ExperimentalVoyagerApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val viewModel = getViewModel<RepoDetailsViewModel, RepoDetailsViewModel.Factory> { factory ->
-            factory.create(repoId = repoId)
-        }
+        val dependencies = rememberRepoDetailsDependencies()
+        val viewModel = viewModel<RepoDetailsViewModel>(
+            factory = RepoDetailsViewModel.factory(
+                repoId = repoId,
+                dependencies = dependencies
+            )
+        )
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 
         LaunchedEffect(Unit) {

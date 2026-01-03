@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
@@ -14,17 +16,15 @@ import com.example.awesomearchsample.domain.search.model.SearchResult
 import com.example.awesomearchsample.domain.search.usecase.GetSearchQueriesUseCase
 import com.example.awesomearchsample.domain.search.usecase.GetSearchResultUseCase
 import com.example.awesomearchsample.domain.search.usecase.SaveSearchQueryUseCase
+import com.example.awesomearchsample.feature.search.di.SearchDependencies
 import com.example.awesomearchsample.feature.search.navigation.SearchNavigator
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class SearchViewModel @Inject constructor(
+class SearchViewModel(
     private val searchNavigator: SearchNavigator,
     private val getSearchResultUseCase: GetSearchResultUseCase,
     private val getSearchQueriesUseCase: GetSearchQueriesUseCase,
@@ -105,5 +105,20 @@ class SearchViewModel @Inject constructor(
 
     fun onErrorActionClick() {
         loadSearchResult(query = queryInput)
+    }
+
+    companion object {
+        fun factory(dependencies: SearchDependencies) = viewModelFactory {
+            initializer {
+                SearchViewModel(
+                    searchNavigator = dependencies.searchNavigator,
+                    getSearchResultUseCase = dependencies.getSearchResultUseCase,
+                    getSearchQueriesUseCase = dependencies.getSearchQueriesUseCase,
+                    saveSearchQueryUseCase = dependencies.saveSearchQueryUseCase,
+                    errorHandler = dependencies.uiErrorHandler,
+                    resourceManager = dependencies.resourceManager
+                )
+            }
+        }
     }
 }

@@ -10,10 +10,9 @@ import com.example.awesomearchsample.feature.repo.repos.ReposScreen
 import com.example.awesomearchsample.feature.search.SearchScreen
 import com.example.awesomearchsample.feature.search.navigation.SearchNavigator
 import com.example.awesomearchsample.feature.user.userdetails.UserDetailsScreen
-import javax.inject.Inject
 
 // launch
-class LaunchNavigatorImpl @Inject constructor(
+class LaunchNavigatorImpl(
     private val mainNavigator: MainNavigator
 ) : LaunchNavigator {
 
@@ -22,12 +21,12 @@ class LaunchNavigatorImpl @Inject constructor(
 }
 
 // main
-class MainNavigatorImpl @Inject constructor() : MainNavigator {
+class MainNavigatorImpl : MainNavigator {
     override fun getReposScreen(): Screen = ReposScreen
 }
 
 // repo
-class RepoNavigatorImpl @Inject constructor() : RepoNavigator {
+class RepoNavigatorImpl : RepoNavigator {
     override fun getUserDetailsScreen(login: String): Screen =
         UserDetailsScreen(login = login)
 
@@ -35,7 +34,7 @@ class RepoNavigatorImpl @Inject constructor() : RepoNavigator {
 }
 
 // search
-class SearchNavigatorImpl @Inject constructor() : SearchNavigator {
+class SearchNavigatorImpl : SearchNavigator {
     override fun getRepoDetailsScreen(repoId: Long): Screen =
         RepoDetailsScreen(repoId = repoId)
 }

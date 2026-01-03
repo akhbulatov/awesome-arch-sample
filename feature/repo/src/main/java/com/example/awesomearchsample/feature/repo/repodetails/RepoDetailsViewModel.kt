@@ -1,21 +1,19 @@
 package com.example.awesomearchsample.feature.repo.repodetails
 
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsDependencies
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-@HiltViewModel(assistedFactory = RepoDetailsViewModel.Factory::class)
-class RepoDetailsViewModel @AssistedInject constructor(
-    @Assisted private val repoId: Long,
+class RepoDetailsViewModel(
+    private val repoId: Long,
     private val repoNavigator: RepoNavigator,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
@@ -59,8 +57,19 @@ class RepoDetailsViewModel @AssistedInject constructor(
         loadRepoDetails()
     }
 
-    @AssistedFactory
-    interface Factory {
-        fun create(repoId: Long): RepoDetailsViewModel
+    companion object {
+        fun factory(
+            repoId: Long,
+            dependencies: RepoDetailsDependencies
+        ) = viewModelFactory {
+            initializer {
+                RepoDetailsViewModel(
+                    repoId = repoId,
+                    repoNavigator = dependencies.repoNavigator,
+                    getRepoDetailsUseCase = dependencies.getRepoDetailsUseCase,
+                    errorHandler = dependencies.uiErrorHandler
+                )
+            }
+        }
     }
 }

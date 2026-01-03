@@ -6,9 +6,8 @@ import com.example.awesomearchsample.core.network.error.NetworkErrorResponsePars
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.statement.bodyAsText
 import kotlinx.io.IOException
-import javax.inject.Inject
 
-class ErrorHandlerImpl @Inject constructor(
+class ErrorHandlerImpl(
     private val errorResponseParser: NetworkErrorResponseParser
 ) : ErrorHandler {
 

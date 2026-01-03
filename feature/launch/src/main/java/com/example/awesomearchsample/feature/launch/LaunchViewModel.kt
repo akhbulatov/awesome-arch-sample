@@ -1,18 +1,18 @@
 package com.example.awesomearchsample.feature.launch
 
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.common.util.AppLogger
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.apppreferences.usecase.IsFirstLaunchUseCase
 import com.example.awesomearchsample.domain.apppreferences.usecase.SetIsFirstLaunchUseCase
+import com.example.awesomearchsample.feature.launch.di.LaunchDependencies
 import com.example.awesomearchsample.feature.launch.navigation.LaunchNavigator
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class LaunchViewModel @Inject constructor(
+class LaunchViewModel(
     private val launchNavigator: LaunchNavigator,
     private val isFirstLaunchUseCase: IsFirstLaunchUseCase,
     private val setIsFirstLaunchUseCase: SetIsFirstLaunchUseCase
@@ -28,6 +28,18 @@ class LaunchViewModel @Inject constructor(
             mutableUiEffect.send(
                 LaunchUiEffect.ResetAll(screen = launchNavigator.getMainHostScreen())
             )
+        }
+    }
+
+    companion object {
+        fun factory(dependencies: LaunchDependencies) = viewModelFactory {
+            initializer {
+                LaunchViewModel(
+                    launchNavigator = dependencies.launchNavigator,
+                    isFirstLaunchUseCase = dependencies.isFirstLaunchUseCase,
+                    setIsFirstLaunchUseCase = dependencies.setIsFirstLaunchUseCase
+                )
+            }
         }
     }
 }

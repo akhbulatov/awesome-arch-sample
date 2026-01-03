@@ -2,7 +2,6 @@ package com.example.awesomearchsample.core.network.di
 
 import com.example.awesomearchsample.core.common.util.AppLogger
 import com.example.awesomearchsample.core.network.BuildConfig
-import com.example.awesomearchsample.core.network.error.NetworkErrorResponseParser
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
@@ -42,9 +41,4 @@ class NetworkFactory(
         }
     }
 
-    val networkErrorResponseParser: NetworkErrorResponseParser by lazy {
-        NetworkErrorResponseParser(
-            json = json
-        )
-    }
 }

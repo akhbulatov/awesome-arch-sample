@@ -14,7 +14,7 @@ class CoreFactory(
 
     private val commonImplFactory: CommonImplFactory by lazy {
         CommonImplFactory(
-            networkErrorResponseParser = networkFactory.networkErrorResponseParser
+            json = serializationFactory.json
         )
     }
 

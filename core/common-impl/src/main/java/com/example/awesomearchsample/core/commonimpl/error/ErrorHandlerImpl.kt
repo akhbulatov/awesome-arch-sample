@@ -2,33 +2,32 @@ package com.example.awesomearchsample.core.commonimpl.error
 
 import com.example.awesomearchsample.core.common.error.ErrorEntity
 import com.example.awesomearchsample.core.common.error.ErrorHandler
-import com.example.awesomearchsample.core.network.error.NetworkErrorResponseParser
-import io.ktor.client.plugins.ClientRequestException
+import com.example.awesomearchsample.core.network.error.ErrorNetModel
+import io.ktor.client.plugins.ResponseException
 import io.ktor.client.statement.bodyAsText
+import kotlinx.coroutines.CancellationException
 import kotlinx.io.IOException
+import kotlinx.serialization.json.Json
 
 class ErrorHandlerImpl(
-    private val errorResponseParser: NetworkErrorResponseParser
+    private val json: Json
 ) : ErrorHandler {
 
     override suspend fun getError(throwable: Throwable): ErrorEntity = when (throwable) {
+        is CancellationException -> throw throwable
         is IOException -> ErrorEntity.Network
-        is ClientRequestException -> {
-            when (throwable.response.status.value) {
+        is ResponseException -> {
+            val statusCode = throwable.response.status.value
+            when (statusCode) {
+                401, 403 -> ErrorEntity.AuthRequired
                 in 400..499 -> {
-                    val response = throwable.response.bodyAsText()
-                    val errorNetModel = errorResponseParser.parseError(response)
-                    when {
-                        errorNetModel != null -> {
-                            val message = errorNetModel.message
-                            if (!message.isNullOrBlank()) {
-                                ErrorEntity.Message(message)
-                            } else {
-                                ErrorEntity.Unknown
-                            }
-                        }
-                        else -> ErrorEntity.Unknown
+                    val responseText = try {
+                        throwable.response.bodyAsText()
+                    } catch (e: Exception) {
+                        null
                     }
+                    val errorNetModel = parseError(responseText)
+                    errorNetModel.toErrorEntity()
                 }
                 in 500..599 -> ErrorEntity.InternalNetwork
                 else -> ErrorEntity.Unknown
@@ -40,5 +39,25 @@ class ErrorHandlerImpl(
     override fun recordError(throwable: Throwable) {
         // Запись исключений (мб некритичных) в Firebase Crashlytics, например
 //        Firebase.crashlytics.recordException(throwable)
+    }
+
+    private fun parseError(response: String?): ErrorNetModel? {
+        if (response.isNullOrBlank()) {
+            return null
+        }
+        return try {
+            json.decodeFromString<ErrorNetModel>(response.trim())
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private fun ErrorNetModel?.toErrorEntity(): ErrorEntity {
+        val message = this?.message
+        return if (!message.isNullOrBlank()) {
+            ErrorEntity.Message(message)
+        } else {
+            ErrorEntity.Unknown
+        }
     }
 }

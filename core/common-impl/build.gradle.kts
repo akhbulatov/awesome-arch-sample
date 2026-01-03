@@ -34,6 +34,7 @@ android {
 dependencies {
     implementation(projects.core.common)
     implementation(projects.core.network)
+    implementation(projects.core.serialization)
 
     implementation(libs.ktor.client.core)
 }

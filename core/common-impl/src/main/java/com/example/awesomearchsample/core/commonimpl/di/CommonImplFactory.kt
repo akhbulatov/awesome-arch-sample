@@ -2,15 +2,15 @@ package com.example.awesomearchsample.core.commonimpl.di
 
 import com.example.awesomearchsample.core.common.error.ErrorHandler
 import com.example.awesomearchsample.core.commonimpl.error.ErrorHandlerImpl
-import com.example.awesomearchsample.core.network.error.NetworkErrorResponseParser
+import kotlinx.serialization.json.Json
 
 class CommonImplFactory(
-    private val networkErrorResponseParser: NetworkErrorResponseParser
+    private val json: Json
 ) {
 
      val errorHandler: ErrorHandler by lazy {
         ErrorHandlerImpl(
-            errorResponseParser = networkErrorResponseParser
+            json = json
         )
     }
 }

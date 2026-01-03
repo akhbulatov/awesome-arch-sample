@@ -5,6 +5,8 @@ import com.example.awesomearchsample.data.AppDatabase
 import com.example.awesomearchsample.data.search.SearchRepositoryImpl
 import com.example.awesomearchsample.data.search.database.SearchQueryDao
 import com.example.awesomearchsample.data.search.network.SearchApi
+import com.example.awesomearchsample.data.search.local.SearchLocalDataSource
+import com.example.awesomearchsample.data.search.remote.SearchRemoteDataSource
 import com.example.awesomearchsample.domain.search.repository.SearchRepository
 
 class SearchDataFactory(
@@ -22,8 +24,12 @@ class SearchDataFactory(
 
     val searchRepository: SearchRepository by lazy {
         SearchRepositoryImpl(
-            searchApi = searchApi,
-            searchQueryDao = searchQueryDao
+            remoteDataSource = SearchRemoteDataSource(
+                searchApi = searchApi
+            ),
+            localDataSource = SearchLocalDataSource(
+                searchQueryDao = searchQueryDao
+            )
         )
     }
 }

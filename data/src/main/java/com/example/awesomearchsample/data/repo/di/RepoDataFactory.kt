@@ -3,6 +3,7 @@ package com.example.awesomearchsample.data.repo.di
 import com.example.awesomearchsample.core.corefactory.di.CoreFactory
 import com.example.awesomearchsample.data.repo.RepoRepositoryImpl
 import com.example.awesomearchsample.data.repo.network.RepoApi
+import com.example.awesomearchsample.data.repo.remote.RepoRemoteDataSource
 import com.example.awesomearchsample.domain.repo.repository.RepoRepository
 
 class RepoDataFactory(
@@ -17,7 +18,9 @@ class RepoDataFactory(
 
     val repoRepository: RepoRepository by lazy {
         RepoRepositoryImpl(
-            repoApi = repoApi
+            remoteDataSource = RepoRemoteDataSource(
+                repoApi = repoApi
+            )
         )
     }
 }

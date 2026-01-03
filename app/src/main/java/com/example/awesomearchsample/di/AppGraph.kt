@@ -1,4 +1,4 @@
-package com.example.awesomearchsample
+package com.example.awesomearchsample.di
 
 import android.content.Context
 import com.example.awesomearchsample.feature.launch.di.LaunchFeatureDependencies

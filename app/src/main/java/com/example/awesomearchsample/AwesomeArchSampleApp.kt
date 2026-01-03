@@ -1,6 +1,7 @@
 package com.example.awesomearchsample
 
 import android.app.Application
+import com.example.awesomearchsample.di.AppGraph
 import com.example.awesomearchsample.feature.launch.di.LaunchFeatureDependencies
 import com.example.awesomearchsample.feature.launch.di.LaunchFeatureDependenciesProvider
 import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependencies

@@ -36,11 +36,6 @@ class ErrorHandlerImpl(
         else -> ErrorEntity.Unknown
     }
 
-    override fun recordError(throwable: Throwable) {
-        // Запись исключений (мб некритичных) в Firebase Crashlytics, например
-//        Firebase.crashlytics.recordException(throwable)
-    }
-
     private fun parseError(response: String?): ErrorNetModel? {
         if (response.isNullOrBlank()) {
             return null
@@ -59,5 +54,10 @@ class ErrorHandlerImpl(
         } else {
             ErrorEntity.Unknown
         }
+    }
+
+    override fun recordError(throwable: Throwable) {
+        // Запись исключений (мб некритичных) в Firebase Crashlytics, например
+//        Firebase.crashlytics.recordException(throwable)
     }
 }

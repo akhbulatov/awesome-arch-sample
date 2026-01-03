@@ -9,6 +9,10 @@
 /.idea/appInsightsSettings.xml
 /.idea/assetWizardSettings.xml
 /.idea/deploymentTargetSelector.xml
+/.idea/.name
+/.idea/AndroidProjectSystem.xml
+/.idea/deviceManager.xml
+/.idea/markdown.xml
 .kotlin
 .DS_Store
 /build

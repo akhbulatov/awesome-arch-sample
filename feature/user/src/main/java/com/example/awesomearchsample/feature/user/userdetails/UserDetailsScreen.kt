@@ -66,11 +66,15 @@ private fun UserDetailsContent(
     onNavigationClick: () -> Unit,
     onErrorActionClick: () -> Unit
 ) {
+    val title = when (state) {
+        is UserDetailsUiState.Content -> state.userDetails.login
+        else -> ""
+    }
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = state.userDetails?.login.orEmpty())
+                    Text(text = title)
                 },
                 navigationIcon = {
                     IconButton(
@@ -90,17 +94,13 @@ private fun UserDetailsContent(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            if (state.emptyProgress) {
-                EmptyProgress()
-            }
-            state.emptyError?.let { emptyError ->
-                EmptyError(
-                    error = emptyError,
+            when (state) {
+                is UserDetailsUiState.Loading -> EmptyProgress()
+                is UserDetailsUiState.Error -> EmptyError(
+                    error = state.error,
                     onActionClick = onErrorActionClick
                 )
-            }
-            state.userDetails?.let { userDetails ->
-                UserDetails(userDetails)
+                is UserDetailsUiState.Content -> UserDetails(state.userDetails)
             }
         }
     }
@@ -195,7 +195,7 @@ private fun UserDetails(userDetails: UserDetails) {
 @Composable
 private fun UserDetailsContentPreview() {
     UserDetailsContent(
-        state = UserDetailsUiState(
+        state = UserDetailsUiState.Content(
             userDetails = UserDetails(
                 id = 1,
                 login = "akhbulatov",

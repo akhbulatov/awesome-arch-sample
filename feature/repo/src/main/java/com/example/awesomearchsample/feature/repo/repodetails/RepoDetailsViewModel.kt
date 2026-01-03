@@ -9,7 +9,6 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
 import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsDependencies
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RepoDetailsViewModel(
@@ -17,7 +16,7 @@ class RepoDetailsViewModel(
     private val repoNavigator: RepoNavigator,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState()) {
+) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState.Loading) {
 
     init {
         loadRepoDetails()
@@ -26,34 +25,32 @@ class RepoDetailsViewModel(
     private fun loadRepoDetails() {
         viewModelScope.launch {
             try {
-                mutableUiState.update { it.copy(emptyProgress = true) }
+                mutableUiState.value = RepoDetailsUiState.Loading
                 val repoDetails = getRepoDetailsUseCase.invoke(repoId = repoId)
-                mutableUiState.update { uiState.value.copy(repoDetails = repoDetails) }
+                mutableUiState.value = RepoDetailsUiState.Content(repoDetails = repoDetails)
             } catch (e: Exception) {
                 errorHandler.proceed(
                     error = e,
                     errorListener = { uiError ->
-                        mutableUiState.update { it.copy(emptyError = uiError) }
+                        mutableUiState.value = RepoDetailsUiState.Error(error = uiError)
                     }
                 )
-            } finally {
-                mutableUiState.update { it.copy(emptyProgress = false) }
             }
         }
     }
 
     fun onAuthorClick() {
-        uiState.value.repoDetails?.let { repoDetails ->
+        val state = uiState.value
+        if (state is RepoDetailsUiState.Content) {
             viewModelScope.launch {
                 mutableUiEffect.send(
-                    RepoDetailsUiEffect.NavigateTo(repoNavigator.getUserDetailsScreen(login = repoDetails.author))
+                    RepoDetailsUiEffect.NavigateTo(repoNavigator.getUserDetailsScreen(login = state.repoDetails.author))
                 )
             }
         }
     }
 
     fun onErrorActionClick() {
-        mutableUiState.value = RepoDetailsUiState()
         loadRepoDetails()
     }
 

@@ -78,11 +78,15 @@ private fun RepoDetailsContent(
     onErrorActionClick: () -> Unit,
     onAuthorClick: () -> Unit
 ) {
+    val title = when (state) {
+        is RepoDetailsUiState.Content -> state.repoDetails.name
+        else -> ""
+    }
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = state.repoDetails?.name.orEmpty())
+                    Text(text = title)
                 },
                 navigationIcon = {
                     IconButton(
@@ -102,18 +106,14 @@ private fun RepoDetailsContent(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            if (state.emptyProgress) {
-                EmptyProgress()
-            }
-            state.emptyError?.let { emptyError ->
-                EmptyError(
-                    error = emptyError,
+            when (state) {
+                is RepoDetailsUiState.Loading -> EmptyProgress()
+                is RepoDetailsUiState.Error -> EmptyError(
+                    error = state.error,
                     onActionClick = onErrorActionClick
                 )
-            }
-            state.repoDetails?.let { repoDetails ->
-                RepoDetails(
-                    repoDetails = repoDetails,
+                is RepoDetailsUiState.Content -> RepoDetails(
+                    repoDetails = state.repoDetails,
                     onAuthorClick = onAuthorClick
                 )
             }
@@ -200,7 +200,7 @@ private fun RepoDetails(repoDetails: RepoDetails, onAuthorClick: () -> Unit) {
 @Composable
 private fun RepoDetailsContentPreview() {
     RepoDetailsContent(
-        state = RepoDetailsUiState(
+        state = RepoDetailsUiState.Content(
             repoDetails = RepoDetails(
                 id = 1,
                 name = "AwesomeArchSample",

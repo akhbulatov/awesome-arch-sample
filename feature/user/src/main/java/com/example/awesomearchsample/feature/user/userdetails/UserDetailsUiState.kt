@@ -3,8 +3,8 @@ package com.example.awesomearchsample.feature.user.userdetails
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.domain.user.model.UserDetails
 
-data class UserDetailsUiState(
-    val emptyProgress: Boolean = false,
-    val emptyError: UiError? = null,
-    val userDetails: UserDetails? = null
-)
+sealed class UserDetailsUiState {
+    data object Loading : UserDetailsUiState()
+    data class Error(val error: UiError) : UserDetailsUiState()
+    data class Content(val userDetails: UserDetails) : UserDetailsUiState()
+}

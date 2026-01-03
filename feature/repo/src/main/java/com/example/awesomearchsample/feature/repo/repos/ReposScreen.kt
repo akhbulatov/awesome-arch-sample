@@ -106,20 +106,20 @@ private fun ReposContent(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            if (state.emptyProgress) {
-                EmptyProgress()
-            }
-            state.emptyError?.let { emptyError ->
-                EmptyError(
-                    error = emptyError,
+            when (state) {
+                is ReposUiState.Loading -> EmptyProgress()
+                is ReposUiState.Error -> EmptyError(
+                    error = state.error,
                     onActionClick = onErrorActionClick
                 )
-            }
-            if (state.repos.isNotEmpty()) {
-                RepoList(
-                    repos = state.repos,
-                    onRepoItemClick = onRepoClick
-                )
+                is ReposUiState.Content -> {
+                    if (state.repos.isNotEmpty()) {
+                        RepoList(
+                            repos = state.repos,
+                            onRepoItemClick = onRepoClick
+                        )
+                    }
+                }
             }
         }
     }
@@ -205,7 +205,7 @@ private fun RepoItem(repo: Repo, onRepoItemClick: OnRepoItemClick) {
 @Composable
 private fun ReposContentPreview() {
     ReposContent(
-        state = ReposUiState(
+        state = ReposUiState.Content(
             repos = buildList {
                 repeat(5) { index ->
                     add(createRepoForPreview(index))

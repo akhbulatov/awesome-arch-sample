@@ -13,7 +13,6 @@ import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSend
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
 import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsScreen
 import com.example.awesomearchsample.feature.repo.repos.di.ReposDependencies
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ReposViewModel(
@@ -21,7 +20,7 @@ class ReposViewModel(
     private val getReposUseCase: GetReposUseCase,
     private val errorHandler: UiErrorHandler,
     private val analyticsEventSender: AnalyticsEventSender
-) : BaseViewModel<ReposUiState, ReposUiEffect>(initialUiState = ReposUiState()) {
+) : BaseViewModel<ReposUiState, ReposUiEffect>(initialUiState = ReposUiState.Loading) {
 
     init {
         loadRepos()
@@ -30,18 +29,16 @@ class ReposViewModel(
     private fun loadRepos() {
         viewModelScope.launch {
             try {
-                mutableUiState.update { it.copy(emptyProgress = true) }
+                mutableUiState.value = ReposUiState.Loading
                 val repos = getReposUseCase.invoke()
-                mutableUiState.update { uiState.value.copy(repos = repos) }
+                mutableUiState.value = ReposUiState.Content(repos = repos)
             } catch (e: Exception) {
                 errorHandler.proceed(
                     error = e,
                     errorListener = { uiError ->
-                        mutableUiState.update { it.copy(emptyError = uiError) }
+                        mutableUiState.value = ReposUiState.Error(error = uiError)
                     }
                 )
-            } finally {
-                mutableUiState.update { it.copy(emptyProgress = false) }
             }
         }
     }
@@ -55,13 +52,15 @@ class ReposViewModel(
     }
 
     fun onErrorActionClick() {
-        mutableUiState.value = ReposUiState()
         loadRepos()
     }
 
     fun onFavoritesClick(repo: Repo) {
-        val updatedRepos = uiState.value.repos.updatedByToggleInFavorites(repoBy = repo)
-        mutableUiState.update { it.copy(repos = updatedRepos) }
+        val state = uiState.value
+        if (state is ReposUiState.Content) {
+            val updatedRepos = state.repos.updatedByToggleInFavorites(repoBy = repo)
+            mutableUiState.value = state.copy(repos = updatedRepos)
+        }
     }
 
     fun onRepoClick(repo: Repo) {

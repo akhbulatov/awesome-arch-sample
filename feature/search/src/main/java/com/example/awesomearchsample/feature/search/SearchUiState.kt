@@ -4,9 +4,9 @@ import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.domain.search.model.SearchQuery
 import com.example.awesomearchsample.domain.search.model.SearchResult
 
-data class SearchUiState(
-    val emptyProgress: Boolean = false,
-    val emptyError: UiError? = null,
-    val result: SearchResult? = null,
-    val recentQueries: List<SearchQuery> = emptyList()
-)
+sealed class SearchUiState {
+    data class Idle(val recentQueries: List<SearchQuery> = emptyList()) : SearchUiState()
+    data object Loading : SearchUiState()
+    data class Error(val error: UiError) : SearchUiState()
+    data class Content(val result: SearchResult) : SearchUiState()
+}

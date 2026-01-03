@@ -3,8 +3,8 @@ package com.example.awesomearchsample.feature.repo.repos
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.domain.repo.model.Repo
 
-data class ReposUiState(
-    val emptyProgress: Boolean = false,
-    val emptyError: UiError? = null,
-    val repos: List<Repo> = emptyList()
-)
+sealed class ReposUiState {
+    data object Loading : ReposUiState()
+    data class Error(val error: UiError) : ReposUiState()
+    data class Content(val repos: List<Repo>) : ReposUiState()
+}

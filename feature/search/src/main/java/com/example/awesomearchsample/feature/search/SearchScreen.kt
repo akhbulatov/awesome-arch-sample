@@ -147,25 +147,23 @@ private fun SearchContent(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            if (state.emptyProgress) {
-                EmptyProgress()
-            }
-            state.emptyError?.let { emptyError ->
-                EmptyError(
-                    error = emptyError,
+            when (state) {
+                is SearchUiState.Loading -> EmptyProgress()
+                is SearchUiState.Error -> EmptyError(
+                    error = state.error,
                     onActionClick = onErrorActionClick
                 )
-            }
-            state.result?.let { result ->
-                when (result) {
+                is SearchUiState.Content -> when (val result = state.result) {
                     is SearchResult.Repos -> ReposResult(
                         result = result,
                         onResultItemClick = onRepoResultItemClick
                     )
                 }
-            }
-            if (state.recentQueries.isNotEmpty()) {
-                RecentQueryList(queries = state.recentQueries)
+                is SearchUiState.Idle -> {
+                    if (state.recentQueries.isNotEmpty()) {
+                        RecentQueryList(queries = state.recentQueries)
+                    }
+                }
             }
         }
     }
@@ -259,7 +257,7 @@ private fun RecentQueryItem(query: SearchQuery) {
 @Composable
 private fun SearchContentPreview() {
     SearchContent(
-        state = SearchUiState(
+        state = SearchUiState.Content(
             result = SearchResult.Repos(
                 data = buildList {
                     repeat(5) { index ->

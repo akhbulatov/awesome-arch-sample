@@ -30,7 +30,7 @@ class SearchViewModel(
     private val getSearchQueriesUseCase: GetSearchQueriesUseCase,
     private val saveSearchQueryUseCase: SaveSearchQueryUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<SearchUiState, SearchUiEffect>(initialUiState = SearchUiState()) {
+) : BaseViewModel<SearchUiState, SearchUiEffect>(initialUiState = SearchUiState.Idle()) {
 
     var queryInput by mutableStateOf(value = "")
         private set
@@ -43,7 +43,10 @@ class SearchViewModel(
         getSearchQueriesUseCase.invoke()
             .onEach { searchQueries ->
                 mutableUiState.update { state ->
-                    state.copy(recentQueries = if (state.result == null) searchQueries else emptyList())
+                    when (state) {
+                        is SearchUiState.Idle -> state.copy(recentQueries = searchQueries)
+                        else -> state
+                    }
                 }
             }
             .catch { e ->
@@ -74,13 +77,13 @@ class SearchViewModel(
     private fun loadSearchResult(query: String) {
         viewModelScope.launch {
             try {
-                mutableUiState.value = SearchUiState(emptyProgress = true)
+                mutableUiState.value = SearchUiState.Loading
                 val searchResult = getSearchResultUseCase.invoke(query)
                 mutableUiState.value = if ((searchResult as SearchResult.Repos).data.isNotEmpty()) {
-                    SearchUiState(result = searchResult)
+                    SearchUiState.Content(result = searchResult)
                 } else {
-                    SearchUiState(
-                        emptyError = UiError(
+                    SearchUiState.Error(
+                        error = UiError(
                             title = UiText.Res(R.string.search_no_result)
                         )
                     )
@@ -89,11 +92,9 @@ class SearchViewModel(
                 errorHandler.proceed(
                     error = e,
                     errorListener = { uiError ->
-                        mutableUiState.update { it.copy(emptyError = uiError) }
+                        mutableUiState.value = SearchUiState.Error(error = uiError)
                     }
                 )
-            } finally {
-                mutableUiState.update { it.copy(emptyProgress = false) }
             }
         }
     }

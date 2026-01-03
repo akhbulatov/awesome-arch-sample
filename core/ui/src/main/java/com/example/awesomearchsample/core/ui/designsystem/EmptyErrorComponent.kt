@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.awesomearchsample.core.ui.R
@@ -21,6 +22,7 @@ fun EmptyErrorComponent(
     uiError: UiError,
     onActionClick: () -> Unit
 ) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .padding(horizontal = 32.dp, vertical = 16.dp)
@@ -28,7 +30,7 @@ fun EmptyErrorComponent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = uiError.title)
+        Text(text = uiError.title.asString(context))
         Spacer(
             modifier = Modifier.height(height = 24.dp)
         )

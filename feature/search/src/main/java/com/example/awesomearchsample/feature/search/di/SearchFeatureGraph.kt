@@ -20,7 +20,6 @@ class SearchFeatureGraph(
             override val saveSearchQueryUseCase =
                 domainFactory.searchDomainFactory.saveSearchQueriesUseCase
             override val uiErrorHandler = coreFactory.uiFactory.uiErrorHandler
-            override val resourceManager = coreFactory.uiFactory.resourceManager
         }
     }
 }

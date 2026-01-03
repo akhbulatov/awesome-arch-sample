@@ -36,7 +36,6 @@ class CoreFactory(
 
     val uiFactory: UiFactory by lazy {
         UiFactory(
-            context = context,
             errorHandler = commonImplFactory.errorHandler
         )
     }

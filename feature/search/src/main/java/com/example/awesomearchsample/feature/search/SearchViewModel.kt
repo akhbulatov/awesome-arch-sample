@@ -9,7 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
-import com.example.awesomearchsample.core.ui.util.ResourceManager
+import com.example.awesomearchsample.core.ui.text.UiText
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.search.model.SearchQuery
 import com.example.awesomearchsample.domain.search.model.SearchResult
@@ -29,8 +29,7 @@ class SearchViewModel(
     private val getSearchResultUseCase: GetSearchResultUseCase,
     private val getSearchQueriesUseCase: GetSearchQueriesUseCase,
     private val saveSearchQueryUseCase: SaveSearchQueryUseCase,
-    private val errorHandler: UiErrorHandler,
-    private val resourceManager: ResourceManager
+    private val errorHandler: UiErrorHandler
 ) : BaseViewModel<SearchUiState, SearchUiEffect>(initialUiState = SearchUiState()) {
 
     var queryInput by mutableStateOf(value = "")
@@ -80,7 +79,11 @@ class SearchViewModel(
                 mutableUiState.value = if ((searchResult as SearchResult.Repos).data.isNotEmpty()) {
                     SearchUiState(result = searchResult)
                 } else {
-                    SearchUiState(emptyError = UiError(title = resourceManager.getString(R.string.search_no_result)))
+                    SearchUiState(
+                        emptyError = UiError(
+                            title = UiText.Res(R.string.search_no_result)
+                        )
+                    )
                 }
             } catch (e: Exception) {
                 errorHandler.proceed(
@@ -115,8 +118,7 @@ class SearchViewModel(
                     getSearchResultUseCase = dependencies.getSearchResultUseCase,
                     getSearchQueriesUseCase = dependencies.getSearchQueriesUseCase,
                     saveSearchQueryUseCase = dependencies.saveSearchQueryUseCase,
-                    errorHandler = dependencies.uiErrorHandler,
-                    resourceManager = dependencies.resourceManager
+                    errorHandler = dependencies.uiErrorHandler
                 )
             }
         }

@@ -3,8 +3,8 @@ package com.example.awesomearchsample.data.search.di
 import com.example.awesomearchsample.core.corefactory.di.CoreFactory
 import com.example.awesomearchsample.data.AppDatabase
 import com.example.awesomearchsample.data.search.SearchRepositoryImpl
-import com.example.awesomearchsample.data.search.database.SearchQueryDao
-import com.example.awesomearchsample.data.search.network.SearchApi
+import com.example.awesomearchsample.data.search.local.database.SearchQueryDao
+import com.example.awesomearchsample.data.search.remote.network.SearchApi
 import com.example.awesomearchsample.data.search.local.SearchLocalDataSource
 import com.example.awesomearchsample.data.search.remote.SearchRemoteDataSource
 import com.example.awesomearchsample.domain.search.repository.SearchRepository

@@ -1,9 +1,9 @@
-package com.example.awesomearchsample.data.search.database
+package com.example.awesomearchsample.data.search.local.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.awesomearchsample.data.search.database.model.SearchQueryDbModel
+import com.example.awesomearchsample.data.search.local.database.model.SearchQueryDbModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao

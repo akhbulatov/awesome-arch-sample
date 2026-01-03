@@ -1,8 +1,8 @@
 package com.example.awesomearchsample.data.search.local
 
-import com.example.awesomearchsample.data.search.database.SearchQueryDao
-import com.example.awesomearchsample.data.search.database.toDbModel
-import com.example.awesomearchsample.data.search.database.toDomainModel
+import com.example.awesomearchsample.data.search.local.database.SearchQueryDao
+import com.example.awesomearchsample.data.search.local.database.toDbModel
+import com.example.awesomearchsample.data.search.local.database.toDomainModel
 import com.example.awesomearchsample.domain.search.model.SearchQuery
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

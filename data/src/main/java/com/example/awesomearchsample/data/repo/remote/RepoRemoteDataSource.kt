@@ -1,8 +1,8 @@
 package com.example.awesomearchsample.data.repo.remote
 
-import com.example.awesomearchsample.data.repo.network.RepoApi
-import com.example.awesomearchsample.data.repo.network.mapRepoDetailsFromNet
-import com.example.awesomearchsample.data.repo.network.mapRepoFromNet
+import com.example.awesomearchsample.data.repo.remote.network.RepoApi
+import com.example.awesomearchsample.data.repo.remote.network.mapRepoDetailsFromNet
+import com.example.awesomearchsample.data.repo.remote.network.mapRepoFromNet
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 

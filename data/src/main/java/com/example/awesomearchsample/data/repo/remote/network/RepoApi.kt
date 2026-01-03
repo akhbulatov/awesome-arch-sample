@@ -1,7 +1,7 @@
-package com.example.awesomearchsample.data.repo.network
+package com.example.awesomearchsample.data.repo.remote.network
 
-import com.example.awesomearchsample.data.repo.network.model.RepoDetailsNetModel
-import com.example.awesomearchsample.data.repo.network.model.RepoNetModel
+import com.example.awesomearchsample.data.repo.remote.network.model.RepoDetailsNetModel
+import com.example.awesomearchsample.data.repo.remote.network.model.RepoNetModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

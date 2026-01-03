@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.data.search.database.model
+package com.example.awesomearchsample.data.search.local.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

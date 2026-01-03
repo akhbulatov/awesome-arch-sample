@@ -1,7 +1,7 @@
-package com.example.awesomearchsample.data.repo.network
+package com.example.awesomearchsample.data.repo.remote.network
 
-import com.example.awesomearchsample.data.repo.network.model.RepoDetailsNetModel
-import com.example.awesomearchsample.data.repo.network.model.RepoNetModel
+import com.example.awesomearchsample.data.repo.remote.network.model.RepoDetailsNetModel
+import com.example.awesomearchsample.data.repo.remote.network.model.RepoNetModel
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 

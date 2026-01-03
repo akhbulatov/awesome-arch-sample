@@ -1,6 +1,6 @@
-package com.example.awesomearchsample.data.user.network
+package com.example.awesomearchsample.data.user.remote.network
 
-import com.example.awesomearchsample.data.user.network.model.UserDetailsNetModel
+import com.example.awesomearchsample.data.user.remote.network.model.UserDetailsNetModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

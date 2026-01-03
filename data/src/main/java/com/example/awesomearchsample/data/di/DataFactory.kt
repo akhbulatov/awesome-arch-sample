@@ -3,7 +3,7 @@ package com.example.awesomearchsample.data.di
 import androidx.room.Room
 import com.example.awesomearchsample.core.corefactory.di.CoreFactory
 import com.example.awesomearchsample.data.AppDatabase
-import com.example.awesomearchsample.data.apppreferences.di.AppPreferencesDataFactory
+import com.example.awesomearchsample.data.appconfig.di.AppConfigDataFactory
 import com.example.awesomearchsample.data.repo.di.RepoDataFactory
 import com.example.awesomearchsample.data.search.di.SearchDataFactory
 import com.example.awesomearchsample.data.user.di.UserDataFactory
@@ -38,8 +38,8 @@ class DataFactory(
             coreFactory = coreFactory
         )
     }
-    val appPreferencesDataFactory: AppPreferencesDataFactory by lazy {
-        AppPreferencesDataFactory(
+    val appConfigDataFactory: AppConfigDataFactory by lazy {
+        AppConfigDataFactory(
             coreFactory = coreFactory
         )
     }

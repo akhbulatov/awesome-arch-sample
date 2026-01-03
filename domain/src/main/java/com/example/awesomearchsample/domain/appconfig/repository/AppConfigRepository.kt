@@ -1,8 +1,8 @@
-package com.example.awesomearchsample.domain.apppreferences.repository
+package com.example.awesomearchsample.domain.appconfig.repository
 
 import kotlinx.coroutines.flow.Flow
 
-interface AppPreferencesRepository {
+interface AppConfigRepository {
     fun isFirstLaunch(): Flow<Boolean>
     suspend fun setIsFirstLaunch(value: Boolean)
 }

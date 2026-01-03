@@ -12,9 +12,9 @@ class LaunchFeatureGraph(
         object : LaunchDependencies {
             override val launchNavigator = this@LaunchFeatureGraph.launchNavigator
             override val isFirstLaunchUseCase =
-                domainFactory.appPreferencesDomainFactory.isFirstLaunchUseCase
+                domainFactory.appConfigDomainFactory.isFirstLaunchUseCase
             override val setIsFirstLaunchUseCase =
-                domainFactory.appPreferencesDomainFactory.setIsFirstLaunchUseCase
+                domainFactory.appConfigDomainFactory.setIsFirstLaunchUseCase
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.example.awesomearchsample.domain.di
 
-import com.example.awesomearchsample.domain.apppreferences.di.AppPreferencesDomainFactory
-import com.example.awesomearchsample.domain.apppreferences.repository.AppPreferencesRepository
+import com.example.awesomearchsample.domain.appconfig.di.AppConfigDomainFactory
+import com.example.awesomearchsample.domain.appconfig.repository.AppConfigRepository
 import com.example.awesomearchsample.domain.repo.di.RepoDomainFactory
 import com.example.awesomearchsample.domain.repo.repository.RepoRepository
 import com.example.awesomearchsample.domain.search.di.SearchDomainFactory
@@ -13,7 +13,7 @@ class DomainFactory(
     repoRepository: RepoRepository,
     searchRepository: SearchRepository,
     userRepository: UserRepository,
-    appPreferencesRepository: AppPreferencesRepository
+    appConfigRepository: AppConfigRepository
 ) {
 
     val repoDomainFactory: RepoDomainFactory by lazy {
@@ -31,9 +31,9 @@ class DomainFactory(
             userRepository = userRepository
         )
     }
-    val appPreferencesDomainFactory: AppPreferencesDomainFactory by lazy {
-        AppPreferencesDomainFactory(
-            appPreferencesRepository = appPreferencesRepository
+    val appConfigDomainFactory: AppConfigDomainFactory by lazy {
+        AppConfigDomainFactory(
+            appConfigRepository = appConfigRepository
         )
     }
 }

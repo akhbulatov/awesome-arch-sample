@@ -46,7 +46,7 @@ import com.example.awesomearchsample.core.ui.navigation.BaseScreen
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.search.model.SearchQuery
 import com.example.awesomearchsample.domain.search.model.SearchResult
-import com.example.awesomearchsample.feature.search.di.rememberSearchFactory
+import com.example.awesomearchsample.feature.search.di.rememberSearchDependencies
 
 private typealias OnRepoResultItemClick = (Repo) -> Unit
 
@@ -55,8 +55,10 @@ object SearchScreen : BaseScreen() {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val factory = rememberSearchFactory()
-        val viewModel = viewModel<SearchViewModel>(factory = factory.createViewModelFactory())
+        val dependencies = rememberSearchDependencies()
+        val viewModel = viewModel<SearchViewModel>(
+            factory = SearchViewModel.factory(dependencies = dependencies)
+        )
         val state by viewModel.uiState.collectAsStateWithLifecycle()
 
         LaunchedEffect(Unit) {

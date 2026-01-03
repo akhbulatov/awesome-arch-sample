@@ -1,5 +1,7 @@
 package com.example.awesomearchsample.feature.repo.repos
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvents
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
@@ -10,6 +12,7 @@ import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
 import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsScreen
+import com.example.awesomearchsample.feature.repo.repos.di.ReposDependencies
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -70,5 +73,20 @@ class ReposViewModel(
                 AnalyticsEvents.Repo.RepoClick(repoId = repo.id, repoName = repo.name)
             )
         }
+    }
+
+    companion object {
+        fun factory(dependencies: ReposDependencies) =
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    @Suppress("UNCHECKED_CAST")
+                    return ReposViewModel(
+                        repoNavigator = dependencies.repoNavigator,
+                        getReposUseCase = dependencies.getReposUseCase,
+                        errorHandler = dependencies.uiErrorHandler,
+                        analyticsEventSender = dependencies.analyticsEventSender
+                    ) as T
+                }
+            }
     }
 }

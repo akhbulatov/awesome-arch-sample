@@ -3,6 +3,8 @@ package com.example.awesomearchsample.feature.search
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
@@ -14,6 +16,7 @@ import com.example.awesomearchsample.domain.search.model.SearchResult
 import com.example.awesomearchsample.domain.search.usecase.GetSearchQueriesUseCase
 import com.example.awesomearchsample.domain.search.usecase.GetSearchResultUseCase
 import com.example.awesomearchsample.domain.search.usecase.SaveSearchQueryUseCase
+import com.example.awesomearchsample.feature.search.di.SearchDependencies
 import com.example.awesomearchsample.feature.search.navigation.SearchNavigator
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
@@ -102,5 +105,21 @@ class SearchViewModel(
 
     fun onErrorActionClick() {
         loadSearchResult(query = queryInput)
+    }
+
+    companion object {
+        fun factory(dependencies: SearchDependencies) = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                @Suppress("UNCHECKED_CAST")
+                return SearchViewModel(
+                    searchNavigator = dependencies.searchNavigator,
+                    getSearchResultUseCase = dependencies.getSearchResultUseCase,
+                    getSearchQueriesUseCase = dependencies.getSearchQueriesUseCase,
+                    saveSearchQueryUseCase = dependencies.saveSearchQueryUseCase,
+                    errorHandler = dependencies.uiErrorHandler,
+                    resourceManager = dependencies.resourceManager
+                ) as T
+            }
+        }
     }
 }

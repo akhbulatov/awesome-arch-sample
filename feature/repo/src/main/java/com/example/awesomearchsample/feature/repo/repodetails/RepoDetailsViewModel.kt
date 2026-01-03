@@ -1,11 +1,14 @@
 package com.example.awesomearchsample.feature.repo.repodetails
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
+import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsDependencies
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -52,5 +55,22 @@ class RepoDetailsViewModel(
     fun onErrorActionClick() {
         mutableUiState.value = RepoDetailsUiState()
         loadRepoDetails()
+    }
+
+    companion object {
+        fun factory(
+            repoId: Long,
+            dependencies: RepoDetailsDependencies
+        ) = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                @Suppress("UNCHECKED_CAST")
+                return RepoDetailsViewModel(
+                    repoId = repoId,
+                    repoNavigator = dependencies.repoNavigator,
+                    getRepoDetailsUseCase = dependencies.getRepoDetailsUseCase,
+                    errorHandler = dependencies.uiErrorHandler
+                ) as T
+            }
+        }
     }
 }

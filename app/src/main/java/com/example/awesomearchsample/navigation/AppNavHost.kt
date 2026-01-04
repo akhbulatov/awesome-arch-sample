@@ -2,8 +2,6 @@ package com.example.awesomearchsample.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
-import androidx.navigation3.runtime.NavBackStack
-import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
@@ -42,13 +40,18 @@ fun AppNavHost() {
             entry<LaunchHostRoute> {
                 LaunchHostScreen(
                     startDestination = LaunchRoute,
-                    entryProvider = launchHostEntryProvider(rootBackStack)
+                    entryProvider = launchHostEntryProvider(
+                        onNavigateToMainHost = {
+                            rootBackStack.clear()
+                            rootBackStack.add(MainHostRoute)
+                        }
+                    )
                 )
             }
             entry<MainHostRoute> {
                 MainHostScreen(
                     startDestination = ReposRoute,
-                    entryProvider = mainHostEntryProvider(rootBackStack)
+                    entryProvider = mainHostEntryProvider()
                 )
             }
         }
@@ -56,25 +59,20 @@ fun AppNavHost() {
 }
 
 private fun launchHostEntryProvider(
-    rootBackStack: NavBackStack<NavKey>
+    onNavigateToMainHost: () -> Unit
 ): HostEntryProvider {
     return { _, _ ->
         entryProvider {
             entry<LaunchRoute> {
                 LaunchScreen(
-                    onNavigateToMainHost = {
-                        rootBackStack.clear()
-                        rootBackStack.add(MainHostRoute)
-                    }
+                    onNavigateToMainHost = onNavigateToMainHost,
                 )
             }
         }
     }
 }
 
-private fun mainHostEntryProvider(
-    rootBackStack: NavBackStack<NavKey>
-): HostEntryProvider {
+private fun mainHostEntryProvider(): HostEntryProvider {
     return { navigate, onBack ->
         entryProvider {
             entry<ReposRoute> {

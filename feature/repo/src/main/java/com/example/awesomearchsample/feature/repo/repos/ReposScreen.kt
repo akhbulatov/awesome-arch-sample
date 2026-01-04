@@ -33,45 +33,45 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
-import com.example.awesomearchsample.core.ui.navigation.BaseScreen
+import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.repos.di.rememberReposDependencies
+import kotlinx.serialization.Serializable
 
 private typealias OnRepoItemClick = (Repo) -> Unit
 
-object ReposScreen : BaseScreen() {
+@Serializable
+object ReposRoute : NavRoute
 
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val dependencies = rememberReposDependencies()
-        val viewModel = viewModel<ReposViewModel>(
-            factory = ReposViewModel.factory(dependencies = dependencies)
-        )
-        val state by viewModel.uiState.collectAsStateWithLifecycle()
+@Composable
+fun ReposScreen(
+    onNavigateToSearch: () -> Unit,
+    onNavigateToRepoDetails: (Long) -> Unit
+) {
+    val dependencies = rememberReposDependencies()
+    val viewModel = viewModel<ReposViewModel>(
+        factory = ReposViewModel.factory(dependencies = dependencies)
+    )
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-        LaunchedEffect(Unit) {
-            viewModel.uiEffect.collect { effect ->
-                when (effect) {
-                    is ReposUiEffect.NavigateTo -> {
-                        navigator.push(effect.screen)
-                    }
-                }
+    LaunchedEffect(Unit) {
+        viewModel.uiEffect.collect { effect ->
+            when (effect) {
+                ReposUiEffect.NavigateToSearch -> onNavigateToSearch()
+                is ReposUiEffect.NavigateToRepoDetails -> onNavigateToRepoDetails(effect.repoId)
             }
         }
-
-        ReposContent(
-            state = state,
-            onSearchClick = viewModel::onSearchClick,
-            onErrorActionClick = viewModel::onErrorActionClick,
-            onRepoClick = viewModel::onRepoClick
-        )
     }
+
+    ReposContent(
+        state = state,
+        onSearchClick = viewModel::onSearchClick,
+        onErrorActionClick = viewModel::onErrorActionClick,
+        onRepoClick = viewModel::onRepoClick
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

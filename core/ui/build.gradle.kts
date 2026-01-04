@@ -57,7 +57,8 @@ dependencies {
     api(libs.lifecycle.runtime.compose)
     api(libs.lifecycle.viewmodel.compose)
     api(libs.lifecycle.viewmodel.ktx)
+    api(libs.lifecycle.viewmodel.navigation3)
 
-    api(libs.voyager.navigator)
-    api(libs.voyager.hilt)
+    api(libs.navigation3.runtime)
+    api(libs.navigation3.ui)
 }

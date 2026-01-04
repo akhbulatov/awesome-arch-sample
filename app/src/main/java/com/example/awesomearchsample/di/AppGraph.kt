@@ -22,14 +22,12 @@ class AppGraph(
 
     val launchFeatureDependencies: LaunchFeatureDependencies by lazy {
         LaunchFeatureGraph(
-            launchNavigator = appFactory.navigationFactory.launchNavigator,
             domainFactory = appFactory.domainFactory
         )
     }
 
     val repoFeatureDependencies: RepoFeatureDependencies by lazy {
         RepoFeatureGraph(
-            repoNavigator = appFactory.navigationFactory.repoNavigator,
             domainFactory = appFactory.domainFactory,
             coreFactory = appFactory.coreFactory,
             commonFeatureFactory = appFactory.commonFeatureFactory
@@ -38,7 +36,6 @@ class AppGraph(
 
     val searchFeatureDependencies: SearchFeatureDependencies by lazy {
         SearchFeatureGraph(
-            searchNavigator = appFactory.navigationFactory.searchNavigator,
             domainFactory = appFactory.domainFactory,
             coreFactory = appFactory.coreFactory
         )

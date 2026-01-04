@@ -9,13 +9,11 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.core.ui.mvvm.onSuccess
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
-import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
 import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsDependencies
 import kotlinx.coroutines.launch
 
 class RepoDetailsViewModel(
     private val repoId: Long,
-    private val repoNavigator: RepoNavigator,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
 ) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState.Loading) {
@@ -44,8 +42,8 @@ class RepoDetailsViewModel(
     fun onAuthorClick() {
         uiState.value.onSuccess<RepoDetails> { repoDetails ->
             emitEffect(
-                RepoDetailsUiEffect.NavigateTo(
-                    repoNavigator.getUserDetailsScreen(login = repoDetails.author)
+                RepoDetailsUiEffect.NavigateToUserDetails(
+                    login = repoDetails.author
                 )
             )
         }
@@ -63,7 +61,6 @@ class RepoDetailsViewModel(
             initializer {
                 RepoDetailsViewModel(
                     repoId = repoId,
-                    repoNavigator = dependencies.repoNavigator,
                     getRepoDetailsUseCase = dependencies.getRepoDetailsUseCase,
                     errorHandler = dependencies.uiErrorHandler
                 )

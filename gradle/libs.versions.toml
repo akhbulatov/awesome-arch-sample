@@ -13,7 +13,7 @@ lifecycle = "2.10.0"
 coroutines = "1.10.2"
 ktor = "3.3.3"
 room = "2.8.4"
-voyager = "1.1.0-beta03"
+navigation3 = "1.0.0"
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -42,6 +42,7 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycle" }
 
 # Custom UI
 coil-compose = "io.coil-kt:coil-compose:2.7.0"
@@ -68,8 +69,8 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 datastore = "androidx.datastore:datastore-preferences:1.2.0"
 
 # Navigation
-voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
-voyager-hilt = { module = "cafe.adriel.voyager:voyager-hilt", version.ref = "voyager" }
+navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 
 # Dev Tools
 napier = "io.github.aakira:napier:2.7.1"

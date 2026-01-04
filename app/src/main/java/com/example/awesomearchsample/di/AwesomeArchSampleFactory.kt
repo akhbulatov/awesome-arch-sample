@@ -37,7 +37,4 @@ class AwesomeArchSampleFactory(
         )
     }
 
-    val navigationFactory: NavigationFactory by lazy {
-        NavigationFactory()
-    }
 }

@@ -28,35 +28,36 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import coil.compose.AsyncImage
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
-import com.example.awesomearchsample.core.ui.navigation.BaseScreen
 import com.example.awesomearchsample.domain.user.model.UserDetails
 import com.example.awesomearchsample.feature.user.userdetails.di.rememberUserDetailsDependencies
+import com.example.awesomearchsample.core.ui.navigation.NavRoute
+import kotlinx.serialization.Serializable
 
-data class UserDetailsScreen(private val login: String) : BaseScreen() {
+@Serializable
+data class UserDetailsRoute(val login: String) : NavRoute
 
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val dependencies = rememberUserDetailsDependencies()
-        val viewModel = viewModel<UserDetailsViewModel>(
-            factory = UserDetailsViewModel.factory(
-                login = login,
-                dependencies = dependencies
-            )
+@Composable
+fun UserDetailsScreen(
+    route: UserDetailsRoute,
+    onBack: () -> Unit
+) {
+    val dependencies = rememberUserDetailsDependencies()
+    val viewModel = viewModel<UserDetailsViewModel>(
+        factory = UserDetailsViewModel.factory(
+            login = route.login,
+            dependencies = dependencies
         )
-        val state by viewModel.uiState.collectAsStateWithLifecycle()
+    )
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-        UserDetailsContent(
-            state = state,
-            onNavigationClick = { navigator.pop() },
-            onErrorActionClick = viewModel::onErrorActionClick
-        )
-    }
+    UserDetailsContent(
+        state = state,
+        onNavigationClick = onBack,
+        onErrorActionClick = viewModel::onErrorActionClick
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

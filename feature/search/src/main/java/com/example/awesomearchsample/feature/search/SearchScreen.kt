@@ -38,49 +38,48 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
-import com.example.awesomearchsample.core.ui.navigation.BaseScreen
+import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.search.model.SearchQuery
 import com.example.awesomearchsample.domain.search.model.SearchResult
 import com.example.awesomearchsample.feature.search.di.rememberSearchDependencies
+import kotlinx.serialization.Serializable
 
 private typealias OnRepoResultItemClick = (Repo) -> Unit
 
-object SearchScreen : BaseScreen() {
+@Serializable
+object SearchRoute : NavRoute
 
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val dependencies = rememberSearchDependencies()
-        val viewModel = viewModel<SearchViewModel>(
-            factory = SearchViewModel.factory(dependencies = dependencies)
-        )
-        val state by viewModel.uiState.collectAsStateWithLifecycle()
+@Composable
+fun SearchScreen(
+    onNavigateToRepoDetails: (Long) -> Unit,
+    onBack: () -> Unit
+) {
+    val dependencies = rememberSearchDependencies()
+    val viewModel = viewModel<SearchViewModel>(
+        factory = SearchViewModel.factory(dependencies = dependencies)
+    )
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-        LaunchedEffect(Unit) {
-            viewModel.uiEffect.collect { effect ->
-                when (effect) {
-                    is SearchUiEffect.NavigateTo -> {
-                        navigator.push(effect.screen)
-                    }
-                }
+    LaunchedEffect(Unit) {
+        viewModel.uiEffect.collect { effect ->
+            when (effect) {
+                is SearchUiEffect.NavigateToRepoDetails -> onNavigateToRepoDetails(effect.repoId)
             }
         }
-
-        SearchContent(
-            state = state,
-            queryInput = viewModel.queryInput,
-            onQueryInputChange = viewModel::onSearchQueryInputChanged,
-            onNavigationClick = { navigator.pop() },
-            onErrorActionClick = viewModel::onErrorActionClick,
-            onSearchActionClick = viewModel::onSearchActionClick,
-            onRepoResultItemClick = viewModel::onRepoResultItemClick
-        )
     }
+
+    SearchContent(
+        state = state,
+        queryInput = viewModel.queryInput,
+        onQueryInputChange = viewModel::onSearchQueryInputChanged,
+        onNavigationClick = onBack,
+        onErrorActionClick = viewModel::onErrorActionClick,
+        onSearchActionClick = viewModel::onSearchActionClick,
+        onRepoResultItemClick = viewModel::onRepoResultItemClick
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

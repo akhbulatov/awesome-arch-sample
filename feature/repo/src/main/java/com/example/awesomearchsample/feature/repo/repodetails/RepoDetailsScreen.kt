@@ -28,46 +28,46 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
-import com.example.awesomearchsample.core.ui.navigation.BaseScreen
+import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.repodetails.di.rememberRepoDetailsDependencies
+import kotlinx.serialization.Serializable
 
-data class RepoDetailsScreen(private val repoId: Long) : BaseScreen() {
+@Serializable
+data class RepoDetailsRoute(val repoId: Long) : NavRoute
 
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val dependencies = rememberRepoDetailsDependencies()
-        val viewModel = viewModel<RepoDetailsViewModel>(
-            factory = RepoDetailsViewModel.factory(
-                repoId = repoId,
-                dependencies = dependencies
-            )
+@Composable
+fun RepoDetailsScreen(
+    route: RepoDetailsRoute,
+    onNavigateToUserDetails: (String) -> Unit,
+    onBack: () -> Unit
+) {
+    val dependencies = rememberRepoDetailsDependencies()
+    val viewModel = viewModel<RepoDetailsViewModel>(
+        factory = RepoDetailsViewModel.factory(
+            repoId = route.repoId,
+            dependencies = dependencies
         )
-        val state by viewModel.uiState.collectAsStateWithLifecycle()
+    )
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-        LaunchedEffect(Unit) {
-            viewModel.uiEffect.collect { effect ->
-                when (effect) {
-                    is RepoDetailsUiEffect.NavigateTo -> {
-                        navigator.push(effect.screen)
-                    }
-                }
+    LaunchedEffect(Unit) {
+        viewModel.uiEffect.collect { effect ->
+            when (effect) {
+                is RepoDetailsUiEffect.NavigateToUserDetails -> onNavigateToUserDetails(effect.login)
             }
         }
-
-        RepoDetailsContent(
-            state = state,
-            onNavigationClick = { navigator.pop() },
-            onErrorActionClick = viewModel::onErrorActionClick,
-            onAuthorClick = viewModel::onAuthorClick
-        )
     }
+
+    RepoDetailsContent(
+        state = state,
+        onNavigationClick = onBack,
+        onErrorActionClick = viewModel::onErrorActionClick,
+        onAuthorClick = viewModel::onAuthorClick
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

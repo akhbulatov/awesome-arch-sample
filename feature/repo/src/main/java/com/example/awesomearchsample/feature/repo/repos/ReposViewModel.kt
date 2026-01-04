@@ -11,13 +11,10 @@ import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.updatedByToggleInFavorites
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
-import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
-import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsScreen
 import com.example.awesomearchsample.feature.repo.repos.di.ReposDependencies
 import kotlinx.coroutines.launch
 
 class ReposViewModel(
-    private val repoNavigator: RepoNavigator,
     private val getReposUseCase: GetReposUseCase,
     private val errorHandler: UiErrorHandler,
     private val analyticsEventSender: AnalyticsEventSender
@@ -45,7 +42,7 @@ class ReposViewModel(
     }
 
     fun onSearchClick() {
-        emitEffect(ReposUiEffect.NavigateTo(repoNavigator.getSearchScreen()))
+        emitEffect(ReposUiEffect.NavigateToSearch)
     }
 
     fun onErrorActionClick() {
@@ -60,7 +57,11 @@ class ReposViewModel(
     }
 
     fun onRepoClick(repo: Repo) {
-        emitEffect(ReposUiEffect.NavigateTo(RepoDetailsScreen(repoId = repo.id)))
+        emitEffect(
+            ReposUiEffect.NavigateToRepoDetails(
+                repoId = repo.id
+            )
+        )
         analyticsEventSender.sendEvent(
             AnalyticsEvents.Repo.RepoClick(repoId = repo.id, repoName = repo.name)
         )
@@ -71,7 +72,6 @@ class ReposViewModel(
             viewModelFactory {
                 initializer {
                     ReposViewModel(
-                        repoNavigator = dependencies.repoNavigator,
                         getReposUseCase = dependencies.getReposUseCase,
                         errorHandler = dependencies.uiErrorHandler,
                         analyticsEventSender = dependencies.analyticsEventSender

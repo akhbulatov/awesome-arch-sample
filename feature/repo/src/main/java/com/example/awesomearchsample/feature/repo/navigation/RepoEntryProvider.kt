@@ -16,9 +16,7 @@ fun EntryProviderScope<NavKey>.addRepoEntries(
     entry<ReposRoute> {
         ReposScreen(
             onNavigateToSearch = onNavigateToSearch,
-            onNavigateToRepoDetails = { repoId ->
-                navigate(RepoDetailsRoute(repoId = repoId))
-            }
+            onNavigateToRepoDetails = navigate.navigateToRepoDetails()
         )
     }
     entry<RepoDetailsRoute> { route ->

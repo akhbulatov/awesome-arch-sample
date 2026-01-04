@@ -6,6 +6,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
+import com.example.awesomearchsample.core.ui.mvvm.onSuccess
+import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.navigation.RepoNavigator
 import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsDependencies
@@ -40,11 +42,10 @@ class RepoDetailsViewModel(
     }
 
     fun onAuthorClick() {
-        val state = uiState.value
-        if (state is RepoDetailsUiState.Success) {
+        uiState.value.onSuccess<RepoDetails> { repoDetails ->
             emitEffect(
                 RepoDetailsUiEffect.NavigateTo(
-                    repoNavigator.getUserDetailsScreen(login = state.repoDetails.author)
+                    repoNavigator.getUserDetailsScreen(login = repoDetails.author)
                 )
             )
         }

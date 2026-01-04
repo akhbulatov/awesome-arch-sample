@@ -48,16 +48,18 @@ fun AppNavHost() {
             entry<MainHostRoute> {
                 MainHostScreen(
                     startDestination = ReposRoute,
-                    entryProvider = ::mainHostEntryProvider
+                    entryProvider = mainHostEntryProvider(rootBackStack)
                 )
             }
         }
     )
 }
 
+private typealias HostEntryProvider = (navigate: (NavKey) -> Unit, onBack: () -> Unit) -> (NavKey) -> NavEntry<NavKey>
+
 private fun launchHostEntryProvider(
     rootBackStack: NavBackStack<NavKey>
-): (navigate: (NavKey) -> Unit, onBack: () -> Unit) -> (NavKey) -> NavEntry<NavKey> {
+): HostEntryProvider {
     return { _, _ ->
         entryProvider {
             entry<LaunchRoute> {
@@ -73,40 +75,41 @@ private fun launchHostEntryProvider(
 }
 
 private fun mainHostEntryProvider(
-    navigate: (NavKey) -> Unit,
-    onBack: () -> Unit
-): (NavKey) -> NavEntry<NavKey> {
-    return entryProvider {
-        entry<ReposRoute> {
-            ReposScreen(
-                onNavigateToSearch = { navigate(SearchRoute) },
-                onNavigateToRepoDetails = { repoId ->
-                    navigate(RepoDetailsRoute(repoId = repoId))
-                }
-            )
-        }
-        entry<SearchRoute> {
-            SearchScreen(
-                onNavigateToRepoDetails = { repoId ->
-                    navigate(RepoDetailsRoute(repoId = repoId))
-                },
-                onBack = onBack
-            )
-        }
-        entry<RepoDetailsRoute> { route ->
-            RepoDetailsScreen(
-                route = route,
-                onNavigateToUserDetails = { login ->
-                    navigate(UserDetailsRoute(login = login))
-                },
-                onBack = onBack
-            )
-        }
-        entry<UserDetailsRoute> { route ->
-            UserDetailsScreen(
-                route = route,
-                onBack = onBack
-            )
+    rootBackStack: NavBackStack<NavKey>
+): HostEntryProvider {
+    return { navigate, onBack ->
+        entryProvider {
+            entry<ReposRoute> {
+                ReposScreen(
+                    onNavigateToSearch = { navigate(SearchRoute) },
+                    onNavigateToRepoDetails = { repoId ->
+                        navigate(RepoDetailsRoute(repoId = repoId))
+                    }
+                )
+            }
+            entry<SearchRoute> {
+                SearchScreen(
+                    onNavigateToRepoDetails = { repoId ->
+                        navigate(RepoDetailsRoute(repoId = repoId))
+                    },
+                    onBack = onBack
+                )
+            }
+            entry<RepoDetailsRoute> { route ->
+                RepoDetailsScreen(
+                    route = route,
+                    onNavigateToUserDetails = { login ->
+                        navigate(UserDetailsRoute(login = login))
+                    },
+                    onBack = onBack
+                )
+            }
+            entry<UserDetailsRoute> { route ->
+                UserDetailsScreen(
+                    route = route,
+                    onBack = onBack
+                )
+            }
         }
     }
 }

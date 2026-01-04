@@ -3,12 +3,12 @@ package com.example.awesomearchsample.navigation
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavBackStack
-import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.example.awesomearchsample.core.ui.navigation.HostEntryProvider
 import com.example.awesomearchsample.feature.launch.LaunchRoute
 import com.example.awesomearchsample.feature.launch.LaunchScreen
 import com.example.awesomearchsample.feature.launch.host.LaunchHostRoute
@@ -54,8 +54,6 @@ fun AppNavHost() {
         }
     )
 }
-
-private typealias HostEntryProvider = (navigate: (NavKey) -> Unit, onBack: () -> Unit) -> (NavKey) -> NavEntry<NavKey>
 
 private fun launchHostEntryProvider(
     rootBackStack: NavBackStack<NavKey>

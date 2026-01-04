@@ -80,7 +80,7 @@ class SearchViewModel(
                 mutableUiState.value = SearchUiState.Loading
                 val searchResult = getSearchResultUseCase.invoke(query)
                 mutableUiState.value = if ((searchResult as SearchResult.Repos).data.isNotEmpty()) {
-                    SearchUiState.Content(result = searchResult)
+                    SearchUiState.Success(result = searchResult)
                 } else {
                     SearchUiState.Error(
                         error = UiError(

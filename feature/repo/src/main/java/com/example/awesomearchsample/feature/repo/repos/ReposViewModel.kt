@@ -31,7 +31,7 @@ class ReposViewModel(
             try {
                 mutableUiState.value = ReposUiState.Loading
                 val repos = getReposUseCase.invoke()
-                mutableUiState.value = ReposUiState.Content(repos = repos)
+                mutableUiState.value = ReposUiState.Success(repos = repos)
             } catch (e: Exception) {
                 errorHandler.proceed(
                     error = e,
@@ -57,7 +57,7 @@ class ReposViewModel(
 
     fun onFavoritesClick(repo: Repo) {
         val state = uiState.value
-        if (state is ReposUiState.Content) {
+        if (state is ReposUiState.Success) {
             val updatedRepos = state.repos.updatedByToggleInFavorites(repoBy = repo)
             mutableUiState.value = state.copy(repos = updatedRepos)
         }

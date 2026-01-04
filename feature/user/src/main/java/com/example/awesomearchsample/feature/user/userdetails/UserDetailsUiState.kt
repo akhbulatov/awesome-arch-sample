@@ -6,5 +6,5 @@ import com.example.awesomearchsample.domain.user.model.UserDetails
 sealed class UserDetailsUiState {
     data object Loading : UserDetailsUiState()
     data class Error(val error: UiError) : UserDetailsUiState()
-    data class Content(val userDetails: UserDetails) : UserDetailsUiState()
+    data class Success(val userDetails: UserDetails) : UserDetailsUiState()
 }

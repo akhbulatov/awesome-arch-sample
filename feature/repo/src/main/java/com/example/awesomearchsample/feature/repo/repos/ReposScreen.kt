@@ -112,14 +112,10 @@ private fun ReposContent(
                     error = state.error,
                     onActionClick = onErrorActionClick
                 )
-                is ReposUiState.Content -> {
-                    if (state.repos.isNotEmpty()) {
-                        RepoList(
-                            repos = state.repos,
-                            onRepoItemClick = onRepoClick
-                        )
-                    }
-                }
+                is ReposUiState.Success -> ReposSuccess(
+                    state = state,
+                    onRepoClick = onRepoClick
+                )
             }
         }
     }
@@ -139,6 +135,16 @@ private fun EmptyError(error: UiError, onActionClick: () -> Unit) {
         uiError = error,
         onActionClick = onActionClick
     )
+}
+
+@Composable
+private fun ReposSuccess(state: ReposUiState.Success, onRepoClick: OnRepoItemClick) {
+    if (state.repos.isNotEmpty()) {
+        RepoList(
+            repos = state.repos,
+            onRepoItemClick = onRepoClick
+        )
+    }
 }
 
 @Composable
@@ -205,7 +211,7 @@ private fun RepoItem(repo: Repo, onRepoItemClick: OnRepoItemClick) {
 @Composable
 private fun ReposContentPreview() {
     ReposContent(
-        state = ReposUiState.Content(
+        state = ReposUiState.Success(
             repos = buildList {
                 repeat(5) { index ->
                     add(createRepoForPreview(index))

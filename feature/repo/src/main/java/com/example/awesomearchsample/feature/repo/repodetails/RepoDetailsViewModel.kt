@@ -27,7 +27,7 @@ class RepoDetailsViewModel(
             try {
                 mutableUiState.value = RepoDetailsUiState.Loading
                 val repoDetails = getRepoDetailsUseCase.invoke(repoId = repoId)
-                mutableUiState.value = RepoDetailsUiState.Content(repoDetails = repoDetails)
+                mutableUiState.value = RepoDetailsUiState.Success(repoDetails = repoDetails)
             } catch (e: Exception) {
                 errorHandler.proceed(
                     error = e,
@@ -41,7 +41,7 @@ class RepoDetailsViewModel(
 
     fun onAuthorClick() {
         val state = uiState.value
-        if (state is RepoDetailsUiState.Content) {
+        if (state is RepoDetailsUiState.Success) {
             viewModelScope.launch {
                 mutableUiEffect.send(
                     RepoDetailsUiEffect.NavigateTo(repoNavigator.getUserDetailsScreen(login = state.repoDetails.author))

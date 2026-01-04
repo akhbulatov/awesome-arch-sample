@@ -6,5 +6,5 @@ import com.example.awesomearchsample.domain.repo.model.RepoDetails
 sealed class RepoDetailsUiState {
     data object Loading : RepoDetailsUiState()
     data class Error(val error: UiError) : RepoDetailsUiState()
-    data class Content(val repoDetails: RepoDetails) : RepoDetailsUiState()
+    data class Success(val repoDetails: RepoDetails) : RepoDetailsUiState()
 }

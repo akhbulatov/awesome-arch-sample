@@ -25,7 +25,7 @@ class UserDetailsViewModel(
             try {
                 mutableUiState.value = UserDetailsUiState.Loading
                 val userDetails = getUserDetailsUseCase.invoke(login = login)
-                mutableUiState.value = UserDetailsUiState.Content(userDetails = userDetails)
+                mutableUiState.value = UserDetailsUiState.Success(userDetails = userDetails)
             } catch (e: Exception) {
                 errorHandler.proceed(
                     error = e,

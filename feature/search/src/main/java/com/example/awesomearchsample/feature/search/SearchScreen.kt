@@ -153,12 +153,10 @@ private fun SearchContent(
                     error = state.error,
                     onActionClick = onErrorActionClick
                 )
-                is SearchUiState.Content -> when (val result = state.result) {
-                    is SearchResult.Repos -> ReposResult(
-                        result = result,
-                        onResultItemClick = onRepoResultItemClick
-                    )
-                }
+                is SearchUiState.Success -> SearchSuccess(
+                    state = state,
+                    onRepoResultItemClick = onRepoResultItemClick
+                )
                 is SearchUiState.Idle -> {
                     if (state.recentQueries.isNotEmpty()) {
                         RecentQueryList(queries = state.recentQueries)
@@ -183,6 +181,19 @@ private fun EmptyError(error: UiError, onActionClick: () -> Unit) {
         uiError = error,
         onActionClick = onActionClick
     )
+}
+
+@Composable
+private fun SearchSuccess(
+    state: SearchUiState.Success,
+    onRepoResultItemClick: OnRepoResultItemClick
+) {
+    when (val result = state.result) {
+        is SearchResult.Repos -> ReposResult(
+            result = result,
+            onResultItemClick = onRepoResultItemClick
+        )
+    }
 }
 
 @Composable
@@ -257,7 +268,7 @@ private fun RecentQueryItem(query: SearchQuery) {
 @Composable
 private fun SearchContentPreview() {
     SearchContent(
-        state = SearchUiState.Content(
+        state = SearchUiState.Success(
             result = SearchResult.Repos(
                 data = buildList {
                     repeat(5) { index ->

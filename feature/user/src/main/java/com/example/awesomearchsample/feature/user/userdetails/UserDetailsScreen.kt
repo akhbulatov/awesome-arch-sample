@@ -67,7 +67,7 @@ private fun UserDetailsContent(
     onErrorActionClick: () -> Unit
 ) {
     val title = when (state) {
-        is UserDetailsUiState.Content -> state.userDetails.login
+        is UserDetailsUiState.Success -> state.userDetails.login
         else -> ""
     }
     Scaffold(
@@ -100,7 +100,7 @@ private fun UserDetailsContent(
                     error = state.error,
                     onActionClick = onErrorActionClick
                 )
-                is UserDetailsUiState.Content -> UserDetails(state.userDetails)
+                is UserDetailsUiState.Success -> UserDetailsSuccess(state)
             }
         }
     }
@@ -123,7 +123,8 @@ private fun EmptyError(error: UiError, onActionClick: () -> Unit) {
 }
 
 @Composable
-private fun UserDetails(userDetails: UserDetails) {
+private fun UserDetailsSuccess(state: UserDetailsUiState.Success) {
+    val userDetails = state.userDetails
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -195,7 +196,7 @@ private fun UserDetails(userDetails: UserDetails) {
 @Composable
 private fun UserDetailsContentPreview() {
     UserDetailsContent(
-        state = UserDetailsUiState.Content(
+        state = UserDetailsUiState.Success(
             userDetails = UserDetails(
                 id = 1,
                 login = "akhbulatov",

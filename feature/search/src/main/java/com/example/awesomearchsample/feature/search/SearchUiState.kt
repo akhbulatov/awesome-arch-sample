@@ -8,5 +8,5 @@ sealed class SearchUiState {
     data class Idle(val recentQueries: List<SearchQuery> = emptyList()) : SearchUiState()
     data object Loading : SearchUiState()
     data class Error(val error: UiError) : SearchUiState()
-    data class Content(val result: SearchResult) : SearchUiState()
+    data class Success(val result: SearchResult) : SearchUiState()
 }

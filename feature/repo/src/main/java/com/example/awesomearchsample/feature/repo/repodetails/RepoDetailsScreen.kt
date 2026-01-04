@@ -79,7 +79,7 @@ private fun RepoDetailsContent(
     onAuthorClick: () -> Unit
 ) {
     val title = when (state) {
-        is RepoDetailsUiState.Content -> state.repoDetails.name
+        is RepoDetailsUiState.Success -> state.repoDetails.name
         else -> ""
     }
     Scaffold(
@@ -112,8 +112,8 @@ private fun RepoDetailsContent(
                     error = state.error,
                     onActionClick = onErrorActionClick
                 )
-                is RepoDetailsUiState.Content -> RepoDetails(
-                    repoDetails = state.repoDetails,
+                is RepoDetailsUiState.Success -> RepoDetailsSuccess(
+                    state = state,
                     onAuthorClick = onAuthorClick
                 )
             }
@@ -138,7 +138,8 @@ private fun EmptyError(error: UiError, onActionClick: () -> Unit) {
 }
 
 @Composable
-private fun RepoDetails(repoDetails: RepoDetails, onAuthorClick: () -> Unit) {
+private fun RepoDetailsSuccess(state: RepoDetailsUiState.Success, onAuthorClick: () -> Unit) {
+    val repoDetails = state.repoDetails
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -200,7 +201,7 @@ private fun RepoDetails(repoDetails: RepoDetails, onAuthorClick: () -> Unit) {
 @Composable
 private fun RepoDetailsContentPreview() {
     RepoDetailsContent(
-        state = RepoDetailsUiState.Content(
+        state = RepoDetailsUiState.Success(
             repoDetails = RepoDetails(
                 id = 1,
                 name = "AwesomeArchSample",

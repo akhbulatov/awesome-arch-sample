@@ -8,19 +8,18 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.example.awesomearchsample.core.ui.navigation.HostEntryProvider
 import com.example.awesomearchsample.feature.launch.LaunchRoute
-import com.example.awesomearchsample.feature.launch.LaunchScreen
 import com.example.awesomearchsample.feature.launch.host.LaunchHostRoute
 import com.example.awesomearchsample.feature.launch.host.LaunchHostScreen
+import com.example.awesomearchsample.feature.launch.navigation.addLaunchEntries
 import com.example.awesomearchsample.feature.main.host.MainHostRoute
 import com.example.awesomearchsample.feature.main.host.MainHostScreen
+import com.example.awesomearchsample.feature.repo.navigation.addRepoEntries
 import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsRoute
-import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsScreen
 import com.example.awesomearchsample.feature.repo.repos.ReposRoute
-import com.example.awesomearchsample.feature.repo.repos.ReposScreen
 import com.example.awesomearchsample.feature.search.SearchRoute
-import com.example.awesomearchsample.feature.search.SearchScreen
+import com.example.awesomearchsample.feature.search.navigation.addSearchEntries
+import com.example.awesomearchsample.feature.user.navigation.addUserEntries
 import com.example.awesomearchsample.feature.user.userdetails.UserDetailsRoute
-import com.example.awesomearchsample.feature.user.userdetails.UserDetailsScreen
 
 @Composable
 fun AppNavHost() {
@@ -63,11 +62,7 @@ private fun launchHostEntryProvider(
 ): HostEntryProvider {
     return { _, _ ->
         entryProvider {
-            entry<LaunchRoute> {
-                LaunchScreen(
-                    onNavigateToMainHost = onNavigateToMainHost,
-                )
-            }
+            addLaunchEntries(onNavigateToMainHost = onNavigateToMainHost)
         }
     }
 }
@@ -75,37 +70,21 @@ private fun launchHostEntryProvider(
 private fun mainHostEntryProvider(): HostEntryProvider {
     return { navigate, onBack ->
         entryProvider {
-            entry<ReposRoute> {
-                ReposScreen(
-                    onNavigateToSearch = { navigate(SearchRoute) },
-                    onNavigateToRepoDetails = { repoId ->
-                        navigate(RepoDetailsRoute(repoId = repoId))
-                    }
-                )
-            }
-            entry<SearchRoute> {
-                SearchScreen(
-                    onNavigateToRepoDetails = { repoId ->
-                        navigate(RepoDetailsRoute(repoId = repoId))
-                    },
-                    onBack = onBack
-                )
-            }
-            entry<RepoDetailsRoute> { route ->
-                RepoDetailsScreen(
-                    route = route,
-                    onNavigateToUserDetails = { login ->
-                        navigate(UserDetailsRoute(login = login))
-                    },
-                    onBack = onBack
-                )
-            }
-            entry<UserDetailsRoute> { route ->
-                UserDetailsScreen(
-                    route = route,
-                    onBack = onBack
-                )
-            }
+            addRepoEntries(
+                navigate = navigate,
+                onNavigateToSearch = { navigate(SearchRoute) },
+                onNavigateToUserDetails = { login ->
+                    navigate(UserDetailsRoute(login = login))
+                },
+                onBack = onBack
+            )
+            addSearchEntries(
+                onNavigateToRepoDetails = { repoId ->
+                    navigate(RepoDetailsRoute(repoId = repoId))
+                },
+                onBack = onBack
+            )
+            addUserEntries(onBack = onBack)
         }
     }
 }

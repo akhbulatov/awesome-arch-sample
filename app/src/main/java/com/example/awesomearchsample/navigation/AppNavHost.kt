@@ -70,12 +70,12 @@ private fun mainHostEntryProvider(): HostEntryProvider {
         entryProvider {
             addRepoEntries(
                 navigate = navigate,
-                onNavigateToSearch = navigate.navigateToSearch(),
-                onNavigateToUserDetails = navigate.navigateToUserDetails(),
+                onNavigateToSearch = navigate::navigateToSearch,
+                onNavigateToUserDetails = navigate::navigateToUserDetails,
                 onBack = onBack
             )
             addSearchEntries(
-                onNavigateToRepoDetails = navigate.navigateToRepoDetails(),
+                onNavigateToRepoDetails = navigate::navigateToRepoDetails,
                 onBack = onBack
             )
             addUserEntries(onBack = onBack)

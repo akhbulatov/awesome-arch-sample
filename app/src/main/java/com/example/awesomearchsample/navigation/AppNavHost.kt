@@ -13,13 +13,14 @@ import com.example.awesomearchsample.feature.launch.host.LaunchHostScreen
 import com.example.awesomearchsample.feature.launch.navigation.addLaunchEntries
 import com.example.awesomearchsample.feature.main.host.MainHostRoute
 import com.example.awesomearchsample.feature.main.host.MainHostScreen
+import com.example.awesomearchsample.feature.main.navigation.navigateToMainHost
 import com.example.awesomearchsample.feature.repo.navigation.addRepoEntries
-import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsRoute
+import com.example.awesomearchsample.feature.repo.navigation.navigateToRepoDetails
 import com.example.awesomearchsample.feature.repo.repos.ReposRoute
-import com.example.awesomearchsample.feature.search.SearchRoute
 import com.example.awesomearchsample.feature.search.navigation.addSearchEntries
+import com.example.awesomearchsample.feature.search.navigation.navigateToSearch
 import com.example.awesomearchsample.feature.user.navigation.addUserEntries
-import com.example.awesomearchsample.feature.user.userdetails.UserDetailsRoute
+import com.example.awesomearchsample.feature.user.navigation.navigateToUserDetails
 
 @Composable
 fun AppNavHost() {
@@ -40,10 +41,7 @@ fun AppNavHost() {
                 LaunchHostScreen(
                     startDestination = LaunchRoute,
                     entryProvider = launchHostEntryProvider(
-                        onNavigateToMainHost = {
-                            rootBackStack.clear()
-                            rootBackStack.add(MainHostRoute)
-                        }
+                        onNavigateToMainHost = rootBackStack::navigateToMainHost
                     )
                 )
             }
@@ -72,16 +70,12 @@ private fun mainHostEntryProvider(): HostEntryProvider {
         entryProvider {
             addRepoEntries(
                 navigate = navigate,
-                onNavigateToSearch = { navigate(SearchRoute) },
-                onNavigateToUserDetails = { login ->
-                    navigate(UserDetailsRoute(login = login))
-                },
+                onNavigateToSearch = navigate.navigateToSearch(),
+                onNavigateToUserDetails = navigate.navigateToUserDetails(),
                 onBack = onBack
             )
             addSearchEntries(
-                onNavigateToRepoDetails = { repoId ->
-                    navigate(RepoDetailsRoute(repoId = repoId))
-                },
+                onNavigateToRepoDetails = navigate.navigateToRepoDetails(),
                 onBack = onBack
             )
             addUserEntries(onBack = onBack)

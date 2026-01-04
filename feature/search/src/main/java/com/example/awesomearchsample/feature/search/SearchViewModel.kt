@@ -100,11 +100,9 @@ class SearchViewModel(
     }
 
     fun onRepoResultItemClick(repo: Repo) {
-        viewModelScope.launch {
-            mutableUiEffect.send(
-                SearchUiEffect.NavigateTo(searchNavigator.getRepoDetailsScreen(repoId = repo.id))
-            )
-        }
+        emitEffect(
+            SearchUiEffect.NavigateTo(searchNavigator.getRepoDetailsScreen(repoId = repo.id))
+        )
     }
 
     fun onErrorActionClick() {

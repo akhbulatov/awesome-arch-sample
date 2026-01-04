@@ -42,11 +42,11 @@ class RepoDetailsViewModel(
     fun onAuthorClick() {
         val state = uiState.value
         if (state is RepoDetailsUiState.Success) {
-            viewModelScope.launch {
-                mutableUiEffect.send(
-                    RepoDetailsUiEffect.NavigateTo(repoNavigator.getUserDetailsScreen(login = state.repoDetails.author))
+            emitEffect(
+                RepoDetailsUiEffect.NavigateTo(
+                    repoNavigator.getUserDetailsScreen(login = state.repoDetails.author)
                 )
-            }
+            )
         }
     }
 

@@ -44,11 +44,7 @@ class ReposViewModel(
     }
 
     fun onSearchClick() {
-        viewModelScope.launch {
-            mutableUiEffect.send(
-                ReposUiEffect.NavigateTo(repoNavigator.getSearchScreen())
-            )
-        }
+        emitEffect(ReposUiEffect.NavigateTo(repoNavigator.getSearchScreen()))
     }
 
     fun onErrorActionClick() {
@@ -64,14 +60,10 @@ class ReposViewModel(
     }
 
     fun onRepoClick(repo: Repo) {
-        viewModelScope.launch {
-            mutableUiEffect.send(
-                ReposUiEffect.NavigateTo(RepoDetailsScreen(repoId = repo.id))
-            )
-            analyticsEventSender.sendEvent(
-                AnalyticsEvents.Repo.RepoClick(repoId = repo.id, repoName = repo.name)
-            )
-        }
+        emitEffect(ReposUiEffect.NavigateTo(RepoDetailsScreen(repoId = repo.id)))
+        analyticsEventSender.sendEvent(
+            AnalyticsEvents.Repo.RepoClick(repoId = repo.id, repoName = repo.name)
+        )
     }
 
     companion object {

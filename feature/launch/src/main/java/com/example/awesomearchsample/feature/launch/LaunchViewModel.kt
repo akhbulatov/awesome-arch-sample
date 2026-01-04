@@ -25,9 +25,7 @@ class LaunchViewModel(
                 setIsFirstLaunchUseCase.invoke(true)
             }
 
-            mutableUiEffect.send(
-                LaunchUiEffect.ResetAll(screen = launchNavigator.getMainHostScreen())
-            )
+            emitEffect(LaunchUiEffect.ResetAll(screen = launchNavigator.getMainHostScreen()))
         }
     }
 

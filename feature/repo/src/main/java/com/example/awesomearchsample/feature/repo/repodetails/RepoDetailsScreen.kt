@@ -3,13 +3,13 @@ package com.example.awesomearchsample.feature.repo.repodetails
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -20,7 +20,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -28,46 +27,46 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
-import com.example.awesomearchsample.core.ui.navigation.BaseScreen
+import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.repodetails.di.rememberRepoDetailsDependencies
+import kotlinx.serialization.Serializable
 
-data class RepoDetailsScreen(private val repoId: Long) : BaseScreen() {
+@Serializable
+data class RepoDetailsRoute(val repoId: Long) : NavRoute
 
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val dependencies = rememberRepoDetailsDependencies()
-        val viewModel = viewModel<RepoDetailsViewModel>(
-            factory = RepoDetailsViewModel.factory(
-                repoId = repoId,
-                dependencies = dependencies
-            )
+@Composable
+fun RepoDetailsScreen(
+    route: RepoDetailsRoute,
+    onNavigateToUserDetails: (String) -> Unit,
+    onBack: () -> Unit
+) {
+    val dependencies = rememberRepoDetailsDependencies()
+    val viewModel = viewModel<RepoDetailsViewModel>(
+        factory = RepoDetailsViewModel.factory(
+            repoId = route.repoId,
+            dependencies = dependencies
         )
-        val state by viewModel.uiState.collectAsStateWithLifecycle()
+    )
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-        LaunchedEffect(Unit) {
-            viewModel.uiEffect.collect { effect ->
-                when (effect) {
-                    is RepoDetailsUiEffect.NavigateTo -> {
-                        navigator.push(effect.screen)
-                    }
-                }
+    LaunchedEffect(Unit) {
+        viewModel.uiEffect.collect { effect ->
+            when (effect) {
+                is RepoDetailsUiEffect.NavigateToUserDetails -> onNavigateToUserDetails(effect.login)
             }
         }
-
-        RepoDetailsContent(
-            state = state,
-            onNavigationClick = { navigator.pop() },
-            onErrorActionClick = viewModel::onErrorActionClick,
-            onAuthorClick = viewModel::onAuthorClick
-        )
     }
+
+    RepoDetailsContent(
+        state = state,
+        onNavigationClick = onBack,
+        onErrorActionClick = viewModel::onErrorActionClick,
+        onAuthorClick = viewModel::onAuthorClick
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -122,15 +121,19 @@ private fun RepoDetailsContent(
 }
 
 @Composable
-private fun BoxScope.EmptyProgress() {
+private fun EmptyProgress() {
     CircularProgressIndicator(
         modifier = Modifier
-            .align(alignment = Alignment.Center)
+            .fillMaxSize()
+            .wrapContentSize()
     )
 }
 
 @Composable
-private fun EmptyError(error: UiError, onActionClick: () -> Unit) {
+private fun EmptyError(
+    error: UiError,
+    onActionClick: () -> Unit
+) {
     EmptyErrorComponent(
         uiError = error,
         onActionClick = onActionClick
@@ -138,7 +141,10 @@ private fun EmptyError(error: UiError, onActionClick: () -> Unit) {
 }
 
 @Composable
-private fun RepoDetailsSuccess(state: RepoDetailsUiState.Success, onAuthorClick: () -> Unit) {
+private fun RepoDetailsSuccess(
+    state: RepoDetailsUiState.Success,
+    onAuthorClick: () -> Unit
+) {
     val repoDetails = state.repoDetails
     Column(
         modifier = Modifier
@@ -148,42 +154,36 @@ private fun RepoDetailsSuccess(state: RepoDetailsUiState.Success, onAuthorClick:
         // Name
         Text(
             text = repoDetails.name,
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.titleLarge
         )
-        Spacer(
-            modifier = Modifier.height(5.dp)
-        )
+
+        Spacer(modifier = Modifier.height(5.dp))
+
         // Description
         Text(
             text = repoDetails.description.orEmpty(),
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.bodyMedium
         )
 
-        Spacer(
-            modifier = Modifier.height(15.dp)
-        )
+        Spacer(modifier = Modifier.height(15.dp))
+
         // Stars
         Text(
             text = stringResource(R.string.repo_details_stars, repoDetails.starsCount),
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.labelLarge
         )
         // Forks
         Text(
             text = stringResource(R.string.repo_details_forks, repoDetails.forksCount),
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.labelLarge
         )
 
-        Spacer(
-            modifier = Modifier.height(15.dp)
-        )
+        Spacer(modifier = Modifier.height(15.dp))
+
         // Author
         Text(
             text = stringResource(R.string.repo_details_author, repoDetails.author),
@@ -195,8 +195,7 @@ private fun RepoDetailsSuccess(state: RepoDetailsUiState.Success, onAuthorClick:
     }
 }
 
-// --- Preview --- //
-
+//region Previews
 @Preview(showBackground = true)
 @Composable
 private fun RepoDetailsContentPreview() {
@@ -216,3 +215,4 @@ private fun RepoDetailsContentPreview() {
         onAuthorClick = {}
     )
 }
+//endregion

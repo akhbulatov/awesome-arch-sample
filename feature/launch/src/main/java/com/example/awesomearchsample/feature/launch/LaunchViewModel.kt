@@ -8,12 +8,10 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.appconfig.usecase.IsFirstLaunchUseCase
 import com.example.awesomearchsample.domain.appconfig.usecase.SetIsFirstLaunchUseCase
 import com.example.awesomearchsample.feature.launch.di.LaunchDependencies
-import com.example.awesomearchsample.feature.launch.navigation.LaunchNavigator
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class LaunchViewModel(
-    private val launchNavigator: LaunchNavigator,
     private val isFirstLaunchUseCase: IsFirstLaunchUseCase,
     private val setIsFirstLaunchUseCase: SetIsFirstLaunchUseCase
 ) : BaseViewModel<Unit, LaunchUiEffect>(initialUiState = Unit) {
@@ -25,7 +23,7 @@ class LaunchViewModel(
                 setIsFirstLaunchUseCase.invoke(true)
             }
 
-            emitEffect(LaunchUiEffect.ResetAll(screen = launchNavigator.getMainHostScreen()))
+            emitEffect(LaunchUiEffect.NavigateToMainHost)
         }
     }
 
@@ -33,7 +31,6 @@ class LaunchViewModel(
         fun factory(dependencies: LaunchDependencies) = viewModelFactory {
             initializer {
                 LaunchViewModel(
-                    launchNavigator = dependencies.launchNavigator,
                     isFirstLaunchUseCase = dependencies.isFirstLaunchUseCase,
                     setIsFirstLaunchUseCase = dependencies.setIsFirstLaunchUseCase
                 )

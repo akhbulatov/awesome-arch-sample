@@ -3,9 +3,8 @@ package com.example.awesomearchsample
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import cafe.adriel.voyager.navigator.Navigator
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
-import com.example.awesomearchsample.feature.launch.host.LaunchHostScreen
+import com.example.awesomearchsample.navigation.AppNavHost
 
 class AwesomeArchSampleActivity : ComponentActivity() {
 
@@ -13,10 +12,7 @@ class AwesomeArchSampleActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                Navigator(
-                    screen = LaunchHostScreen,
-                    key = "AppNavigator"
-                )
+                AppNavHost()
             }
         }
     }

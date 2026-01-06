@@ -1,6 +1,41 @@
 package com.example.awesomearchsample.feature.main.host
 
-import cafe.adriel.voyager.core.screen.Screen
-import com.example.awesomearchsample.core.ui.navigation.BaseHostScreen
+import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
+import com.example.awesomearchsample.core.ui.navigation.HostEntryProvider
 
-data class MainHostScreen(val startScreen: Screen) : BaseHostScreen(startScreen = startScreen)
+@Composable
+fun MainHostScreen(
+    startDestination: NavKey,
+    entryProvider: HostEntryProvider
+) {
+    MainHostContent(
+        startDestination = startDestination,
+        entryProvider = entryProvider
+    )
+}
+
+@Composable
+private fun MainHostContent(
+    startDestination: NavKey,
+    entryProvider: HostEntryProvider
+) {
+    val mainBackStack = rememberNavBackStack(startDestination)
+    val onBack: () -> Unit = { mainBackStack.removeLastOrNull() }
+    NavDisplay(
+        backStack = mainBackStack,
+        entryDecorators = listOf(
+            rememberSaveableStateHolderNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator()
+        ),
+        onBack = onBack,
+        entryProvider = entryProvider(
+            { destination -> mainBackStack.add(destination) },
+            onBack
+        )
+    )
+}

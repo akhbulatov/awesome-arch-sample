@@ -2,7 +2,6 @@ package com.example.awesomearchsample.feature.repo.repos
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
@@ -23,7 +23,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -40,8 +39,6 @@ import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.repos.di.rememberReposDependencies
 import kotlinx.serialization.Serializable
-
-private typealias OnRepoItemClick = (Repo) -> Unit
 
 @Serializable
 object ReposRoute : NavRoute
@@ -73,6 +70,8 @@ fun ReposScreen(
         onRepoClick = viewModel::onRepoClick
     )
 }
+
+private typealias OnRepoItemClick = (Repo) -> Unit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -122,15 +121,19 @@ private fun ReposContent(
 }
 
 @Composable
-private fun BoxScope.EmptyProgress() {
+private fun EmptyProgress() {
     CircularProgressIndicator(
         modifier = Modifier
-            .align(alignment = Alignment.Center)
+            .fillMaxSize()
+            .wrapContentSize()
     )
 }
 
 @Composable
-private fun EmptyError(error: UiError, onActionClick: () -> Unit) {
+private fun EmptyError(
+    error: UiError,
+    onActionClick: () -> Unit
+) {
     EmptyErrorComponent(
         uiError = error,
         onActionClick = onActionClick
@@ -138,7 +141,10 @@ private fun EmptyError(error: UiError, onActionClick: () -> Unit) {
 }
 
 @Composable
-private fun ReposSuccess(state: ReposUiState.Success, onRepoClick: OnRepoItemClick) {
+private fun ReposSuccess(
+    state: ReposUiState.Success,
+    onRepoClick: OnRepoItemClick
+) {
     if (state.repos.isNotEmpty()) {
         RepoList(
             repos = state.repos,
@@ -148,10 +154,12 @@ private fun ReposSuccess(state: ReposUiState.Success, onRepoClick: OnRepoItemCli
 }
 
 @Composable
-private fun RepoList(repos: List<Repo>, onRepoItemClick: OnRepoItemClick) {
+private fun RepoList(
+    repos: List<Repo>,
+    onRepoItemClick: OnRepoItemClick
+) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         items(
             items = repos,
@@ -163,7 +171,10 @@ private fun RepoList(repos: List<Repo>, onRepoItemClick: OnRepoItemClick) {
 }
 
 @Composable
-private fun RepoItem(repo: Repo, onRepoItemClick: OnRepoItemClick) {
+private fun RepoItem(
+    repo: Repo,
+    onRepoItemClick: OnRepoItemClick
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -171,8 +182,7 @@ private fun RepoItem(repo: Repo, onRepoItemClick: OnRepoItemClick) {
             .padding(15.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             // Name
             Text(
@@ -182,9 +192,9 @@ private fun RepoItem(repo: Repo, onRepoItemClick: OnRepoItemClick) {
                     .weight(1f),
                 fontSize = 16.sp
             )
-            Spacer(
-                modifier = Modifier.width(15.dp)
-            )
+
+            Spacer(modifier = Modifier.width(15.dp))
+
             // Author
             Text(
                 text = repo.author,
@@ -192,21 +202,19 @@ private fun RepoItem(repo: Repo, onRepoItemClick: OnRepoItemClick) {
                 fontSize = 12.sp
             )
         }
-        Spacer(
-            modifier = Modifier.height(8.dp)
-        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         // Description
         Text(
             text = repo.description.orEmpty(),
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             color = Color(0x99000000)
         )
     }
 }
 
-// --- Preview --- //
-
+//region Previews
 @Preview(showBackground = true)
 @Composable
 private fun ReposContentPreview() {
@@ -239,3 +247,4 @@ private fun createRepoForPreview(index: Int) = Repo(
     author = "akhbulatov",
     description = "Awesome open-source arch sample written in Kotlin"
 )
+//endregion

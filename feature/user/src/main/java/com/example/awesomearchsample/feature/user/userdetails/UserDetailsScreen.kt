@@ -2,7 +2,6 @@ package com.example.awesomearchsample.feature.user.userdetails
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
@@ -31,9 +31,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
+import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.user.model.UserDetails
 import com.example.awesomearchsample.feature.user.userdetails.di.rememberUserDetailsDependencies
-import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -108,15 +108,19 @@ private fun UserDetailsContent(
 }
 
 @Composable
-private fun BoxScope.EmptyProgress() {
+private fun EmptyProgress() {
     CircularProgressIndicator(
         modifier = Modifier
-            .align(alignment = Alignment.Center)
+            .fillMaxSize()
+            .wrapContentSize()
     )
 }
 
 @Composable
-private fun EmptyError(error: UiError, onActionClick: () -> Unit) {
+private fun EmptyError(
+    error: UiError,
+    onActionClick: () -> Unit
+) {
     EmptyErrorComponent(
         uiError = error,
         onActionClick = onActionClick
@@ -132,15 +136,13 @@ private fun UserDetailsSuccess(state: UserDetailsUiState.Success) {
             .padding(15.dp)
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
                 model = userDetails.avatarUrl,
                 contentDescription = null,
-                modifier = Modifier
-                    .size(50.dp)
+                modifier = Modifier.size(50.dp)
             )
             Spacer(
                 modifier = Modifier.width(15.dp)
@@ -153,46 +155,39 @@ private fun UserDetailsSuccess(state: UserDetailsUiState.Success) {
                 // Login
                 Text(
                     text = userDetails.login,
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.titleLarge
                 )
                 // Name
                 Text(
                     text = userDetails.name,
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
         }
 
-        Spacer(
-            modifier = Modifier.height(15.dp)
-        )
+        Spacer(modifier = Modifier.height(15.dp))
+
         // Bio
         Text(
             text = userDetails.bio.orEmpty(),
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.bodySmall
         )
 
-        Spacer(
-            modifier = Modifier.height(10.dp)
-        )
+        Spacer(modifier = Modifier.height(10.dp))
+
         // Location
         Text(
             text = userDetails.location.orEmpty(),
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.bodyMedium
         )
     }
 }
 
-// --- Preview --- //
-
+//region Previews
 @Preview(showBackground = true)
 @Composable
 private fun UserDetailsContentPreview() {
@@ -211,3 +206,4 @@ private fun UserDetailsContentPreview() {
         onErrorActionClick = {}
     )
 }
+//endregion

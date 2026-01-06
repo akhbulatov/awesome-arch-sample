@@ -11,7 +11,9 @@ import kotlinx.serialization.Serializable
 object LaunchRoute : NavRoute
 
 @Composable
-fun LaunchScreen(onNavigateToMainHost: () -> Unit) {
+fun LaunchScreen(
+    onNavigateToMainHost: () -> Unit
+) {
     val dependencies = rememberLaunchDependencies()
     val viewModel = viewModel<LaunchViewModel>(
         factory = LaunchViewModel.factory(dependencies = dependencies)

@@ -31,11 +31,7 @@ fun AppNavHost() {
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator()
         ),
-        onBack = {
-            if (rootBackStack.size > 1) {
-                rootBackStack.removeAt(rootBackStack.lastIndex)
-            }
-        },
+        onBack = { rootBackStack.removeLastOrNull() },
         entryProvider = entryProvider {
             entry<LaunchHostRoute> {
                 LaunchHostScreen(

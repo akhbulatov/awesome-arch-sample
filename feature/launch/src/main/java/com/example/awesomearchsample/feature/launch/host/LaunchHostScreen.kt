@@ -25,18 +25,14 @@ private fun LaunchHostContent(
     entryProvider: HostEntryProvider
 ) {
     val backStack = rememberNavBackStack(startDestination)
-    val onBack = {
-        if (backStack.size > 1) {
-            backStack.removeAt(backStack.lastIndex)
-        }
-    }
+    val onBack: () -> Unit = { backStack.removeLastOrNull() }
     NavDisplay(
         backStack = backStack,
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator()
         ),
-        onBack = onBack,
+        onBack =  onBack,
         entryProvider = entryProvider(
             { destination -> backStack.add(destination) },
             onBack

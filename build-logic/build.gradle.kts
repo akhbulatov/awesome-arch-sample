@@ -18,5 +18,9 @@ gradlePlugin {
             id = "awesome.android.library.conventions"
             implementationClass = "AwesomeAndroidLibraryConventionsPlugin"
         }
+        register("kotlinJvmConventions") {
+            id = "awesome.kotlin.jvm.conventions"
+            implementationClass = "AwesomeKotlinJvmConventionsPlugin"
+        }
     }
 }

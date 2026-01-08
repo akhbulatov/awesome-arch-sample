@@ -26,6 +26,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("beta") {
+            initWith(getByName("release"))
+        }
     }
 
     buildFeatures {

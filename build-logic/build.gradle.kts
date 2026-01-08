@@ -26,5 +26,9 @@ gradlePlugin {
             id = "awesome.android.application.conventions"
             implementationClass = "AwesomeAndroidApplicationConventionsPlugin"
         }
+        register("androidFeatureConventions") {
+            id = "awesome.android.feature.conventions"
+            implementationClass = "AwesomeAndroidFeatureConventionsPlugin"
+        }
     }
 }

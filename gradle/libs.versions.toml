@@ -79,4 +79,4 @@ navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", ver
 navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 
 # Dev Tools
-napier = "io.github.aakira:napier:2.7.1"
+kermit = { module = "co.touchlab:kermit", version = "2.0.8" }

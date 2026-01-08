@@ -9,5 +9,5 @@ android {
 dependencies {
     implementation(projects.core.common)
 
-    implementation(libs.napier)
+    implementation(libs.kermit)
 }

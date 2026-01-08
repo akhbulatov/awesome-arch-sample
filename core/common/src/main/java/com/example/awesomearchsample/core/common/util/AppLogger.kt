@@ -1,23 +1,25 @@
 package com.example.awesomearchsample.core.common.util
 
-import io.github.aakira.napier.DebugAntilog
-import io.github.aakira.napier.Napier
+import co.touchlab.kermit.Logger
+import co.touchlab.kermit.platformLogWriter
 
 object AppLogger {
 
+    private val logger by lazy { Logger.withTag("App") }
+
     init {
-        Napier.base(DebugAntilog())
+        Logger.setLogWriters(platformLogWriter())
     }
 
     fun d(message: String) {
-        Napier.d(message = message)
+        logger.d { message }
     }
 
     fun e(throwable: Throwable) {
-        Napier.e(throwable = throwable, message = { "" })
+        logger.e(throwable) { "" }
     }
 
     fun e(message: String) {
-        Napier.e(message = message)
+        logger.e { message }
     }
 }

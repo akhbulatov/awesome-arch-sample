@@ -1,0 +1,53 @@
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import org.gradle.api.JavaVersion
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+
+@Suppress("unused")
+class AwesomeAndroidApplicationConventionsPlugin : Plugin<Project> {
+
+    override fun apply(target: Project) = with(target) {
+        pluginManager.apply("com.android.application")
+        pluginManager.apply("org.jetbrains.kotlin.android")
+
+        val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+
+        extensions.configure(BaseAppModuleExtension::class.java) {
+            compileSdk = libs.findVersion("compileSdk").get().requiredVersion.toInt()
+
+            defaultConfig {
+                minSdk = libs.findVersion("minSdk").get().requiredVersion.toInt()
+                targetSdk = libs.findVersion("targetSdk").get().requiredVersion.toInt()
+                versionCode = libs.findVersion("versionCode").get().requiredVersion.toInt()
+                versionName = libs.findVersion("versionName").get().requiredVersion
+            }
+
+            buildTypes {
+                getByName("release") {
+                    isMinifyEnabled = false
+                    proguardFiles(
+                        getDefaultProguardFile("proguard-android-optimize.txt"),
+                        "proguard-rules.pro"
+                    )
+                }
+                create("beta") {
+                    initWith(getByName("release"))
+                }
+            }
+
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_17
+                targetCompatibility = JavaVersion.VERSION_17
+            }
+        }
+
+        extensions.configure(KotlinAndroidProjectExtension::class.java) {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_17)
+            }
+        }
+    }
+}

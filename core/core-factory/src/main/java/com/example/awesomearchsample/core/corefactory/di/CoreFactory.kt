@@ -2,6 +2,7 @@ package com.example.awesomearchsample.core.corefactory.di
 
 import android.content.Context
 import com.example.awesomearchsample.core.analytics.di.AnalyticsFactory
+import com.example.awesomearchsample.core.common.app.AppInitializers
 import com.example.awesomearchsample.core.commonimpl.di.CommonImplFactory
 import com.example.awesomearchsample.core.network.di.NetworkFactory
 import com.example.awesomearchsample.core.preferences.di.PreferencesFactory
@@ -43,6 +44,12 @@ class CoreFactory(
     val analyticsFactory: AnalyticsFactory by lazy {
         AnalyticsFactory(
             context = context
+        )
+    }
+
+    val appInitializers: AppInitializers by lazy {
+        AppInitializers(
+            initializers = setOf(analyticsFactory.analyticsInitializer)
         )
     }
 }

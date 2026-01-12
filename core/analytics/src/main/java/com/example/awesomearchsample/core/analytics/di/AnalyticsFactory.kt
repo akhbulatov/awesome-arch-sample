@@ -1,10 +1,12 @@
 package com.example.awesomearchsample.core.analytics.di
 
 import android.content.Context
-import com.example.awesomearchsample.core.analytics.api.Analytics
-import com.example.awesomearchsample.core.analytics.api.AnalyticsRepository
-import com.example.awesomearchsample.core.analytics.internal.AnalyticsRepositoryImpl
-import com.example.awesomearchsample.core.analytics.internal.firebase.AppFirebaseAnalytics
+import com.example.awesomearchsample.core.analytics.api.AnalyticsClient
+import com.example.awesomearchsample.core.analytics.internal.Analytics
+import com.example.awesomearchsample.core.analytics.internal.AnalyticsInitializer
+import com.example.awesomearchsample.core.analytics.internal.AnalyticsClientImpl
+import com.example.awesomearchsample.core.analytics.internal.integration.firebase.AppFirebaseAnalytics
+import com.example.awesomearchsample.core.common.app.AppInitializer
 
 class AnalyticsFactory(
     private val context: Context
@@ -22,8 +24,14 @@ class AnalyticsFactory(
         )
     }
 
-    val analyticsRepository: AnalyticsRepository by lazy {
-        AnalyticsRepositoryImpl(
+    val analyticsClient: AnalyticsClient by lazy {
+        AnalyticsClientImpl(
+            analyticsSet = analyticsSet
+        )
+    }
+
+    val analyticsInitializer: AppInitializer by lazy {
+        AnalyticsInitializer(
             analyticsSet = analyticsSet
         )
     }

@@ -1,7 +1,5 @@
 package com.example.awesomearchsample.core.analytics.api
 
-interface Analytics {
-    fun init()
-
+interface AnalyticsClient {
     fun sendEvent(event: AnalyticsEvent)
 }

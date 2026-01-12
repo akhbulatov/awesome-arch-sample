@@ -2,7 +2,7 @@ package com.example.awesomearchsample.core.analytics.internal.integration.fireba
 
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent
 
-internal fun AnalyticsEvent.mapFrom() = FirebaseEvent(
+internal fun AnalyticsEvent.toFirebaseEvent() = FirebaseEvent(
     name = name,
     params = params
 )

@@ -1,7 +1,7 @@
 package com.example.awesomearchsample.data.search.remote
 
 import com.example.awesomearchsample.data.search.remote.network.SearchApi
-import com.example.awesomearchsample.data.search.remote.network.mapSearchResultFromNet
+import com.example.awesomearchsample.data.search.remote.network.toSearchResultReposDomain
 import com.example.awesomearchsample.domain.search.model.SearchResult
 
 internal class SearchRemoteDataSource(
@@ -10,6 +10,6 @@ internal class SearchRemoteDataSource(
 
     suspend fun getSearchResult(query: String): SearchResult {
         return searchApi.getReposSearchResult(query)
-            .mapSearchResultFromNet()
+            .toSearchResultReposDomain()
     }
 }

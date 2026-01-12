@@ -1,8 +1,8 @@
 package com.example.awesomearchsample.data.repo.remote
 
 import com.example.awesomearchsample.data.repo.remote.network.RepoApi
-import com.example.awesomearchsample.data.repo.remote.network.mapRepoDetailsFromNet
-import com.example.awesomearchsample.data.repo.remote.network.mapRepoFromNet
+import com.example.awesomearchsample.data.repo.remote.network.toRepoDetailsDomain
+import com.example.awesomearchsample.data.repo.remote.network.toRepoDomain
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 
@@ -13,12 +13,12 @@ internal class RepoRemoteDataSource(
     suspend fun getRepos(): List<Repo> {
         return repoApi.getRepos()
             .map { repoNetModel ->
-                repoNetModel.mapRepoFromNet()
+                repoNetModel.toRepoDomain()
             }
     }
 
     suspend fun getRepoDetails(repoId: Long): RepoDetails {
         return repoApi.getRepoDetails(repoId)
-            .mapRepoDetailsFromNet()
+            .toRepoDetailsDomain()
     }
 }

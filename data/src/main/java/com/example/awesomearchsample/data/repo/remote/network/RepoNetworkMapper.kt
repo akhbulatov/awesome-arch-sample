@@ -5,7 +5,7 @@ import com.example.awesomearchsample.data.repo.remote.network.model.RepoNetModel
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 
-internal fun RepoNetModel.mapRepoFromNet(): Repo {
+internal fun RepoNetModel.toRepoDomain(): Repo {
     return Repo(
         id = id,
         name = name,
@@ -14,7 +14,7 @@ internal fun RepoNetModel.mapRepoFromNet(): Repo {
     )
 }
 
-internal fun RepoDetailsNetModel.mapRepoDetailsFromNet(): RepoDetails {
+internal fun RepoDetailsNetModel.toRepoDetailsDomain(): RepoDetails {
     return RepoDetails(
         id = id,
         name = name,

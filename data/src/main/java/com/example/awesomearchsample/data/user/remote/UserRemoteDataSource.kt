@@ -1,7 +1,7 @@
 package com.example.awesomearchsample.data.user.remote
 
 import com.example.awesomearchsample.data.user.remote.network.UserApi
-import com.example.awesomearchsample.data.user.remote.network.mapUserDetailsFromNet
+import com.example.awesomearchsample.data.user.remote.network.toUserDetailsDomain
 import com.example.awesomearchsample.domain.user.model.UserDetails
 
 internal class UserRemoteDataSource(
@@ -10,6 +10,6 @@ internal class UserRemoteDataSource(
 
     suspend fun getUserDetails(login: String): UserDetails {
         return userApi.getUserDetails(login)
-            .mapUserDetailsFromNet()
+            .toUserDetailsDomain()
     }
 }

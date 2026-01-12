@@ -19,6 +19,11 @@ class AwesomeArchSampleApp : Application(),
 
     private val graph: AppGraph by lazy { AppGraph(this) }
 
+    override fun onCreate() {
+        super.onCreate()
+        graph.appInitializers.init()
+    }
+
     override fun getLaunchFeatureDependencies(): LaunchFeatureDependencies =
         graph.launchFeatureDependencies
 

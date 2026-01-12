@@ -1,6 +1,7 @@
 package com.example.awesomearchsample.di
 
 import android.content.Context
+import com.example.awesomearchsample.core.common.app.AppInitializers
 import com.example.awesomearchsample.feature.launch.di.LaunchFeatureDependencies
 import com.example.awesomearchsample.feature.launch.di.LaunchFeatureGraph
 import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependencies
@@ -46,5 +47,9 @@ class AppGraph(
             domainFactory = appFactory.domainFactory,
             coreFactory = appFactory.coreFactory
         )
+    }
+
+    val appInitializers: AppInitializers by lazy {
+        appFactory.coreFactory.appInitializers
     }
 }

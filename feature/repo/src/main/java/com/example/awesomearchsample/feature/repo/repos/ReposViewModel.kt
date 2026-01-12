@@ -3,7 +3,6 @@ package com.example.awesomearchsample.feature.repo.repos
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.awesomearchsample.core.analytics.api.AnalyticsEvents
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.core.ui.mvvm.updateSuccess
@@ -11,6 +10,7 @@ import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.updatedByToggleInFavorites
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
+import com.example.awesomearchsample.feature.common.analytics.AnalyticsEvents
 import com.example.awesomearchsample.feature.repo.repos.di.ReposDependencies
 import kotlinx.coroutines.launch
 

@@ -12,6 +12,6 @@ import com.example.awesomearchsample.data.search.local.database.model.SearchQuer
     version = 1,
     exportSchema = true
 )
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase : RoomDatabase() {
     abstract fun searchQueryDao(): SearchQueryDao
 }

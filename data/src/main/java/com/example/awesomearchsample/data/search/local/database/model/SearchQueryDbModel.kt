@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 @Entity(
     tableName = "search_query"
 )
-data class SearchQueryDbModel(
+internal data class SearchQueryDbModel(
     @PrimaryKey @ColumnInfo("value") val value: String
 )

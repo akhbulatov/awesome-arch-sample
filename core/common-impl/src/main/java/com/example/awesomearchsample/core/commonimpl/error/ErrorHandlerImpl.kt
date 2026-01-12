@@ -9,7 +9,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.io.IOException
 import kotlinx.serialization.json.Json
 
-class ErrorHandlerImpl(
+internal class ErrorHandlerImpl(
     private val json: Json
 ) : ErrorHandler {
 

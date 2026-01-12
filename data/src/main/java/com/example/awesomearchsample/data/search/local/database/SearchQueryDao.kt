@@ -7,7 +7,7 @@ import com.example.awesomearchsample.data.search.local.database.model.SearchQuer
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface SearchQueryDao {
+internal interface SearchQueryDao {
     @Query("SELECT * FROM search_query")
     fun getAll(): Flow<List<SearchQueryDbModel>>
 

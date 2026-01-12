@@ -9,7 +9,7 @@ import com.example.awesomearchsample.data.search.local.SearchLocalDataSource
 import com.example.awesomearchsample.data.search.remote.SearchRemoteDataSource
 import com.example.awesomearchsample.domain.search.repository.SearchRepository
 
-class SearchDataFactory(
+class SearchDataFactory internal constructor(
     private val appDatabase: AppDatabase,
     private val coreFactory: CoreFactory
 ) {

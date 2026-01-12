@@ -1,6 +1,5 @@
 package com.example.awesomearchsample.core.analytics.internal
 
-import com.example.awesomearchsample.core.analytics.api.Analytics
 import com.example.awesomearchsample.core.common.app.AppInitializer
 
 internal class AnalyticsInitializer(

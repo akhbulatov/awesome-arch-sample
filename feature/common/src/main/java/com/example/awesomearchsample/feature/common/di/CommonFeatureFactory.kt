@@ -8,6 +8,6 @@ class CommonFeatureFactory(
 ) {
 
     val analyticsEventSender: AnalyticsEventSender = AnalyticsEventSender(
-        analyticsRepository = coreFactory.analyticsFactory.analyticsRepository
+        analyticsClient = coreFactory.analyticsFactory.analyticsClient
     )
 }

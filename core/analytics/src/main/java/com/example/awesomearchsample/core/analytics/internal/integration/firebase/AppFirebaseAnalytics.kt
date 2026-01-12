@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.core.analytics.internal.firebase
+package com.example.awesomearchsample.core.analytics.internal.integration.firebase
 
 import android.content.Context
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent

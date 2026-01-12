@@ -5,7 +5,7 @@ import com.example.awesomearchsample.core.analytics.api.AnalyticsClient
 import com.example.awesomearchsample.core.analytics.internal.Analytics
 import com.example.awesomearchsample.core.analytics.internal.AnalyticsInitializer
 import com.example.awesomearchsample.core.analytics.internal.AnalyticsClientImpl
-import com.example.awesomearchsample.core.analytics.internal.firebase.AppFirebaseAnalytics
+import com.example.awesomearchsample.core.analytics.internal.integration.firebase.AppFirebaseAnalytics
 import com.example.awesomearchsample.core.common.app.AppInitializer
 
 class AnalyticsFactory(

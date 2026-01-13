@@ -47,10 +47,10 @@ import com.example.awesomearchsample.feature.search.di.rememberSearchDependencie
 import kotlinx.serialization.Serializable
 
 @Serializable
-object SearchRoute : NavRoute
+internal object SearchRoute : NavRoute
 
 @Composable
-fun SearchScreen(
+internal fun SearchScreen(
     onNavigateToRepoDetails: (Long) -> Unit,
     onBack: () -> Unit
 ) {

@@ -11,6 +11,6 @@ interface RepoDetailsDependencies {
 }
 
 @Composable
-fun rememberRepoDetailsDependencies(): RepoDetailsDependencies {
+internal fun rememberRepoDetailsDependencies(): RepoDetailsDependencies {
     return rememberRepoFeatureDependencies().repoDetailsDependencies
 }

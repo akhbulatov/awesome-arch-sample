@@ -16,7 +16,7 @@ interface RepoFeatureDependenciesProvider {
 }
 
 @Composable
-fun rememberRepoFeatureDependencies(): RepoFeatureDependencies {
+internal fun rememberRepoFeatureDependencies(): RepoFeatureDependencies {
     val application = getApplicationInstance()
     return remember { (application as RepoFeatureDependenciesProvider).getRepoFeatureDependencies() }
 }

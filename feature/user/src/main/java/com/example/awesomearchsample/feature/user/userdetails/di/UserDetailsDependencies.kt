@@ -11,6 +11,6 @@ interface UserDetailsDependencies {
 }
 
 @Composable
-fun rememberUserDetailsDependencies(): UserDetailsDependencies {
+internal fun rememberUserDetailsDependencies(): UserDetailsDependencies {
     return rememberUserFeatureDependencies().userDetailsDependencies
 }

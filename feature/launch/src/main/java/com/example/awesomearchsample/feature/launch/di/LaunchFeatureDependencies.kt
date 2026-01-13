@@ -13,7 +13,7 @@ interface LaunchFeatureDependenciesProvider {
 }
 
 @Composable
-fun rememberLaunchFeatureDependencies(): LaunchFeatureDependencies {
+internal fun rememberLaunchFeatureDependencies(): LaunchFeatureDependencies {
     val application = getApplicationInstance()
     return remember { (application as LaunchFeatureDependenciesProvider).getLaunchFeatureDependencies() }
 }

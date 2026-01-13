@@ -12,7 +12,7 @@ import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsDependencies
 import kotlinx.coroutines.launch
 
-class RepoDetailsViewModel(
+internal class RepoDetailsViewModel(
     private val repoId: Long,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler

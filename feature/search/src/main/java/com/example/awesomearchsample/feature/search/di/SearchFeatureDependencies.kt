@@ -12,7 +12,7 @@ interface SearchFeatureDependenciesProvider {
 }
 
 @Composable
-fun rememberSearchFeatureDependencies(): SearchFeatureDependencies {
+internal fun rememberSearchFeatureDependencies(): SearchFeatureDependencies {
     val application = getApplicationInstance()
     return (application as SearchFeatureDependenciesProvider).getSearchFeatureDependencies()
 }

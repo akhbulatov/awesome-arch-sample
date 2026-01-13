@@ -13,7 +13,7 @@ interface UserFeatureDependenciesProvider {
 }
 
 @Composable
-fun rememberUserFeatureDependencies(): UserFeatureDependencies {
+internal fun rememberUserFeatureDependencies(): UserFeatureDependencies {
     val application = getApplicationInstance()
     return (application as UserFeatureDependenciesProvider).getUserFeatureDependencies()
 }

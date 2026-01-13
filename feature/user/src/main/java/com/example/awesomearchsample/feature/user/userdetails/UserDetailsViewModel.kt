@@ -10,7 +10,7 @@ import com.example.awesomearchsample.domain.user.usecase.GetUserDetailsUseCase
 import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsDependencies
 import kotlinx.coroutines.launch
 
-class UserDetailsViewModel(
+internal class UserDetailsViewModel(
     private val login: String,
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
     private val errorHandler: UiErrorHandler

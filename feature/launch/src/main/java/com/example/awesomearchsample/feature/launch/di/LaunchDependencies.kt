@@ -10,6 +10,6 @@ interface LaunchDependencies {
 }
 
 @Composable
-fun rememberLaunchDependencies(): LaunchDependencies {
+internal fun rememberLaunchDependencies(): LaunchDependencies {
     return rememberLaunchFeatureDependencies().launchDependencies
 }

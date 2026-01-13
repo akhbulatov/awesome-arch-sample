@@ -44,7 +44,7 @@ import kotlinx.serialization.Serializable
 object ReposRoute : NavRoute
 
 @Composable
-fun ReposScreen(
+internal fun ReposScreen(
     onNavigateToSearch: () -> Unit,
     onNavigateToRepoDetails: (Long) -> Unit
 ) {

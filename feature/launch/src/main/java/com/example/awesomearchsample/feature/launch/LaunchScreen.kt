@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 object LaunchRoute : NavRoute
 
 @Composable
-fun LaunchScreen(
+internal fun LaunchScreen(
     onNavigateToMainHost: () -> Unit
 ) {
     val dependencies = rememberLaunchDependencies()

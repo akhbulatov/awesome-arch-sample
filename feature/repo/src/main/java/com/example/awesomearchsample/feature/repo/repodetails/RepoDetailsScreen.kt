@@ -36,10 +36,10 @@ import com.example.awesomearchsample.feature.repo.repodetails.di.rememberRepoDet
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RepoDetailsRoute(val repoId: Long) : NavRoute
+internal data class RepoDetailsRoute(val repoId: Long) : NavRoute
 
 @Composable
-fun RepoDetailsScreen(
+internal fun RepoDetailsScreen(
     route: RepoDetailsRoute,
     onNavigateToUserDetails: (String) -> Unit,
     onBack: () -> Unit

@@ -11,7 +11,7 @@ import com.example.awesomearchsample.feature.launch.di.LaunchDependencies
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class LaunchViewModel(
+internal class LaunchViewModel(
     private val isFirstLaunchUseCase: IsFirstLaunchUseCase,
     private val setIsFirstLaunchUseCase: SetIsFirstLaunchUseCase
 ) : BaseViewModel<Unit, LaunchUiEffect>(initialUiState = Unit) {

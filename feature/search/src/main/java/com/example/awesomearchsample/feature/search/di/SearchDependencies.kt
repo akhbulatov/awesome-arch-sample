@@ -14,6 +14,6 @@ interface SearchDependencies {
 }
 
 @Composable
-fun rememberSearchDependencies(): SearchDependencies {
+internal fun rememberSearchDependencies(): SearchDependencies {
     return rememberSearchFeatureDependencies().searchDependencies
 }

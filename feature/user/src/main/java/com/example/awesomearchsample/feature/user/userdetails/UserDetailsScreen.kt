@@ -37,10 +37,10 @@ import com.example.awesomearchsample.feature.user.userdetails.di.rememberUserDet
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserDetailsRoute(val login: String) : NavRoute
+internal data class UserDetailsRoute(val login: String) : NavRoute
 
 @Composable
-fun UserDetailsScreen(
+internal fun UserDetailsScreen(
     route: UserDetailsRoute,
     onBack: () -> Unit
 ) {

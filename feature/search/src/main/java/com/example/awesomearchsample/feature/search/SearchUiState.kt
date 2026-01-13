@@ -5,7 +5,7 @@ import com.example.awesomearchsample.core.ui.mvvm.SuccessState
 import com.example.awesomearchsample.domain.search.model.SearchQuery
 import com.example.awesomearchsample.domain.search.model.SearchResult
 
-sealed class SearchUiState {
+internal sealed class SearchUiState {
     data class Idle(val recentQueries: List<SearchQuery> = emptyList()) : SearchUiState()
     data object Loading : SearchUiState()
     data class Error(val error: UiError) : SearchUiState()

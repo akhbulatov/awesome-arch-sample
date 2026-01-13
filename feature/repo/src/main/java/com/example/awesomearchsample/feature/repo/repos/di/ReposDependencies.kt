@@ -13,6 +13,6 @@ interface ReposDependencies {
 }
 
 @Composable
-fun rememberReposDependencies(): ReposDependencies {
+internal fun rememberReposDependencies(): ReposDependencies {
     return rememberRepoFeatureDependencies().reposDependencies
 }

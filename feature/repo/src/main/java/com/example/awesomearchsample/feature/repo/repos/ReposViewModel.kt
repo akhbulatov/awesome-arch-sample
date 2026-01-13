@@ -14,7 +14,7 @@ import com.example.awesomearchsample.feature.common.analytics.AnalyticsEvents
 import com.example.awesomearchsample.feature.repo.repos.di.ReposDependencies
 import kotlinx.coroutines.launch
 
-class ReposViewModel(
+internal class ReposViewModel(
     private val getReposUseCase: GetReposUseCase,
     private val errorHandler: UiErrorHandler,
     private val analyticsEventSender: AnalyticsEventSender

@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SearchViewModel(
+internal class SearchViewModel(
     private val getSearchResultUseCase: GetSearchResultUseCase,
     private val getSearchQueriesUseCase: GetSearchQueriesUseCase,
     private val saveSearchQueryUseCase: SaveSearchQueryUseCase,

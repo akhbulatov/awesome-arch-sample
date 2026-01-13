@@ -50,7 +50,7 @@ internal fun ReposScreen(
 ) {
     val dependencies = rememberReposDependencies()
     val viewModel = viewModel<ReposViewModel>(
-        factory = ReposViewModel.factory(dependencies = dependencies)
+        factory = ReposViewModel.viewModelFactory(dependencies = dependencies)
     )
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 

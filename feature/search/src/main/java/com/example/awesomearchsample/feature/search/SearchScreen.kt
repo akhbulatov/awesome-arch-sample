@@ -56,7 +56,7 @@ internal fun SearchScreen(
 ) {
     val dependencies = rememberSearchDependencies()
     val viewModel = viewModel<SearchViewModel>(
-        factory = SearchViewModel.factory(dependencies = dependencies)
+        factory = SearchViewModel.viewModelFactory(dependencies = dependencies)
     )
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 

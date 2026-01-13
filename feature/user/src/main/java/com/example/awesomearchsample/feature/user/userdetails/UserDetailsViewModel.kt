@@ -42,7 +42,7 @@ internal class UserDetailsViewModel(
     }
 
     companion object {
-        fun factory(
+        fun viewModelFactory(
             login: String,
             dependencies: UserDetailsDependencies
         ) = viewModelFactory {

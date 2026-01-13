@@ -16,7 +16,7 @@ internal fun LaunchScreen(
 ) {
     val dependencies = rememberLaunchDependencies()
     val viewModel = viewModel<LaunchViewModel>(
-        factory = LaunchViewModel.factory(dependencies = dependencies)
+        factory = LaunchViewModel.viewModelFactory(dependencies = dependencies)
     )
 
     LaunchedEffect(Unit) {

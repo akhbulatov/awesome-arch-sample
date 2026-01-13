@@ -54,7 +54,7 @@ internal class RepoDetailsViewModel(
     }
 
     companion object {
-        fun factory(
+        fun viewModelFactory(
             repoId: Long,
             dependencies: RepoDetailsDependencies
         ) = viewModelFactory {

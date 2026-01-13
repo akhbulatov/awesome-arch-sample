@@ -46,7 +46,7 @@ internal fun RepoDetailsScreen(
 ) {
     val dependencies = rememberRepoDetailsDependencies()
     val viewModel = viewModel<RepoDetailsViewModel>(
-        factory = RepoDetailsViewModel.factory(
+        factory = RepoDetailsViewModel.viewModelFactory(
             repoId = route.repoId,
             dependencies = dependencies
         )

@@ -28,7 +28,7 @@ internal class LaunchViewModel(
     }
 
     companion object {
-        fun factory(dependencies: LaunchDependencies) = viewModelFactory {
+        fun viewModelFactory(dependencies: LaunchDependencies) = viewModelFactory {
             initializer {
                 LaunchViewModel(
                     isFirstLaunchUseCase = dependencies.isFirstLaunchUseCase,

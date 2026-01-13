@@ -46,7 +46,7 @@ internal fun UserDetailsScreen(
 ) {
     val dependencies = rememberUserDetailsDependencies()
     val viewModel = viewModel<UserDetailsViewModel>(
-        factory = UserDetailsViewModel.factory(
+        factory = UserDetailsViewModel.viewModelFactory(
             login = route.login,
             dependencies = dependencies
         )

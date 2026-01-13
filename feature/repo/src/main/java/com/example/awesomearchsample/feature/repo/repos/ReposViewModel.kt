@@ -68,15 +68,14 @@ internal class ReposViewModel(
     }
 
     companion object {
-        fun factory(dependencies: ReposDependencies) =
-            viewModelFactory {
-                initializer {
-                    ReposViewModel(
-                        getReposUseCase = dependencies.getReposUseCase,
-                        errorHandler = dependencies.uiErrorHandler,
-                        analyticsEventSender = dependencies.analyticsEventSender
-                    )
-                }
+        fun viewModelFactory(dependencies: ReposDependencies) = viewModelFactory {
+            initializer {
+                ReposViewModel(
+                    getReposUseCase = dependencies.getReposUseCase,
+                    errorHandler = dependencies.uiErrorHandler,
+                    analyticsEventSender = dependencies.analyticsEventSender
+                )
             }
+        }
     }
 }

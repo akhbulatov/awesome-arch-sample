@@ -108,7 +108,7 @@ internal class SearchViewModel(
     }
 
     companion object {
-        fun factory(dependencies: SearchDependencies) = viewModelFactory {
+        fun viewModelFactory(dependencies: SearchDependencies) = viewModelFactory {
             initializer {
                 SearchViewModel(
                     getSearchResultUseCase = dependencies.getSearchResultUseCase,

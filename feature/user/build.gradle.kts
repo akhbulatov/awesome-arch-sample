@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.domain)
 
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)

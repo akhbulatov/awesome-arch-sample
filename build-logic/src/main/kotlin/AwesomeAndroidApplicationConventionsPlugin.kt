@@ -1,4 +1,4 @@
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.android.build.api.dsl.ApplicationExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -15,7 +15,7 @@ class AwesomeAndroidApplicationConventionsPlugin : Plugin<Project> {
 
         val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
 
-        extensions.configure(BaseAppModuleExtension::class.java) {
+        extensions.configure(ApplicationExtension::class.java) {
             compileSdk = libs.findVersion("compileSdk").get().requiredVersion.toInt()
 
             defaultConfig {

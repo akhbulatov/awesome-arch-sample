@@ -11,7 +11,6 @@ class AwesomeAndroidLibraryConventionsPlugin : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
         pluginManager.apply("com.android.library")
-        pluginManager.apply("org.jetbrains.kotlin.android")
 
         val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
 

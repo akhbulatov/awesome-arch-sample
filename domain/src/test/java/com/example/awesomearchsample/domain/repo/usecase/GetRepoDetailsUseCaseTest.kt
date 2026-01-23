@@ -12,30 +12,39 @@ class GetRepoDetailsUseCaseTest {
     @Test
     fun invoke_returnsRepoDetailsFromRepository() = runBlocking {
         // Arrange
+        val repoId = 42L
         val expected = RepoDetails(
-            id = 42L,
+            id = repoId,
             name = "Awesome",
             author = "Ada",
             description = "Details",
             starsCount = 10,
             forksCount = 2
         )
-        val useCase = GetRepoDetailsUseCase(FakeRepoRepository(expected))
+        val repository = FakeRepoRepository(expected)
+        val useCase = GetRepoDetailsUseCase(repository)
 
         // Act
-        val result = useCase.invoke(42L)
+        val result = useCase.invoke(repoId)
 
         // Assert
         assertEquals(expected, result)
+        assertEquals(repoId, repository.lastRequestedRepoId)
     }
 
     private class FakeRepoRepository(
         private val repoDetails: RepoDetails
     ) : RepoRepository {
+        var lastRequestedRepoId: Long? = null
+            private set
+
         override suspend fun getRepos(): List<Repo> {
             error("Not used in this test")
         }
 
-        override suspend fun getRepoDetails(repoId: Long): RepoDetails = repoDetails
+        override suspend fun getRepoDetails(repoId: Long): RepoDetails {
+            lastRequestedRepoId = repoId
+            return repoDetails
+        }
     }
 }

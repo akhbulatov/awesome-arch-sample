@@ -85,3 +85,4 @@ kermit = { module = "co.touchlab:kermit", version = "2.0.8" }
 
 # Testing
 junit4 = { module = "junit:junit", version = "4.13.2" }
+robolectric = { module = "org.robolectric:robolectric", version = "4.16.1" }

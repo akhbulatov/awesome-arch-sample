@@ -10,7 +10,7 @@ import org.junit.Test
 class GetReposUseCaseTest {
 
     @Test
-    fun invoke_returnsReposFromRepository() = runBlocking {
+    fun invoke_returnsRepos() = runBlocking {
         // Arrange
         val expected = listOf(
             Repo(

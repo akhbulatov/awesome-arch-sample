@@ -10,7 +10,7 @@ import org.junit.Test
 class GetRepoDetailsUseCaseTest {
 
     @Test
-    fun invoke_returnsRepoDetailsFromRepository() = runBlocking {
+    fun invoke_returnsRepoDetails() = runBlocking {
         // Arrange
         val repoId = 42L
         val expected = RepoDetails(

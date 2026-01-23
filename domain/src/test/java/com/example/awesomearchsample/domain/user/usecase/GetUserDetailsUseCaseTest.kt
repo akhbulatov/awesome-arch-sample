@@ -9,7 +9,7 @@ import org.junit.Test
 class GetUserDetailsUseCaseTest {
 
     @Test
-    fun invoke_returnsUserDetailsFromRepository() = runBlocking {
+    fun invoke_returnsUserDetails() = runBlocking {
         // Arrange
         val login = "Ada"
         val expected = UserDetails(

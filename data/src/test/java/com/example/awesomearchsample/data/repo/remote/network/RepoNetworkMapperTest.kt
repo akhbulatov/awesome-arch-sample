@@ -11,7 +11,7 @@ import org.junit.Test
 class RepoNetworkMapperTest {
 
     @Test
-    fun toRepoDomain_mapsNetworkModel() {
+    fun toRepoDomain_mapsFieldsCorrectly() {
         // Arrange
         val netModel = RepoNetModel(
             id = 1L,
@@ -35,7 +35,7 @@ class RepoNetworkMapperTest {
     }
 
     @Test
-    fun toRepoDetailsDomain_mapsNetworkModel() {
+    fun toRepoDetailsDomain_mapsFieldsCorrectly() {
         // Arrange
         val netModel = RepoDetailsNetModel(
             id = 2L,

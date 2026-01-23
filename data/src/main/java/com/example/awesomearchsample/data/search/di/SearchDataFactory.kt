@@ -4,6 +4,7 @@ import com.example.awesomearchsample.core.corefactory.di.CoreFactory
 import com.example.awesomearchsample.data.AppDatabase
 import com.example.awesomearchsample.data.search.SearchRepositoryImpl
 import com.example.awesomearchsample.data.search.local.database.SearchQueryDao
+import com.example.awesomearchsample.data.search.remote.network.KtorSearchApi
 import com.example.awesomearchsample.data.search.remote.network.SearchApi
 import com.example.awesomearchsample.data.search.local.SearchLocalDataSource
 import com.example.awesomearchsample.data.search.remote.SearchRemoteDataSource
@@ -15,7 +16,7 @@ class SearchDataFactory internal constructor(
 ) {
 
     private val searchApi: SearchApi by lazy {
-        SearchApi(httpClient = coreFactory.networkFactory.httpClient)
+        KtorSearchApi(httpClient = coreFactory.networkFactory.httpClient)
     }
 
     private val searchQueryDao: SearchQueryDao by lazy {

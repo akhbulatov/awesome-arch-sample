@@ -4,6 +4,7 @@ import com.example.awesomearchsample.core.corefactory.di.CoreFactory
 import com.example.awesomearchsample.data.user.UserRepositoryImpl
 import com.example.awesomearchsample.data.user.remote.network.UserApi
 import com.example.awesomearchsample.data.user.remote.UserRemoteDataSource
+import com.example.awesomearchsample.data.user.remote.network.KtorUserApi
 import com.example.awesomearchsample.domain.user.repository.UserRepository
 
 class UserDataFactory(
@@ -11,7 +12,7 @@ class UserDataFactory(
 ) {
 
     private val userApi: UserApi by lazy {
-        UserApi(
+        KtorUserApi(
             httpClient = coreFactory.networkFactory.httpClient
         )
     }

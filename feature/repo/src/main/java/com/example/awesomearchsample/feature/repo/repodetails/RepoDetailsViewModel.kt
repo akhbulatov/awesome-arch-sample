@@ -16,7 +16,7 @@ internal class RepoDetailsViewModel(
     private val repoId: Long,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState.Loading) {
+) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState.Idle) {
 
     init {
         loadRepoDetails()

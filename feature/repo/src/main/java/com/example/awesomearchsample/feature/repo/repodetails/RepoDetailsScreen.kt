@@ -106,6 +106,7 @@ private fun RepoDetailsContent(
                 .padding(innerPadding)
         ) {
             when (state) {
+                is RepoDetailsUiState.Idle -> Unit
                 is RepoDetailsUiState.Loading -> EmptyProgress()
                 is RepoDetailsUiState.Error -> EmptyError(
                     error = state.error,

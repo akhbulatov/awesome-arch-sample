@@ -106,6 +106,7 @@ private fun ReposContent(
                 .padding(innerPadding)
         ) {
             when (state) {
+                is ReposUiState.Idle -> Unit
                 is ReposUiState.Loading -> EmptyProgress()
                 is ReposUiState.Error -> EmptyError(
                     error = state.error,

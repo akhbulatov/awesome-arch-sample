@@ -96,6 +96,7 @@ private fun UserDetailsContent(
                 .padding(innerPadding)
         ) {
             when (state) {
+                is UserDetailsUiState.Idle -> Unit
                 is UserDetailsUiState.Loading -> EmptyProgress()
                 is UserDetailsUiState.Error -> EmptyError(
                     error = state.error,

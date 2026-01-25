@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.user.userdetails
+package com.example.awesomearchsample.feature.repo.repodetails
 
 import app.cash.turbine.test
 import com.example.awesomearchsample.core.common.error.ErrorEntity
@@ -6,9 +6,10 @@ import com.example.awesomearchsample.core.common.error.ErrorHandler
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.text.UiText
-import com.example.awesomearchsample.domain.user.model.UserDetails
-import com.example.awesomearchsample.domain.user.repository.UserRepository
-import com.example.awesomearchsample.domain.user.usecase.GetUserDetailsUseCase
+import com.example.awesomearchsample.domain.repo.model.Repo
+import com.example.awesomearchsample.domain.repo.model.RepoDetails
+import com.example.awesomearchsample.domain.repo.repository.RepoRepository
+import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -22,7 +23,7 @@ import org.junit.Test
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-class UserDetailsViewModelTest {
+class RepoDetailsViewModelTest {
 
     @Rule
     @JvmField
@@ -31,36 +32,36 @@ class UserDetailsViewModelTest {
     @Test
     fun init_returnsSuccess() = runTest(mainDispatcherRule.testDispatcher) {
         // Arrange
-        val login = "ada"
-        val expected = UserDetails(
+        val repoId = 1L
+        val expected = RepoDetails(
             id = 1L,
-            login = login,
-            name = "Ada Lovelace",
-            avatarUrl = "https://example.com/avatar.png",
-            location = "San Francisco",
-            bio = "Software Engineer"
+            name = "Repo 1",
+            author = "Ada",
+            description = "Description",
+            starsCount = 100,
+            forksCount = 50
         )
-        val repository = FakeUserRepository(results = listOf(Result.success(expected)))
-        val useCase = GetUserDetailsUseCase(repository)
+        val repository = FakeRepoRepository(results = listOf(Result.success(expected)))
+        val useCase = GetRepoDetailsUseCase(repository)
         val errorHandler = UiErrorHandler(FakeErrorHandler())
 
         // Act
-        val viewModel = UserDetailsViewModel(login, useCase, errorHandler)
+        val viewModel = RepoDetailsViewModel(repoId, useCase, errorHandler)
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(UserDetailsUiState.Idle, awaitItem())
+            assertEquals(RepoDetailsUiState.Idle, awaitItem())
 
             // Loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(UserDetailsUiState.Loading, awaitItem())
+            assertEquals(RepoDetailsUiState.Loading, awaitItem())
 
             // Success phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
-            assertEquals(UserDetailsUiState.Success(expected), awaitItem())
+            assertEquals(RepoDetailsUiState.Success(expected), awaitItem())
 
             // Argument forwarding
-            assertEquals(login, repository.lastRequestedLogin)
+            assertEquals(repoId, repository.lastRequestedRepoId)
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -69,29 +70,29 @@ class UserDetailsViewModelTest {
     @Test
     fun init_returnsError() = runTest(mainDispatcherRule.testDispatcher) {
         // Arrange
-        val login = "ada"
+        val repoId = 1L
         val exception = IllegalStateException("boom")
-        val repository = FakeUserRepository(results = listOf(Result.failure(exception)))
-        val useCase = GetUserDetailsUseCase(repository)
+        val repository = FakeRepoRepository(results = listOf(Result.failure(exception)))
+        val useCase = GetRepoDetailsUseCase(repository)
         val errorHandler = UiErrorHandler(FakeErrorHandler(ErrorEntity.Message("boom")))
 
         // Act
-        val viewModel = UserDetailsViewModel(login, useCase, errorHandler)
+        val viewModel = RepoDetailsViewModel(repoId, useCase, errorHandler)
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(UserDetailsUiState.Idle, awaitItem())
+            assertEquals(RepoDetailsUiState.Idle, awaitItem())
 
             // Loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(UserDetailsUiState.Loading, awaitItem())
+            assertEquals(RepoDetailsUiState.Loading, awaitItem())
 
             // Error phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
-            assertEquals(UserDetailsUiState.Error(UiError(UiText.Plain("boom"))), awaitItem())
+            assertEquals(RepoDetailsUiState.Error(UiError(UiText.Plain("boom"))), awaitItem())
 
             // Argument forwarding
-            assertEquals(login, repository.lastRequestedLogin)
+            assertEquals(repoId, repository.lastRequestedRepoId)
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -100,36 +101,36 @@ class UserDetailsViewModelTest {
     @Test
     fun onErrorActionClick_retriesLoading() = runTest(mainDispatcherRule.testDispatcher) {
         // Arrange
-        val login = "ada"
-        val expected = UserDetails(
+        val repoId = 1L
+        val expected = RepoDetails(
             id = 1L,
-            login = login,
-            name = "Ada Lovelace",
-            avatarUrl = "https://example.com/avatar.png",
-            location = "San Francisco",
-            bio = "Software Engineer"
+            name = "Repo 1",
+            author = "Ada",
+            description = "Description",
+            starsCount = 100,
+            forksCount = 50
         )
-        val repository = FakeUserRepository(
+        val repository = FakeRepoRepository(
             results = listOf(
                 Result.failure(IllegalStateException("boom")),
                 Result.success(expected)
             )
         )
-        val useCase = GetUserDetailsUseCase(repository)
+        val useCase = GetRepoDetailsUseCase(repository)
         val errorHandler = UiErrorHandler(FakeErrorHandler(ErrorEntity.Message("boom")))
-        val viewModel = UserDetailsViewModel(login, useCase, errorHandler)
+        val viewModel = RepoDetailsViewModel(repoId, useCase, errorHandler)
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(UserDetailsUiState.Idle, awaitItem())
+            assertEquals(RepoDetailsUiState.Idle, awaitItem())
 
             // Initial loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(UserDetailsUiState.Loading, awaitItem())
+            assertEquals(RepoDetailsUiState.Loading, awaitItem())
 
             // Error phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
-            assertEquals(UserDetailsUiState.Error(UiError(UiText.Plain("boom"))), awaitItem())
+            assertEquals(RepoDetailsUiState.Error(UiError(UiText.Plain("boom"))), awaitItem())
 
             // Act
             viewModel.onErrorActionClick()
@@ -137,27 +138,31 @@ class UserDetailsViewModelTest {
 
             // Assert
             // Retry loading phase
-            assertEquals(UserDetailsUiState.Loading, awaitItem())
+            assertEquals(RepoDetailsUiState.Loading, awaitItem())
             // Retry success phase
-            assertEquals(UserDetailsUiState.Success(expected), awaitItem())
+            assertEquals(RepoDetailsUiState.Success(expected), awaitItem())
 
             cancelAndIgnoreRemainingEvents()
         }
     }
 
-    private class FakeUserRepository(
-        private val results: List<Result<UserDetails>> // Sequence of outcomes for successive calls.
-    ) : UserRepository {
-        var lastRequestedLogin: String? = null
+    private class FakeRepoRepository(
+        private val results: List<Result<RepoDetails>> // Sequence of outcomes for successive calls.
+    ) : RepoRepository {
+        var lastRequestedRepoId: Long? = null
             private set
         private var callIndex = 0 // Tracks which result to return next.
 
-        override suspend fun getUserDetails(login: String): UserDetails {
-            lastRequestedLogin = login
+        override suspend fun getRepoDetails(repoId: Long): RepoDetails {
+            lastRequestedRepoId = repoId
             // Returns sequential Result values to simulate failure-then-success flows.
             val result = results.getOrNull(callIndex) ?: results.last()
             callIndex += 1
             return result.getOrThrow()
+        }
+
+        override suspend fun getRepos(): List<Repo> {
+            error("Not used in this test")
         }
     }
 
@@ -173,11 +178,11 @@ class UserDetailsViewModelTest {
     class MainDispatcherRule(
         val testDispatcher: TestDispatcher = StandardTestDispatcher()
     ) : TestWatcher() {
-        override fun starting(description: Description) {
+        override fun starting(description: Description?) {
             Dispatchers.setMain(testDispatcher)
         }
 
-        override fun finished(description: Description) {
+        override fun finished(description: Description?) {
             Dispatchers.resetMain()
         }
     }

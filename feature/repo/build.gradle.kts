@@ -17,4 +17,9 @@ dependencies {
     implementation(libs.coroutines.android)
 
     implementation(libs.serialization.core)
+
+    testImplementation(libs.junit4)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.turbine)
+    testImplementation(libs.robolectric)
 }

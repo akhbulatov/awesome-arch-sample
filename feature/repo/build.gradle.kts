@@ -22,4 +22,5 @@ dependencies {
     testImplementation(libs.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.robolectric)
+    testImplementation(projects.core.testing)
 }

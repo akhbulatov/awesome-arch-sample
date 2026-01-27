@@ -4,7 +4,8 @@ import app.cash.turbine.test
 import com.example.awesomearchsample.core.analytics.api.AnalyticsClient
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent
 import com.example.awesomearchsample.core.common.error.ErrorEntity
-import com.example.awesomearchsample.core.common.error.ErrorHandler
+import com.example.awesomearchsample.core.testing.FakeErrorHandler
+import com.example.awesomearchsample.core.testing.MainDispatcherRule
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.text.UiText
@@ -14,23 +15,14 @@ import com.example.awesomearchsample.domain.repo.repository.RepoRepository
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEvents
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-@OptIn(ExperimentalCoroutinesApi::class)
 class ReposViewModelTest {
 
     @Rule
@@ -259,37 +251,12 @@ class ReposViewModelTest {
         }
     }
 
-    private class FakeErrorHandler(
-        private val errorEntity: ErrorEntity = ErrorEntity.Message("error")
-    ) : ErrorHandler {
-        override suspend fun getError(throwable: Throwable): ErrorEntity = errorEntity
-
-        override fun recordError(throwable: Throwable) = Unit
-    }
-
     private class FakeAnalyticsClient : AnalyticsClient {
         var lastEvent: AnalyticsEvent? = null
             private set
 
         override fun sendEvent(event: AnalyticsEvent) {
             lastEvent = event
-        }
-    }
-
-    // JUnit rule for coroutine tests:
-    // - swaps Dispatchers.Main to a controllable TestDispatcher
-    // - resets Main after each test to avoid cross-test leakage
-    class MainDispatcherRule(
-        val testDispatcher: TestDispatcher = StandardTestDispatcher()
-    ) : TestWatcher() {
-        override fun starting(description: Description) {
-            // Make ViewModel coroutines run on the test dispatcher.
-            Dispatchers.setMain(testDispatcher)
-        }
-
-        override fun finished(description: Description) {
-            // Restore the original Main dispatcher after each test.
-            Dispatchers.resetMain()
         }
     }
 }

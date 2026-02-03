@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,6 +43,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 object ReposRoute : NavRoute
+
+const val REPOS_SCREEN_TAG = "repos_screen"
 
 @Composable
 internal fun ReposScreen(
@@ -104,6 +107,7 @@ private fun ReposContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .testTag(REPOS_SCREEN_TAG)
         ) {
             when (state) {
                 is ReposUiState.Idle -> Unit

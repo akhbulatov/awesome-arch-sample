@@ -45,6 +45,10 @@ internal class ReposViewModel(
         emitEffect(ReposUiEffect.NavigateToSearch)
     }
 
+    fun onSettingsClick() {
+        emitEffect(ReposUiEffect.NavigateToSettings)
+    }
+
     fun onErrorActionClick() {
         loadRepos()
     }

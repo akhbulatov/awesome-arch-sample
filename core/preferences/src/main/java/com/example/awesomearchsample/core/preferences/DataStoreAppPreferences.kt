@@ -26,7 +26,19 @@ class DataStoreAppPreferences(
         }
     }
 
+    override fun isNotificationsEnabled(): Flow<Boolean> =
+        context.dataStore.data.map { prefs ->
+            prefs[IS_NOTIFICATIONS_ENABLED] ?: false
+        }
+
+    override suspend fun setNotificationsEnabled(value: Boolean) {
+        context.dataStore.edit { prefs ->
+            prefs[IS_NOTIFICATIONS_ENABLED] = value
+        }
+    }
+
     companion object {
         private val IS_FIRST_LAUNCH = booleanPreferencesKey("is_first_launch")
+        private val IS_NOTIFICATIONS_ENABLED = booleanPreferencesKey("is_notifications_enabled")
     }
 }

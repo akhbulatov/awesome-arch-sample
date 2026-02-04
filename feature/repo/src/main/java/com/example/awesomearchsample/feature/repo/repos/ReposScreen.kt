@@ -48,6 +48,7 @@ const val REPOS_SCREEN_TAG = "repos_screen"
 const val REPOS_LOADING_TAG = "repos_loading"
 const val REPOS_SEARCH_BUTTON_TAG = "repos_search_button"
 const val REPOS_LIST_TAG = "repos_list"
+const val REPO_ITEM_TAG_PREFIX = "repo_item_"
 
 @Composable
 internal fun ReposScreen(
@@ -192,6 +193,7 @@ private fun RepoItem(
             .fillMaxWidth()
             .clickable { onRepoItemClick(repo) }
             .padding(15.dp)
+            .testTag(REPO_ITEM_TAG_PREFIX + repo.id)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()

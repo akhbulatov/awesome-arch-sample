@@ -1,11 +1,10 @@
 import com.android.build.api.dsl.LibraryExtension
+import kotlinx.kover.gradle.plugin.dsl.KoverProjectExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
-import kotlinx.kover.gradle.plugin.dsl.KoverProjectExtension
 
 @Suppress("unused")
 class AwesomeAndroidLibraryConventionsPlugin : Plugin<Project> {
@@ -14,13 +13,14 @@ class AwesomeAndroidLibraryConventionsPlugin : Plugin<Project> {
         pluginManager.apply("com.android.library")
         pluginManager.apply("org.jetbrains.kotlinx.kover")
 
-        val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+        val minSdkVersion = providers.gradleProperty("minSdk").get().toInt()
+        val compileSdkVersion = providers.gradleProperty("compileSdk").get().toInt()
 
         extensions.configure(LibraryExtension::class.java) {
-            compileSdk = libs.findVersion("compileSdk").get().requiredVersion.toInt()
+            compileSdk = compileSdkVersion
 
             defaultConfig {
-                minSdk = libs.findVersion("minSdk").get().requiredVersion.toInt()
+                minSdk = minSdkVersion
             }
 
             buildTypes {

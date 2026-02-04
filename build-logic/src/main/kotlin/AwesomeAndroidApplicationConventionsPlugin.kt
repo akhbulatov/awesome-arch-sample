@@ -2,7 +2,6 @@ import com.android.build.api.dsl.ApplicationExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
@@ -12,16 +11,20 @@ class AwesomeAndroidApplicationConventionsPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         pluginManager.apply("com.android.application")
 
-        val libs = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+        val minSdkVersion = providers.gradleProperty("minSdk").get().toInt()
+        val compileSdkVersion = providers.gradleProperty("compileSdk").get().toInt()
+        val targetSdkVersion = providers.gradleProperty("targetSdk").get().toInt()
+        val versionCodeValue = providers.gradleProperty("versionCode").get().toInt()
+        val versionNameValue = providers.gradleProperty("versionName").get()
 
         extensions.configure(ApplicationExtension::class.java) {
-            compileSdk = libs.findVersion("compileSdk").get().requiredVersion.toInt()
+            compileSdk = compileSdkVersion
 
             defaultConfig {
-                minSdk = libs.findVersion("minSdk").get().requiredVersion.toInt()
-                targetSdk = libs.findVersion("targetSdk").get().requiredVersion.toInt()
-                versionCode = libs.findVersion("versionCode").get().requiredVersion.toInt()
-                versionName = libs.findVersion("versionName").get().requiredVersion
+                minSdk = minSdkVersion
+                targetSdk = targetSdkVersion
+                versionCode = versionCodeValue
+                versionName = versionNameValue
             }
 
             buildTypes {

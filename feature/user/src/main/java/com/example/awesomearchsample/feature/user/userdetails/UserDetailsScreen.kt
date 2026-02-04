@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,6 +39,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class UserDetailsRoute(val login: String) : NavRoute
+
+const val USER_DETAILS_SCREEN_TAG = "user_details_screen"
 
 @Composable
 internal fun UserDetailsScreen(
@@ -94,6 +97,7 @@ private fun UserDetailsContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .testTag(USER_DETAILS_SCREEN_TAG)
         ) {
             when (state) {
                 is UserDetailsUiState.Idle -> Unit

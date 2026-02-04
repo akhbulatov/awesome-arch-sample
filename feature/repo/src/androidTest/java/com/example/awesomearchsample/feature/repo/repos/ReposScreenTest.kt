@@ -1,20 +1,22 @@
 package com.example.awesomearchsample.feature.repo.repos
 
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.designsystem.ERROR_RETRY_BUTTON_TAG
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.text.UiText
 import com.example.awesomearchsample.domain.repo.model.Repo
+import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.assertEquals
 
 @RunWith(AndroidJUnit4::class)
 class ReposScreenTest {
@@ -124,5 +126,22 @@ class ReposScreenTest {
         }
 
         composeRule.onNodeWithTag(REPOS_LOADING_TAG).assertIsDisplayed()
+    }
+
+    @Test
+    fun reposContent_idleState_showsNoLoadingOrError() {
+        composeRule.setContent {
+            AppTheme {
+                ReposContent(
+                    state = ReposUiState.Idle,
+                    onSearchClick = {},
+                    onErrorActionClick = {},
+                    onRepoClick = {}
+                )
+            }
+        }
+
+        composeRule.onAllNodesWithTag(REPOS_LOADING_TAG).assertCountEquals(0)
+        composeRule.onAllNodesWithTag(ERROR_RETRY_BUTTON_TAG).assertCountEquals(0)
     }
 }

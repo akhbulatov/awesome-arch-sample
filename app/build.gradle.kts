@@ -8,6 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.awesomearchsample"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
@@ -26,4 +27,10 @@ dependencies {
     implementation(projects.feature.repo)
     implementation(projects.feature.search)
     implementation(projects.feature.user)
+
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.runner)
+    debugImplementation(libs.compose.ui.test.manifest)
 }

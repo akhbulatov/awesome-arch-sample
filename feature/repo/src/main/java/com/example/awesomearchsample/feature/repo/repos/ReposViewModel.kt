@@ -18,7 +18,7 @@ internal class ReposViewModel(
     private val getReposUseCase: GetReposUseCase,
     private val errorHandler: UiErrorHandler,
     private val analyticsEventSender: AnalyticsEventSender
-) : BaseViewModel<ReposUiState, ReposUiEffect>(initialUiState = ReposUiState.Loading) {
+) : BaseViewModel<ReposUiState, ReposUiEffect>(initialUiState = ReposUiState.Idle) {
 
     init {
         loadRepos()

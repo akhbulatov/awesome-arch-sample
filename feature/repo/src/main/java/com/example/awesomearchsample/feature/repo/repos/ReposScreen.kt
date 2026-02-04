@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,6 +43,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 object ReposRoute : NavRoute
+
+const val REPOS_SCREEN_TAG = "repos_screen"
+const val REPOS_LOADING_TAG = "repos_loading"
+const val REPOS_SEARCH_BUTTON_TAG = "repos_search_button"
+const val REPOS_LIST_TAG = "repos_list"
+const val REPO_ITEM_TAG_PREFIX = "repo_item_"
 
 @Composable
 internal fun ReposScreen(
@@ -75,7 +82,7 @@ private typealias OnRepoItemClick = (Repo) -> Unit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ReposContent(
+internal fun ReposContent(
     state: ReposUiState,
     onSearchClick: () -> Unit,
     onErrorActionClick: () -> Unit,
@@ -89,7 +96,8 @@ private fun ReposContent(
                 },
                 actions = {
                     IconButton(
-                        onClick = onSearchClick
+                        onClick = onSearchClick,
+                        modifier = Modifier.testTag(REPOS_SEARCH_BUTTON_TAG)
                     ) {
                         Icon(
                             painterResource(id = R.drawable.ic_search),
@@ -104,8 +112,10 @@ private fun ReposContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .testTag(REPOS_SCREEN_TAG)
         ) {
             when (state) {
+                is ReposUiState.Idle -> Unit
                 is ReposUiState.Loading -> EmptyProgress()
                 is ReposUiState.Error -> EmptyError(
                     error = state.error,
@@ -126,6 +136,7 @@ private fun EmptyProgress() {
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize()
+            .testTag(REPOS_LOADING_TAG)
     )
 }
 
@@ -159,7 +170,9 @@ private fun RepoList(
     onRepoItemClick: OnRepoItemClick
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag(REPOS_LIST_TAG)
     ) {
         items(
             items = repos,
@@ -180,6 +193,7 @@ private fun RepoItem(
             .fillMaxWidth()
             .clickable { onRepoItemClick(repo) }
             .padding(15.dp)
+            .testTag(REPO_ITEM_TAG_PREFIX + repo.id)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()

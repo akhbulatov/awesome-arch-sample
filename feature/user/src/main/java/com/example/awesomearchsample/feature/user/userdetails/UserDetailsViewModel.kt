@@ -14,7 +14,7 @@ internal class UserDetailsViewModel(
     private val login: String,
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<UserDetailsUiState, BaseUiEffect>(initialUiState = UserDetailsUiState.Loading) {
+) : BaseViewModel<UserDetailsUiState, BaseUiEffect>(initialUiState = UserDetailsUiState.Idle) {
 
     init {
         loadUserDetails()

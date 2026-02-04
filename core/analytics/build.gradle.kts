@@ -10,4 +10,7 @@ dependencies {
     implementation(projects.core.common)
 
     implementation(libs.kermit)
+
+    testImplementation(libs.junit4)
+    testImplementation(libs.robolectric)
 }

@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +38,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class RepoDetailsRoute(val repoId: Long) : NavRoute
+
+const val REPO_DETAILS_SCREEN_TAG = "repo_details_screen"
+const val REPO_DETAILS_LOADING_TAG = "repo_details_loading"
+const val REPO_DETAILS_BACK_BUTTON_TAG = "repo_details_back_button"
+const val REPO_DETAILS_NAME_TAG = "repo_details_name"
+const val REPO_DETAILS_AUTHOR_TAG = "repo_details_author"
+const val REPO_DETAILS_STARS_TAG = "repo_details_stars"
+const val REPO_DETAILS_FORKS_TAG = "repo_details_forks"
 
 @Composable
 internal fun RepoDetailsScreen(
@@ -71,7 +80,7 @@ internal fun RepoDetailsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RepoDetailsContent(
+internal fun RepoDetailsContent(
     state: RepoDetailsUiState,
     onNavigationClick: () -> Unit,
     onErrorActionClick: () -> Unit,
@@ -89,7 +98,8 @@ private fun RepoDetailsContent(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = onNavigationClick
+                        onClick = onNavigationClick,
+                        modifier = Modifier.testTag(REPO_DETAILS_BACK_BUTTON_TAG)
                     ) {
                         Image(
                             painter = painterResource(com.example.awesomearchsample.core.ui.R.drawable.ic_arrow_back),
@@ -104,8 +114,10 @@ private fun RepoDetailsContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .testTag(REPO_DETAILS_SCREEN_TAG)
         ) {
             when (state) {
+                is RepoDetailsUiState.Idle -> Unit
                 is RepoDetailsUiState.Loading -> EmptyProgress()
                 is RepoDetailsUiState.Error -> EmptyError(
                     error = state.error,
@@ -126,6 +138,7 @@ private fun EmptyProgress() {
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize()
+            .testTag(REPO_DETAILS_LOADING_TAG)
     )
 }
 
@@ -154,7 +167,9 @@ private fun RepoDetailsSuccess(
         // Name
         Text(
             text = repoDetails.name,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(REPO_DETAILS_NAME_TAG),
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -172,13 +187,17 @@ private fun RepoDetailsSuccess(
         // Stars
         Text(
             text = stringResource(R.string.repo_details_stars, repoDetails.starsCount),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(REPO_DETAILS_STARS_TAG),
             style = MaterialTheme.typography.labelLarge
         )
         // Forks
         Text(
             text = stringResource(R.string.repo_details_forks, repoDetails.forksCount),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(REPO_DETAILS_FORKS_TAG),
             style = MaterialTheme.typography.labelLarge
         )
 
@@ -189,6 +208,7 @@ private fun RepoDetailsSuccess(
             text = stringResource(R.string.repo_details_author, repoDetails.author),
             modifier = Modifier
                 .fillMaxWidth()
+                .testTag(REPO_DETAILS_AUTHOR_TAG)
                 .clickable { onAuthorClick() },
             style = MaterialTheme.typography.labelSmall
         )

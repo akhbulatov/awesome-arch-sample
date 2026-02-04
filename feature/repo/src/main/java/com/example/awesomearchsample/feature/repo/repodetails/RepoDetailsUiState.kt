@@ -5,6 +5,7 @@ import com.example.awesomearchsample.core.ui.mvvm.SuccessState
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 
 internal sealed class RepoDetailsUiState {
+    data object Idle : RepoDetailsUiState()
     data object Loading : RepoDetailsUiState()
     data class Error(val error: UiError) : RepoDetailsUiState()
     data class Success(val repoDetails: RepoDetails) : RepoDetailsUiState(), SuccessState<RepoDetails> {

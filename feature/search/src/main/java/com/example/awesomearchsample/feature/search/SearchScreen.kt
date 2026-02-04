@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -48,6 +49,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal object SearchRoute : NavRoute
+
+const val SEARCH_SCREEN_TAG = "search_screen"
 
 @Composable
 internal fun SearchScreen(
@@ -143,6 +146,7 @@ private fun SearchContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .testTag(SEARCH_SCREEN_TAG)
         ) {
             when (state) {
                 is SearchUiState.Loading -> EmptyProgress()

@@ -13,4 +13,7 @@ dependencies {
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.runtime)
+
+    testImplementation(libs.junit4)
+    testImplementation(libs.robolectric)
 }

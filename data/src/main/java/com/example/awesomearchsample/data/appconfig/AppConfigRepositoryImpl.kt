@@ -15,4 +15,12 @@ internal class AppConfigRepositoryImpl(
     override suspend fun setIsFirstLaunch(value: Boolean) {
         appPreferences.setIsFirstLaunch(value)
     }
+
+    override fun isNotificationsEnabled(): Flow<Boolean> {
+        return appPreferences.isNotificationsEnabled()
+    }
+
+    override suspend fun setNotificationsEnabled(value: Boolean) {
+        appPreferences.setNotificationsEnabled(value)
+    }
 }

@@ -1,0 +1,4 @@
+<resources>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_enable_notifications">Включить уведомления</string>
+</resources>

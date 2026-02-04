@@ -8,6 +8,8 @@ import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependencies
 import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependenciesProvider
 import com.example.awesomearchsample.feature.search.di.SearchFeatureDependencies
 import com.example.awesomearchsample.feature.search.di.SearchFeatureDependenciesProvider
+import com.example.awesomearchsample.feature.settings.di.SettingsFeatureDependencies
+import com.example.awesomearchsample.feature.settings.di.SettingsFeatureDependenciesProvider
 import com.example.awesomearchsample.feature.user.di.UserFeatureDependencies
 import com.example.awesomearchsample.feature.user.di.UserFeatureDependenciesProvider
 
@@ -15,6 +17,7 @@ class AwesomeArchSampleApp : Application(),
     LaunchFeatureDependenciesProvider,
     RepoFeatureDependenciesProvider,
     SearchFeatureDependenciesProvider,
+    SettingsFeatureDependenciesProvider,
     UserFeatureDependenciesProvider {
 
     private val graph: AppGraph by lazy { AppGraph(this) }
@@ -32,6 +35,9 @@ class AwesomeArchSampleApp : Application(),
 
     override fun getSearchFeatureDependencies(): SearchFeatureDependencies =
         graph.searchFeatureDependencies
+
+    override fun getSettingsFeatureDependencies(): SettingsFeatureDependencies =
+        graph.settingsFeatureDependencies
 
     override fun getUserFeatureDependencies(): UserFeatureDependencies =
         graph.userFeatureDependencies

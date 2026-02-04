@@ -33,5 +33,13 @@ class SetIsFirstLaunchUseCaseTest {
         override suspend fun setIsFirstLaunch(value: Boolean) {
             lastSetValue = value
         }
+
+        override fun isNotificationsEnabled(): Flow<Boolean> {
+            error("Not used in this test")
+        }
+
+        override suspend fun setNotificationsEnabled(value: Boolean) {
+            error("Not used in this test")
+        }
     }
 }

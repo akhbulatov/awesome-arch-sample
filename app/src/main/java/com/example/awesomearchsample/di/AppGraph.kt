@@ -8,6 +8,8 @@ import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependencies
 import com.example.awesomearchsample.feature.repo.di.RepoFeatureGraph
 import com.example.awesomearchsample.feature.search.di.SearchFeatureDependencies
 import com.example.awesomearchsample.feature.search.di.SearchFeatureGraph
+import com.example.awesomearchsample.feature.settings.di.SettingsFeatureDependencies
+import com.example.awesomearchsample.feature.settings.di.SettingsFeatureGraph
 import com.example.awesomearchsample.feature.user.di.UserFeatureDependencies
 import com.example.awesomearchsample.feature.user.di.UserFeatureGraph
 
@@ -46,6 +48,12 @@ class AppGraph(
         UserFeatureGraph(
             domainFactory = appFactory.domainFactory,
             coreFactory = appFactory.coreFactory
+        )
+    }
+
+    val settingsFeatureDependencies: SettingsFeatureDependencies by lazy {
+        SettingsFeatureGraph(
+            domainFactory = appFactory.domainFactory
         )
     }
 

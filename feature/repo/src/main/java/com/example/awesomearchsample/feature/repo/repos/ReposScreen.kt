@@ -53,6 +53,7 @@ const val REPO_ITEM_TAG_PREFIX = "repo_item_"
 @Composable
 internal fun ReposScreen(
     onNavigateToSearch: () -> Unit,
+    onNavigateToSettings: () -> Unit,
     onNavigateToRepoDetails: (Long) -> Unit
 ) {
     val dependencies = rememberReposDependencies()
@@ -65,6 +66,7 @@ internal fun ReposScreen(
         viewModel.uiEffect.collect { effect ->
             when (effect) {
                 ReposUiEffect.NavigateToSearch -> onNavigateToSearch()
+                ReposUiEffect.NavigateToSettings -> onNavigateToSettings()
                 is ReposUiEffect.NavigateToRepoDetails -> onNavigateToRepoDetails(effect.repoId)
             }
         }
@@ -73,6 +75,7 @@ internal fun ReposScreen(
     ReposContent(
         state = state,
         onSearchClick = viewModel::onSearchClick,
+        onSettingsClick = viewModel::onSettingsClick,
         onErrorActionClick = viewModel::onErrorActionClick,
         onRepoClick = viewModel::onRepoClick
     )
@@ -85,6 +88,7 @@ private typealias OnRepoItemClick = (Repo) -> Unit
 internal fun ReposContent(
     state: ReposUiState,
     onSearchClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     onErrorActionClick: () -> Unit,
     onRepoClick: OnRepoItemClick
 ) {
@@ -101,6 +105,14 @@ internal fun ReposContent(
                     ) {
                         Icon(
                             painterResource(id = R.drawable.ic_search),
+                            contentDescription = null
+                        )
+                    }
+                    IconButton(
+                        onClick = onSettingsClick
+                    ) {
+                        Icon(
+                            painterResource(id = R.drawable.ic_settings),
                             contentDescription = null
                         )
                     }
@@ -241,6 +253,7 @@ private fun ReposContentPreview() {
             }
         ),
         onSearchClick = {},
+        onSettingsClick = {},
         onErrorActionClick = {},
         onRepoClick = {}
     )

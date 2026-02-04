@@ -39,15 +39,24 @@ class AppConfigRepositoryImplTest {
     }
 
     private class FakeAppPreferences(
-        private val isFirstLaunchFlow: Flow<Boolean> = flowOf(false)
+        private val isFirstLaunchFlow: Flow<Boolean> = flowOf(false),
+        private val notificationsEnabledFlow: Flow<Boolean> = flowOf(false)
     ) : AppPreferences {
         var lastSetValue: Boolean? = null
+            private set
+        var lastSetNotificationsValue: Boolean? = null
             private set
 
         override fun isFirstLaunch(): Flow<Boolean> = isFirstLaunchFlow
 
         override suspend fun setIsFirstLaunch(value: Boolean) {
             lastSetValue = value
+        }
+
+        override fun isNotificationsEnabled(): Flow<Boolean> = notificationsEnabledFlow
+
+        override suspend fun setNotificationsEnabled(value: Boolean) {
+            lastSetNotificationsValue = value
         }
     }
 }

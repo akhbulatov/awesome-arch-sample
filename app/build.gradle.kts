@@ -26,6 +26,7 @@ dependencies {
     implementation(projects.feature.main)
     implementation(projects.feature.repo)
     implementation(projects.feature.search)
+    implementation(projects.feature.settings)
     implementation(projects.feature.user)
 
     androidTestImplementation(platform(libs.compose.bom))

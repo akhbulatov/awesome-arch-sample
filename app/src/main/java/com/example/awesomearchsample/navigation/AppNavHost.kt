@@ -19,6 +19,8 @@ import com.example.awesomearchsample.feature.repo.navigation.navigateToRepoDetai
 import com.example.awesomearchsample.feature.repo.repos.ReposRoute
 import com.example.awesomearchsample.feature.search.navigation.addSearchEntries
 import com.example.awesomearchsample.feature.search.navigation.navigateToSearch
+import com.example.awesomearchsample.feature.settings.navigation.addSettingsEntries
+import com.example.awesomearchsample.feature.settings.navigation.navigateToSettings
 import com.example.awesomearchsample.feature.user.navigation.addUserEntries
 import com.example.awesomearchsample.feature.user.navigation.navigateToUserDetails
 
@@ -67,6 +69,7 @@ private fun mainHostEntryProvider(): HostEntryProvider {
             addRepoEntries(
                 navigate = navigate,
                 onNavigateToSearch = navigate::navigateToSearch,
+                onNavigateToSettings = navigate::navigateToSettings,
                 onNavigateToUserDetails = navigate::navigateToUserDetails,
                 onBack = onBack
             )
@@ -74,6 +77,7 @@ private fun mainHostEntryProvider(): HostEntryProvider {
                 onNavigateToRepoDetails = navigate::navigateToRepoDetails,
                 onBack = onBack
             )
+            addSettingsEntries(onBack = onBack)
             addUserEntries(onBack = onBack)
         }
     }

@@ -10,12 +10,14 @@ import com.example.awesomearchsample.feature.repo.repos.ReposScreen
 fun EntryProviderScope<NavKey>.addRepoEntries(
     navigate: (NavKey) -> Unit,
     onNavigateToSearch: () -> Unit,
+    onNavigateToSettings: () -> Unit,
     onNavigateToUserDetails: (String) -> Unit,
     onBack: () -> Unit
 ) {
     entry<ReposRoute> {
         ReposScreen(
             onNavigateToSearch = onNavigateToSearch,
+            onNavigateToSettings = onNavigateToSettings,
             onNavigateToRepoDetails = navigate::navigateToRepoDetails
         )
     }

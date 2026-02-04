@@ -5,4 +5,7 @@ import kotlinx.coroutines.flow.Flow
 interface AppConfigRepository {
     fun isFirstLaunch(): Flow<Boolean>
     suspend fun setIsFirstLaunch(value: Boolean)
+
+    fun isNotificationsEnabled(): Flow<Boolean>
+    suspend fun setNotificationsEnabled(value: Boolean)
 }

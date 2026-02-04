@@ -46,6 +46,8 @@ object ReposRoute : NavRoute
 
 const val REPOS_SCREEN_TAG = "repos_screen"
 const val REPOS_LOADING_TAG = "repos_loading"
+const val REPOS_SEARCH_BUTTON_TAG = "repos_search_button"
+const val REPOS_LIST_TAG = "repos_list"
 
 @Composable
 internal fun ReposScreen(
@@ -93,7 +95,8 @@ internal fun ReposContent(
                 },
                 actions = {
                     IconButton(
-                        onClick = onSearchClick
+                        onClick = onSearchClick,
+                        modifier = Modifier.testTag(REPOS_SEARCH_BUTTON_TAG)
                     ) {
                         Icon(
                             painterResource(id = R.drawable.ic_search),
@@ -166,7 +169,9 @@ private fun RepoList(
     onRepoItemClick: OnRepoItemClick
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag(REPOS_LIST_TAG)
     ) {
         items(
             items = repos,

@@ -144,4 +144,42 @@ class ReposScreenTest {
         composeRule.onAllNodesWithTag(REPOS_LOADING_TAG).assertCountEquals(0)
         composeRule.onAllNodesWithTag(ERROR_RETRY_BUTTON_TAG).assertCountEquals(0)
     }
+
+    @Test
+    fun reposContent_searchClick_invokesCallback() {
+        var searchClicked = false
+
+        composeRule.setContent {
+            AppTheme {
+                ReposContent(
+                    state = ReposUiState.Success(repos = emptyList()),
+                    onSearchClick = { searchClicked = true },
+                    onErrorActionClick = {},
+                    onRepoClick = {}
+                )
+            }
+        }
+
+        composeRule.onNodeWithTag(REPOS_SEARCH_BUTTON_TAG).performClick()
+
+        composeRule.runOnIdle {
+            assertEquals(true, searchClicked)
+        }
+    }
+
+    @Test
+    fun reposContent_successWithEmptyList_doesNotShowList() {
+        composeRule.setContent {
+            AppTheme {
+                ReposContent(
+                    state = ReposUiState.Success(repos = emptyList()),
+                    onSearchClick = {},
+                    onErrorActionClick = {},
+                    onRepoClick = {}
+                )
+            }
+        }
+
+        composeRule.onAllNodesWithTag(REPOS_LIST_TAG).assertCountEquals(0)
+    }
 }

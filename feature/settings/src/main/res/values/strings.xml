@@ -1,4 +1,5 @@
 <resources>
     <string name="settings_title">Настройки</string>
     <string name="settings_enable_notifications">Включить уведомления</string>
+    <string name="settings_advanced_title">Расширенные настройки</string>
 </resources>

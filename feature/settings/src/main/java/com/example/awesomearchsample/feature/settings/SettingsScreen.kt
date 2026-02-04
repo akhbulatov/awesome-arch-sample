@@ -1,9 +1,11 @@
 package com.example.awesomearchsample.feature.settings
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -31,7 +33,8 @@ internal object SettingsRoute : NavRoute
 
 @Composable
 internal fun SettingsScreen(
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onNavigateToAdvancedSettings: () -> Unit
 ) {
     val dependencies = rememberSettingsDependencies()
     val viewModel = viewModel<SettingsViewModel>(
@@ -42,7 +45,8 @@ internal fun SettingsScreen(
     SettingsContent(
         state = state,
         onBack = onBack,
-        onNotificationsToggle = viewModel::onNotificationsToggle
+        onNotificationsToggle = viewModel::onNotificationsToggle,
+        onAdvancedClick = onNavigateToAdvancedSettings
     )
 }
 
@@ -51,7 +55,8 @@ internal fun SettingsScreen(
 private fun SettingsContent(
     state: SettingsUiState,
     onBack: () -> Unit,
-    onNotificationsToggle: () -> Unit
+    onNotificationsToggle: () -> Unit,
+    onAdvancedClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -70,26 +75,42 @@ private fun SettingsContent(
             )
         }
     ) { innerPadding ->
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp, vertical = 12.dp)
-                .toggleable(
-                    value = state.notificationsEnabled,
-                    onValueChange = { onNotificationsToggle() },
-                    role = Role.Switch
-                ),
-            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = stringResource(R.string.settings_enable_notifications)
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            Switch(
-                checked = state.notificationsEnabled,
-                onCheckedChange = null
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .toggleable(
+                        value = state.notificationsEnabled,
+                        onValueChange = { onNotificationsToggle() },
+                        role = Role.Switch
+                    ),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.settings_enable_notifications)
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Switch(
+                    checked = state.notificationsEnabled,
+                    onCheckedChange = null
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .clickable(onClick = onAdvancedClick),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.settings_advanced_title)
+                )
+            }
         }
     }
 }

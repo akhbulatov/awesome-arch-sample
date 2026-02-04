@@ -77,7 +77,10 @@ private fun mainHostEntryProvider(): HostEntryProvider {
                 onNavigateToRepoDetails = navigate::navigateToRepoDetails,
                 onBack = onBack
             )
-            addSettingsEntries(onBack = onBack)
+            addSettingsEntries(
+                navigate = navigate,
+                onBack = onBack
+            )
             addUserEntries(onBack = onBack)
         }
     }

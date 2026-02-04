@@ -2,13 +2,19 @@ package com.example.awesomearchsample.feature.repo.repos
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
+import com.example.awesomearchsample.core.ui.designsystem.ERROR_RETRY_BUTTON_TAG
+import com.example.awesomearchsample.core.ui.error.UiError
+import com.example.awesomearchsample.core.ui.text.UiText
 import com.example.awesomearchsample.domain.repo.model.Repo
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertEquals
 
 @RunWith(AndroidJUnit4::class)
 class ReposScreenTest {
@@ -48,5 +54,75 @@ class ReposScreenTest {
 
         composeRule.onNodeWithText("Awesome").assertIsDisplayed()
         composeRule.onNodeWithText("Compose").assertIsDisplayed()
+    }
+
+    @Test
+    fun reposContent_clickOnItem_invokesCallback() {
+        val repo = Repo(
+            id = 10L,
+            name = "ClickMe",
+            author = "Ada",
+            description = "Sample",
+            inFavorites = false
+        )
+        var clickedRepo: Repo? = null
+
+        composeRule.setContent {
+            AppTheme {
+                ReposContent(
+                    state = ReposUiState.Success(repos = listOf(repo)),
+                    onSearchClick = {},
+                    onErrorActionClick = {},
+                    onRepoClick = { clickedRepo = it }
+                )
+            }
+        }
+
+        composeRule.onNodeWithText("ClickMe").performClick()
+
+        composeRule.runOnIdle {
+            assertEquals(repo, clickedRepo)
+        }
+    }
+
+    @Test
+    fun reposContent_errorState_showsRefreshAndInvokesCallback() {
+        var retryClicked = false
+
+        composeRule.setContent {
+            AppTheme {
+                ReposContent(
+                    state = ReposUiState.Error(
+                        error = UiError(UiText.Plain("Error"))
+                    ),
+                    onSearchClick = {},
+                    onErrorActionClick = { retryClicked = true },
+                    onRepoClick = {}
+                )
+            }
+        }
+
+        composeRule.onNodeWithTag(ERROR_RETRY_BUTTON_TAG).assertIsDisplayed()
+        composeRule.onNodeWithTag(ERROR_RETRY_BUTTON_TAG).performClick()
+
+        composeRule.runOnIdle {
+            assertEquals(true, retryClicked)
+        }
+    }
+
+    @Test
+    fun reposContent_loadingState_showsProgress() {
+        composeRule.setContent {
+            AppTheme {
+                ReposContent(
+                    state = ReposUiState.Loading,
+                    onSearchClick = {},
+                    onErrorActionClick = {},
+                    onRepoClick = {}
+                )
+            }
+        }
+
+        composeRule.onNodeWithTag(REPOS_LOADING_TAG).assertIsDisplayed()
     }
 }

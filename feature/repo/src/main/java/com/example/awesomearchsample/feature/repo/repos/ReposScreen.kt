@@ -45,6 +45,7 @@ import kotlinx.serialization.Serializable
 object ReposRoute : NavRoute
 
 const val REPOS_SCREEN_TAG = "repos_screen"
+const val REPOS_LOADING_TAG = "repos_loading"
 
 @Composable
 internal fun ReposScreen(
@@ -131,6 +132,7 @@ private fun EmptyProgress() {
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize()
+            .testTag(REPOS_LOADING_TAG)
     )
 }
 

@@ -78,7 +78,7 @@ private typealias OnRepoItemClick = (Repo) -> Unit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ReposContent(
+internal fun ReposContent(
     state: ReposUiState,
     onSearchClick: () -> Unit,
     onErrorActionClick: () -> Unit,

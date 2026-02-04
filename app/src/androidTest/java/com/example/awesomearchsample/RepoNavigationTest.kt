@@ -11,7 +11,9 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.awesomearchsample.feature.repo.repodetails.REPO_DETAILS_SCREEN_TAG
 import com.example.awesomearchsample.feature.repo.repos.REPO_ITEM_TAG_PREFIX
+import com.example.awesomearchsample.feature.repo.repos.REPOS_SEARCH_BUTTON_TAG
 import com.example.awesomearchsample.feature.repo.repos.REPOS_SCREEN_TAG
+import com.example.awesomearchsample.feature.search.SEARCH_SCREEN_TAG
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -44,5 +46,20 @@ class RepoNavigationTest {
         }
 
         composeRule.onNodeWithTag(REPO_DETAILS_SCREEN_TAG).assertExists()
+    }
+
+    @Test
+    fun appStart_searchIconNavigatesToSearch() {
+        composeRule.waitUntil(timeoutMillis = 10_000) {
+            composeRule.onAllNodesWithTag(REPOS_SCREEN_TAG).fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeRule.onNodeWithTag(REPOS_SEARCH_BUTTON_TAG).performClick()
+
+        composeRule.waitUntil(timeoutMillis = 10_000) {
+            composeRule.onAllNodesWithTag(SEARCH_SCREEN_TAG).fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeRule.onNodeWithTag(SEARCH_SCREEN_TAG).assertExists()
     }
 }

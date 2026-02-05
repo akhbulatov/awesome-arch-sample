@@ -6,6 +6,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.example.awesomearchsample.core.ui.navigation.backStackAppNavigator
 import com.example.awesomearchsample.core.ui.navigation.HostEntryProvider
 import com.example.awesomearchsample.feature.launch.LaunchRoute
 import com.example.awesomearchsample.feature.launch.host.LaunchHostRoute
@@ -27,19 +28,20 @@ import com.example.awesomearchsample.feature.user.navigation.navigateToUserDetai
 @Composable
 fun AppNavHost() {
     val rootBackStack = rememberNavBackStack(LaunchHostRoute)
+    val rootNavigator = backStackAppNavigator(rootBackStack)
     NavDisplay(
         backStack = rootBackStack,
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator()
         ),
-        onBack = { rootBackStack.removeLastOrNull() },
+        onBack = rootNavigator::back,
         entryProvider = entryProvider {
             entry<LaunchHostRoute> {
                 LaunchHostScreen(
                     startDestination = LaunchRoute,
                     entryProvider = launchHostEntryProvider(
-                        onNavigateToMainHost = rootBackStack::navigateToMainHost
+                        onNavigateToMainHost = rootNavigator::navigateToMainHost
                     )
                 )
             }
@@ -56,7 +58,7 @@ fun AppNavHost() {
 private fun launchHostEntryProvider(
     onNavigateToMainHost: () -> Unit
 ): HostEntryProvider {
-    return { _, _ ->
+    return { _ ->
         entryProvider {
             addLaunchEntries(onNavigateToMainHost = onNavigateToMainHost)
         }
@@ -64,24 +66,20 @@ private fun launchHostEntryProvider(
 }
 
 private fun mainHostEntryProvider(): HostEntryProvider {
-    return { navigate, onBack ->
+    return { navigator ->
         entryProvider {
             addRepoEntries(
-                navigate = navigate,
-                onNavigateToSearch = navigate::navigateToSearch,
-                onNavigateToSettings = navigate::navigateToSettings,
-                onNavigateToUserDetails = navigate::navigateToUserDetails,
-                onBack = onBack
+                navigator = navigator,
+                onNavigateToSearch = navigator::navigateToSearch,
+                onNavigateToSettings = navigator::navigateToSettings,
+                onNavigateToUserDetails = navigator::navigateToUserDetails
             )
             addSearchEntries(
-                onNavigateToRepoDetails = navigate::navigateToRepoDetails,
-                onBack = onBack
+                navigator = navigator,
+                onNavigateToRepoDetails = navigator::navigateToRepoDetails
             )
-            addSettingsEntries(
-                navigate = navigate,
-                onBack = onBack
-            )
-            addUserEntries(onBack = onBack)
+            addSettingsEntries(navigator = navigator)
+            addUserEntries(navigator = navigator)
         }
     }
 }

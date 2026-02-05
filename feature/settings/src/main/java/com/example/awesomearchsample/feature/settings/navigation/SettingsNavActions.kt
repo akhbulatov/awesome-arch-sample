@@ -1,13 +1,13 @@
 package com.example.awesomearchsample.feature.settings.navigation
 
-import androidx.navigation3.runtime.NavKey
+import com.example.awesomearchsample.core.ui.navigation.AppNavigator
 import com.example.awesomearchsample.feature.settings.SettingsRoute
 import com.example.awesomearchsample.feature.settings.advanced.AdvancedSettingsRoute
 
-fun ((NavKey) -> Unit).navigateToSettings() {
-    this(SettingsRoute)
+fun AppNavigator.navigateToSettings() {
+    navigateTo(SettingsRoute)
 }
 
-fun ((NavKey) -> Unit).navigateToAdvancedSettings() {
-    this(AdvancedSettingsRoute)
+fun AppNavigator.navigateToAdvancedSettings() {
+    navigateTo(AdvancedSettingsRoute)
 }

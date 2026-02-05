@@ -2,24 +2,24 @@ package com.example.awesomearchsample.feature.settings.navigation
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.example.awesomearchsample.core.ui.navigation.AppNavigator
 import com.example.awesomearchsample.feature.settings.SettingsRoute
 import com.example.awesomearchsample.feature.settings.SettingsScreen
 import com.example.awesomearchsample.feature.settings.advanced.AdvancedSettingsRoute
 import com.example.awesomearchsample.feature.settings.advanced.AdvancedSettingsScreen
 
 fun EntryProviderScope<NavKey>.addSettingsEntries(
-    navigate: (NavKey) -> Unit,
-    onBack: () -> Unit
+    navigator: AppNavigator
 ) {
     entry<SettingsRoute> {
         SettingsScreen(
-            onBack = onBack,
-            onNavigateToAdvancedSettings = navigate::navigateToAdvancedSettings
+            onBack = navigator::back,
+            onNavigateToAdvancedSettings = navigator::navigateToAdvancedSettings
         )
     }
     entry<AdvancedSettingsRoute> {
         AdvancedSettingsScreen(
-            onBack = onBack
+            onBack = navigator::back
         )
     }
 }

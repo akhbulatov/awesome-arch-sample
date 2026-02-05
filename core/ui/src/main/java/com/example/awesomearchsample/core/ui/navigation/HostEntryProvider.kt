@@ -4,6 +4,5 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 
 typealias HostEntryProvider = (
-    navigate: (NavKey) -> Unit,
-    onBack: () -> Unit
+    navigator: AppNavigator
 ) -> (NavKey) -> NavEntry<NavKey>

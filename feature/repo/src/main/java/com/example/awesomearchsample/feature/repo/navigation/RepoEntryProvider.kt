@@ -2,30 +2,30 @@ package com.example.awesomearchsample.feature.repo.navigation
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
+import com.example.awesomearchsample.core.ui.navigation.AppNavigator
 import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsRoute
 import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsScreen
 import com.example.awesomearchsample.feature.repo.repos.ReposRoute
 import com.example.awesomearchsample.feature.repo.repos.ReposScreen
 
 fun EntryProviderScope<NavKey>.addRepoEntries(
-    navigate: (NavKey) -> Unit,
+    navigator: AppNavigator,
     onNavigateToSearch: () -> Unit,
     onNavigateToSettings: () -> Unit,
-    onNavigateToUserDetails: (String) -> Unit,
-    onBack: () -> Unit
+    onNavigateToUserDetails: (String) -> Unit
 ) {
     entry<ReposRoute> {
         ReposScreen(
             onNavigateToSearch = onNavigateToSearch,
             onNavigateToSettings = onNavigateToSettings,
-            onNavigateToRepoDetails = navigate::navigateToRepoDetails
+            onNavigateToRepoDetails = navigator::navigateToRepoDetails
         )
     }
     entry<RepoDetailsRoute> { route ->
         RepoDetailsScreen(
             route = route,
             onNavigateToUserDetails = onNavigateToUserDetails,
-            onBack = onBack
+            onBack = navigator::back
         )
     }
 }

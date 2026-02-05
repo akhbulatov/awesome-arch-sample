@@ -6,6 +6,7 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import com.example.awesomearchsample.core.ui.navigation.backStackAppNavigator
 import com.example.awesomearchsample.core.ui.navigation.HostEntryProvider
 
 @Composable
@@ -25,17 +26,14 @@ private fun LaunchHostContent(
     entryProvider: HostEntryProvider
 ) {
     val backStack = rememberNavBackStack(startDestination)
-    val onBack: () -> Unit = { backStack.removeLastOrNull() }
+    val navigator = backStackAppNavigator(backStack)
     NavDisplay(
         backStack = backStack,
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator()
         ),
-        onBack =  onBack,
-        entryProvider = entryProvider(
-            { destination -> backStack.add(destination) },
-            onBack
-        )
+        onBack = navigator::back,
+        entryProvider = entryProvider(navigator)
     )
 }

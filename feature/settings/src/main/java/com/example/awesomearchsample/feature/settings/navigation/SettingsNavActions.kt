@@ -8,6 +8,6 @@ fun AppNavigator.navigateToSettings() {
     navigateTo(SettingsRoute)
 }
 
-fun AppNavigator.navigateToAdvancedSettings() {
+internal fun AppNavigator.navigateToAdvancedSettings() {
     navigateTo(AdvancedSettingsRoute)
 }

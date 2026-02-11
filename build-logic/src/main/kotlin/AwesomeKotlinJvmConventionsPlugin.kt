@@ -12,9 +12,9 @@ class AwesomeKotlinJvmConventionsPlugin : Plugin<Project> {
         pluginManager.apply("org.jetbrains.kotlinx.kover")
 
         extensions.configure(KotlinJvmProjectExtension::class.java) {
-            jvmToolchain(17)
+            jvmToolchain(21)
             compilerOptions {
-                jvmTarget.set(JvmTarget.JVM_17)
+                jvmTarget.set(JvmTarget.JVM_21)
             }
         }
 

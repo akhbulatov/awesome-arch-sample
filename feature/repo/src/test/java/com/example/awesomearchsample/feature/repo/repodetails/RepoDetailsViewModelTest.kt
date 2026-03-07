@@ -39,7 +39,11 @@ class RepoDetailsViewModelTest {
         val errorHandler = UiErrorHandler(FakeErrorHandler())
 
         // Act
-        val viewModel = RepoDetailsViewModel(repoId, useCase, errorHandler)
+        val viewModel = RepoDetailsViewModel(
+            args = RepoDetailsViewModel.Args(repoId = repoId),
+            getRepoDetailsUseCase = useCase,
+            errorHandler = errorHandler
+        )
 
         // Assert
         viewModel.uiState.test {
@@ -70,7 +74,11 @@ class RepoDetailsViewModelTest {
         val errorHandler = UiErrorHandler(FakeErrorHandler(ErrorEntity.Message("boom")))
 
         // Act
-        val viewModel = RepoDetailsViewModel(repoId, useCase, errorHandler)
+        val viewModel = RepoDetailsViewModel(
+            args = RepoDetailsViewModel.Args(repoId = repoId),
+            getRepoDetailsUseCase = useCase,
+            errorHandler = errorHandler
+        )
 
         // Assert
         viewModel.uiState.test {
@@ -111,7 +119,11 @@ class RepoDetailsViewModelTest {
         )
         val useCase = GetRepoDetailsUseCase(repository)
         val errorHandler = UiErrorHandler(FakeErrorHandler(ErrorEntity.Message("boom")))
-        val viewModel = RepoDetailsViewModel(repoId, useCase, errorHandler)
+        val viewModel = RepoDetailsViewModel(
+            args = RepoDetailsViewModel.Args(repoId = repoId),
+            getRepoDetailsUseCase = useCase,
+            errorHandler = errorHandler
+        )
 
         // Assert
         viewModel.uiState.test {

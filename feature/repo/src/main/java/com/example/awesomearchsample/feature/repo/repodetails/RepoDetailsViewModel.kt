@@ -13,10 +13,14 @@ import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsDepe
 import kotlinx.coroutines.launch
 
 internal class RepoDetailsViewModel(
-    private val repoId: Long,
+    private val args: Args,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
 ) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState.Idle) {
+
+    data class Args(
+        val repoId: Long
+    )
 
     init {
         loadRepoDetails()
@@ -26,7 +30,7 @@ internal class RepoDetailsViewModel(
         viewModelScope.launch {
             try {
                 mutableUiState.value = RepoDetailsUiState.Loading
-                val repoDetails = getRepoDetailsUseCase.invoke(repoId = repoId)
+                val repoDetails = getRepoDetailsUseCase.invoke(repoId = args.repoId)
                 mutableUiState.value = RepoDetailsUiState.Success(repoDetails = repoDetails)
             } catch (e: Exception) {
                 errorHandler.proceed(
@@ -55,12 +59,12 @@ internal class RepoDetailsViewModel(
 
     companion object {
         fun viewModelFactory(
-            repoId: Long,
+            args: Args,
             dependencies: RepoDetailsDependencies
         ) = viewModelFactory {
             initializer {
                 RepoDetailsViewModel(
-                    repoId = repoId,
+                    args = args,
                     getRepoDetailsUseCase = dependencies.getRepoDetailsUseCase,
                     errorHandler = dependencies.uiErrorHandler
                 )

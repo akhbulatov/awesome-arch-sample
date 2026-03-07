@@ -11,10 +11,14 @@ import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsDepe
 import kotlinx.coroutines.launch
 
 internal class UserDetailsViewModel(
-    private val login: String,
+    private val args: Args,
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
     private val errorHandler: UiErrorHandler
 ) : BaseViewModel<UserDetailsUiState, BaseUiEffect>(initialUiState = UserDetailsUiState.Idle) {
+
+    data class Args(
+        val login: String
+    )
 
     init {
         loadUserDetails()
@@ -24,7 +28,7 @@ internal class UserDetailsViewModel(
         viewModelScope.launch {
             try {
                 mutableUiState.value = UserDetailsUiState.Loading
-                val userDetails = getUserDetailsUseCase.invoke(login = login)
+                val userDetails = getUserDetailsUseCase.invoke(login = args.login)
                 mutableUiState.value = UserDetailsUiState.Success(userDetails = userDetails)
             } catch (e: Exception) {
                 errorHandler.proceed(
@@ -43,12 +47,12 @@ internal class UserDetailsViewModel(
 
     companion object {
         fun viewModelFactory(
-            login: String,
+            args: Args,
             dependencies: UserDetailsDependencies
         ) = viewModelFactory {
             initializer {
                 UserDetailsViewModel(
-                    login = login,
+                    args = args,
                     getUserDetailsUseCase = dependencies.getUserDetailsUseCase,
                     errorHandler = dependencies.uiErrorHandler
                 )

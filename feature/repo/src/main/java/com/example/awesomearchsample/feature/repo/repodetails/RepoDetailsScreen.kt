@@ -54,9 +54,12 @@ internal fun RepoDetailsScreen(
     onBack: () -> Unit
 ) {
     val dependencies = rememberRepoDetailsDependencies()
+    val args = RepoDetailsViewModel.Args(
+        repoId = route.repoId
+    )
     val viewModel = viewModel<RepoDetailsViewModel>(
         factory = RepoDetailsViewModel.viewModelFactory(
-            repoId = route.repoId,
+            args = args,
             dependencies = dependencies
         )
     )

@@ -38,7 +38,11 @@ class UserDetailsViewModelTest {
         val errorHandler = UiErrorHandler(FakeErrorHandler())
 
         // Act
-        val viewModel = UserDetailsViewModel(login, useCase, errorHandler)
+        val viewModel = UserDetailsViewModel(
+            args = UserDetailsViewModel.Args(login = login),
+            getUserDetailsUseCase = useCase,
+            errorHandler = errorHandler
+        )
 
         // Assert
         viewModel.uiState.test {
@@ -69,7 +73,11 @@ class UserDetailsViewModelTest {
         val errorHandler = UiErrorHandler(FakeErrorHandler(ErrorEntity.Message("boom")))
 
         // Act
-        val viewModel = UserDetailsViewModel(login, useCase, errorHandler)
+        val viewModel = UserDetailsViewModel(
+            args = UserDetailsViewModel.Args(login = login),
+            getUserDetailsUseCase = useCase,
+            errorHandler = errorHandler
+        )
 
         // Assert
         viewModel.uiState.test {
@@ -110,7 +118,11 @@ class UserDetailsViewModelTest {
         )
         val useCase = GetUserDetailsUseCase(repository)
         val errorHandler = UiErrorHandler(FakeErrorHandler(ErrorEntity.Message("boom")))
-        val viewModel = UserDetailsViewModel(login, useCase, errorHandler)
+        val viewModel = UserDetailsViewModel(
+            args = UserDetailsViewModel.Args(login = login),
+            getUserDetailsUseCase = useCase,
+            errorHandler = errorHandler
+        )
 
         // Assert
         viewModel.uiState.test {

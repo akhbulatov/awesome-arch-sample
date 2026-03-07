@@ -6,13 +6,13 @@ import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
 import com.example.awesomearchsample.feature.repo.di.rememberRepoFeatureDependencies
 
-interface ReposDependencies {
+interface ReposScreenDependencies {
     val getReposUseCase: GetReposUseCase
     val uiErrorHandler: UiErrorHandler
     val analyticsEventSender: AnalyticsEventSender
 }
 
 @Composable
-internal fun rememberReposDependencies(): ReposDependencies {
-    return rememberRepoFeatureDependencies().reposDependencies
+internal fun rememberReposScreenDependencies(): ReposScreenDependencies {
+    return rememberRepoFeatureDependencies().reposScreenDependencies
 }

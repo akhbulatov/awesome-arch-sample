@@ -11,7 +11,7 @@ import com.example.awesomearchsample.domain.repo.model.updatedByToggleInFavorite
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEvents
-import com.example.awesomearchsample.feature.repo.repos.di.ReposDependencies
+import com.example.awesomearchsample.feature.repo.repos.di.ReposScreenDependencies
 import kotlinx.coroutines.launch
 
 internal class ReposViewModel(
@@ -72,7 +72,7 @@ internal class ReposViewModel(
     }
 
     companion object {
-        fun viewModelFactory(dependencies: ReposDependencies) = viewModelFactory {
+        fun viewModelFactory(dependencies: ReposScreenDependencies) = viewModelFactory {
             initializer {
                 ReposViewModel(
                     getReposUseCase = dependencies.getReposUseCase,

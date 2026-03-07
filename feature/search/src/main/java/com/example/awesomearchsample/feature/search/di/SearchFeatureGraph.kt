@@ -8,8 +8,8 @@ class SearchFeatureGraph(
     private val uiFactory: UiFactory
 ) : SearchFeatureDependencies {
 
-    override val searchDependencies: SearchDependencies by lazy {
-        object : SearchDependencies {
+    override val searchScreenDependencies: SearchScreenDependencies by lazy {
+        object : SearchScreenDependencies {
             override val getSearchResultUseCase =
                 domainFactory.searchDomainFactory.getSearchResultUseCase
             override val getSearchQueriesUseCase =

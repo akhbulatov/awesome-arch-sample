@@ -5,12 +5,12 @@ import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.di.rememberRepoFeatureDependencies
 
-interface RepoDetailsDependencies {
+interface RepoDetailsScreenDependencies {
     val getRepoDetailsUseCase: GetRepoDetailsUseCase
     val uiErrorHandler: UiErrorHandler
 }
 
 @Composable
-internal fun rememberRepoDetailsDependencies(): RepoDetailsDependencies {
-    return rememberRepoFeatureDependencies().repoDetailsDependencies
+internal fun rememberRepoDetailsScreenDependencies(): RepoDetailsScreenDependencies {
+    return rememberRepoFeatureDependencies().repoDetailsScreenDependencies
 }

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import com.example.awesomearchsample.core.ui.util.getApplicationInstance
 
 interface SearchFeatureDependencies {
-    val searchDependencies: SearchDependencies
+    val searchScreenDependencies: SearchScreenDependencies
 }
 
 interface SearchFeatureDependenciesProvider {

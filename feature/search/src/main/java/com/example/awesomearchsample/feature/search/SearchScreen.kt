@@ -44,7 +44,7 @@ import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.search.model.SearchQuery
 import com.example.awesomearchsample.domain.search.model.SearchResult
-import com.example.awesomearchsample.feature.search.di.rememberSearchDependencies
+import com.example.awesomearchsample.feature.search.di.rememberSearchScreenDependencies
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -57,7 +57,7 @@ internal fun SearchScreen(
     onNavigateToRepoDetails: (Long) -> Unit,
     onBack: () -> Unit
 ) {
-    val dependencies = rememberSearchDependencies()
+    val dependencies = rememberSearchScreenDependencies()
     val viewModel = viewModel<SearchViewModel>(
         factory = SearchViewModel.viewModelFactory(dependencies = dependencies)
     )

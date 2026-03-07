@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import com.example.awesomearchsample.domain.appconfig.usecase.IsFirstLaunchUseCase
 import com.example.awesomearchsample.domain.appconfig.usecase.SetIsFirstLaunchUseCase
 
-interface LaunchDependencies {
+interface LaunchScreenDependencies {
     val isFirstLaunchUseCase: IsFirstLaunchUseCase
     val setIsFirstLaunchUseCase: SetIsFirstLaunchUseCase
 }
 
 @Composable
-internal fun rememberLaunchDependencies(): LaunchDependencies {
-    return rememberLaunchFeatureDependencies().launchDependencies
+internal fun rememberLaunchScreenDependencies(): LaunchScreenDependencies {
+    return rememberLaunchFeatureDependencies().launchScreenDependencies
 }

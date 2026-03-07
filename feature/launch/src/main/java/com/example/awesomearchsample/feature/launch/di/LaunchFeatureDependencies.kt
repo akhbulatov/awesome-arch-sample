@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import com.example.awesomearchsample.core.ui.util.getApplicationInstance
 
 interface LaunchFeatureDependencies {
-    val launchDependencies: LaunchDependencies
+    val launchScreenDependencies: LaunchScreenDependencies
 }
 
 interface LaunchFeatureDependenciesProvider {

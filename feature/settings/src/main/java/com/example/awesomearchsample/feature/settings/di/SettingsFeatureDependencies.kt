@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import com.example.awesomearchsample.core.ui.util.getApplicationInstance
 
 interface SettingsFeatureDependencies {
-    val settingsDependencies: SettingsDependencies
+    val settingsScreenDependencies: SettingsScreenDependencies
 }
 
 interface SettingsFeatureDependenciesProvider {

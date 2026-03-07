@@ -6,7 +6,7 @@ import com.example.awesomearchsample.domain.search.usecase.GetSearchQueriesUseCa
 import com.example.awesomearchsample.domain.search.usecase.GetSearchResultUseCase
 import com.example.awesomearchsample.domain.search.usecase.SaveSearchQueryUseCase
 
-interface SearchDependencies {
+interface SearchScreenDependencies {
     val getSearchResultUseCase: GetSearchResultUseCase
     val getSearchQueriesUseCase: GetSearchQueriesUseCase
     val saveSearchQueryUseCase: SaveSearchQueryUseCase
@@ -14,6 +14,6 @@ interface SearchDependencies {
 }
 
 @Composable
-internal fun rememberSearchDependencies(): SearchDependencies {
-    return rememberSearchFeatureDependencies().searchDependencies
+internal fun rememberSearchScreenDependencies(): SearchScreenDependencies {
+    return rememberSearchFeatureDependencies().searchScreenDependencies
 }

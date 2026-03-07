@@ -33,7 +33,7 @@ import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.feature.repo.R
-import com.example.awesomearchsample.feature.repo.repodetails.di.rememberRepoDetailsDependencies
+import com.example.awesomearchsample.feature.repo.repodetails.di.rememberRepoDetailsScreenDependencies
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -53,7 +53,7 @@ internal fun RepoDetailsScreen(
     onNavigateToUserDetails: (String) -> Unit,
     onBack: () -> Unit
 ) {
-    val dependencies = rememberRepoDetailsDependencies()
+    val dependencies = rememberRepoDetailsScreenDependencies()
     val args = RepoDetailsViewModel.Args(
         repoId = route.repoId
     )

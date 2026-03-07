@@ -7,7 +7,7 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.appconfig.usecase.GetNotificationsEnabledUseCase
 import com.example.awesomearchsample.domain.appconfig.usecase.SetNotificationsEnabledUseCase
-import com.example.awesomearchsample.feature.settings.di.SettingsDependencies
+import com.example.awesomearchsample.feature.settings.di.SettingsScreenDependencies
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -34,7 +34,7 @@ internal class SettingsViewModel(
     }
 
     companion object {
-        fun viewModelFactory(dependencies: SettingsDependencies) = viewModelFactory {
+        fun viewModelFactory(dependencies: SettingsScreenDependencies) = viewModelFactory {
             initializer {
                 SettingsViewModel(
                     getNotificationsEnabledUseCase = dependencies.getNotificationsEnabledUseCase,

@@ -7,7 +7,7 @@ import com.example.awesomearchsample.core.common.util.AppLogger
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.appconfig.usecase.IsFirstLaunchUseCase
 import com.example.awesomearchsample.domain.appconfig.usecase.SetIsFirstLaunchUseCase
-import com.example.awesomearchsample.feature.launch.di.LaunchDependencies
+import com.example.awesomearchsample.feature.launch.di.LaunchScreenDependencies
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -28,7 +28,7 @@ internal class LaunchViewModel(
     }
 
     companion object {
-        fun viewModelFactory(dependencies: LaunchDependencies) = viewModelFactory {
+        fun viewModelFactory(dependencies: LaunchScreenDependencies) = viewModelFactory {
             initializer {
                 LaunchViewModel(
                     isFirstLaunchUseCase = dependencies.isFirstLaunchUseCase,

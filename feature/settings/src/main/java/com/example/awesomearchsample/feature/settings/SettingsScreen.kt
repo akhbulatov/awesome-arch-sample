@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
-import com.example.awesomearchsample.feature.settings.di.rememberSettingsDependencies
+import com.example.awesomearchsample.feature.settings.di.rememberSettingsScreenDependencies
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -36,7 +36,7 @@ internal fun SettingsScreen(
     onBack: () -> Unit,
     onNavigateToAdvancedSettings: () -> Unit
 ) {
-    val dependencies = rememberSettingsDependencies()
+    val dependencies = rememberSettingsScreenDependencies()
     val viewModel = viewModel<SettingsViewModel>(
         factory = SettingsViewModel.viewModelFactory(dependencies = dependencies)
     )

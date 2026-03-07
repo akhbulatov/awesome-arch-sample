@@ -9,7 +9,7 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.core.ui.mvvm.onSuccess
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
-import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsDependencies
+import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsScreenDependencies
 import kotlinx.coroutines.launch
 
 internal class RepoDetailsViewModel(
@@ -60,7 +60,7 @@ internal class RepoDetailsViewModel(
     companion object {
         fun viewModelFactory(
             args: Args,
-            dependencies: RepoDetailsDependencies
+            dependencies: RepoDetailsScreenDependencies
         ) = viewModelFactory {
             initializer {
                 RepoDetailsViewModel(

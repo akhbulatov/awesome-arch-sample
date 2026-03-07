@@ -7,7 +7,7 @@ import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.user.usecase.GetUserDetailsUseCase
-import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsDependencies
+import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsScreenDependencies
 import kotlinx.coroutines.launch
 
 internal class UserDetailsViewModel(
@@ -48,7 +48,7 @@ internal class UserDetailsViewModel(
     companion object {
         fun viewModelFactory(
             args: Args,
-            dependencies: UserDetailsDependencies
+            dependencies: UserDetailsScreenDependencies
         ) = viewModelFactory {
             initializer {
                 UserDetailsViewModel(

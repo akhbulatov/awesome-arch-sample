@@ -34,7 +34,7 @@ import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.user.model.UserDetails
-import com.example.awesomearchsample.feature.user.userdetails.di.rememberUserDetailsDependencies
+import com.example.awesomearchsample.feature.user.userdetails.di.rememberUserDetailsScreenDependencies
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -47,7 +47,7 @@ internal fun UserDetailsScreen(
     route: UserDetailsRoute,
     onBack: () -> Unit
 ) {
-    val dependencies = rememberUserDetailsDependencies()
+    val dependencies = rememberUserDetailsScreenDependencies()
     val args = UserDetailsViewModel.Args(
         login = route.login
     )

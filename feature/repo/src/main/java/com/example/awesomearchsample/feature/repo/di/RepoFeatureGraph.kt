@@ -3,8 +3,8 @@ package com.example.awesomearchsample.feature.repo.di
 import com.example.awesomearchsample.core.ui.di.UiFactory
 import com.example.awesomearchsample.domain.di.DomainFactory
 import com.example.awesomearchsample.feature.common.di.CommonFeatureFactory
-import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsDependencies
-import com.example.awesomearchsample.feature.repo.repos.di.ReposDependencies
+import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsScreenDependencies
+import com.example.awesomearchsample.feature.repo.repos.di.ReposScreenDependencies
 
 class RepoFeatureGraph(
     private val domainFactory: DomainFactory,
@@ -12,16 +12,16 @@ class RepoFeatureGraph(
     private val commonFeatureFactory: CommonFeatureFactory
 ) : RepoFeatureDependencies {
 
-    override val reposDependencies: ReposDependencies by lazy {
-        object : ReposDependencies {
+    override val reposScreenDependencies: ReposScreenDependencies by lazy {
+        object : ReposScreenDependencies {
             override val getReposUseCase = domainFactory.repoDomainFactory.getReposUseCase
             override val uiErrorHandler = uiFactory.uiErrorHandler
             override val analyticsEventSender = commonFeatureFactory.analyticsEventSender
         }
     }
 
-    override val repoDetailsDependencies: RepoDetailsDependencies by lazy {
-        object : RepoDetailsDependencies {
+    override val repoDetailsScreenDependencies: RepoDetailsScreenDependencies by lazy {
+        object : RepoDetailsScreenDependencies {
             override val getRepoDetailsUseCase = domainFactory.repoDomainFactory.getRepoDetailsUseCase
             override val uiErrorHandler = uiFactory.uiErrorHandler
         }

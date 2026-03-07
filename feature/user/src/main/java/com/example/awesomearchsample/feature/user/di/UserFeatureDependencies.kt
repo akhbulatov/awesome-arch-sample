@@ -2,10 +2,10 @@ package com.example.awesomearchsample.feature.user.di
 
 import androidx.compose.runtime.Composable
 import com.example.awesomearchsample.core.ui.util.getApplicationInstance
-import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsDependencies
+import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsScreenDependencies
 
 interface UserFeatureDependencies {
-    val userDetailsDependencies: UserDetailsDependencies
+    val userDetailsScreenDependencies: UserDetailsScreenDependencies
 }
 
 interface UserFeatureDependenciesProvider {

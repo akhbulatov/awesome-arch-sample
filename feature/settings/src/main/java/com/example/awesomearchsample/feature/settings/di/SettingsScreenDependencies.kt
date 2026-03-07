@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import com.example.awesomearchsample.domain.appconfig.usecase.GetNotificationsEnabledUseCase
 import com.example.awesomearchsample.domain.appconfig.usecase.SetNotificationsEnabledUseCase
 
-interface SettingsDependencies {
+interface SettingsScreenDependencies {
     val getNotificationsEnabledUseCase: GetNotificationsEnabledUseCase
     val setNotificationsEnabledUseCase: SetNotificationsEnabledUseCase
 }
 
 @Composable
-internal fun rememberSettingsDependencies(): SettingsDependencies {
-    return rememberSettingsFeatureDependencies().settingsDependencies
+internal fun rememberSettingsScreenDependencies(): SettingsScreenDependencies {
+    return rememberSettingsFeatureDependencies().settingsScreenDependencies
 }

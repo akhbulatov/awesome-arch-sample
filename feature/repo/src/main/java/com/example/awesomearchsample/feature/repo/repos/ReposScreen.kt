@@ -38,7 +38,7 @@ import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.feature.repo.R
-import com.example.awesomearchsample.feature.repo.repos.di.rememberReposDependencies
+import com.example.awesomearchsample.feature.repo.repos.di.rememberReposScreenDependencies
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -56,7 +56,7 @@ internal fun ReposScreen(
     onNavigateToSettings: () -> Unit,
     onNavigateToRepoDetails: (Long) -> Unit
 ) {
-    val dependencies = rememberReposDependencies()
+    val dependencies = rememberReposScreenDependencies()
     val viewModel = viewModel<ReposViewModel>(
         factory = ReposViewModel.viewModelFactory(dependencies = dependencies)
     )

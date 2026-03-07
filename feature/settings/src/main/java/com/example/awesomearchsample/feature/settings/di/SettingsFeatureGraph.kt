@@ -6,8 +6,8 @@ class SettingsFeatureGraph(
     private val domainFactory: DomainFactory
 ) : SettingsFeatureDependencies {
 
-    override val settingsDependencies: SettingsDependencies by lazy {
-        object : SettingsDependencies {
+    override val settingsScreenDependencies: SettingsScreenDependencies by lazy {
+        object : SettingsScreenDependencies {
             override val getNotificationsEnabledUseCase =
                 domainFactory.appConfigDomainFactory.getNotificationsEnabledUseCase
             override val setNotificationsEnabledUseCase =

@@ -16,7 +16,7 @@ import com.example.awesomearchsample.domain.search.model.SearchResult
 import com.example.awesomearchsample.domain.search.usecase.GetSearchQueriesUseCase
 import com.example.awesomearchsample.domain.search.usecase.GetSearchResultUseCase
 import com.example.awesomearchsample.domain.search.usecase.SaveSearchQueryUseCase
-import com.example.awesomearchsample.feature.search.di.SearchDependencies
+import com.example.awesomearchsample.feature.search.di.SearchScreenDependencies
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -108,7 +108,7 @@ internal class SearchViewModel(
     }
 
     companion object {
-        fun viewModelFactory(dependencies: SearchDependencies) = viewModelFactory {
+        fun viewModelFactory(dependencies: SearchScreenDependencies) = viewModelFactory {
             initializer {
                 SearchViewModel(
                     getSearchResultUseCase = dependencies.getSearchResultUseCase,

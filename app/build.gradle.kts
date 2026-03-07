@@ -17,7 +17,10 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.analytics)
     implementation(projects.core.coreFactory)
+    implementation(projects.core.network)
+    implementation(projects.core.preferences)
     implementation(projects.core.ui)
     implementation(projects.domain)
     implementation(projects.data)

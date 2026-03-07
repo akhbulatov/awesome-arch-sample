@@ -32,7 +32,7 @@ class AppGraph(
     val repoFeatureDependencies: RepoFeatureDependencies by lazy {
         RepoFeatureGraph(
             domainFactory = appFactory.domainFactory,
-            coreFactory = appFactory.coreFactory,
+            uiFactory = appFactory.coreFactory.uiFactory,
             commonFeatureFactory = appFactory.commonFeatureFactory
         )
     }
@@ -40,14 +40,14 @@ class AppGraph(
     val searchFeatureDependencies: SearchFeatureDependencies by lazy {
         SearchFeatureGraph(
             domainFactory = appFactory.domainFactory,
-            coreFactory = appFactory.coreFactory
+            uiFactory = appFactory.coreFactory.uiFactory
         )
     }
 
     val userFeatureDependencies: UserFeatureDependencies by lazy {
         UserFeatureGraph(
             domainFactory = appFactory.domainFactory,
-            coreFactory = appFactory.coreFactory
+            uiFactory = appFactory.coreFactory.uiFactory
         )
     }
 

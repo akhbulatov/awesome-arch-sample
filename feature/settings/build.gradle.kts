@@ -7,7 +7,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.coreFactory)
     implementation(projects.core.ui)
     implementation(projects.domain)
 

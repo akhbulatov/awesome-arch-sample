@@ -1,6 +1,7 @@
 package com.example.awesomearchsample.di
 
 import android.content.Context
+import com.example.awesomearchsample.BuildConfig
 import com.example.awesomearchsample.core.corefactory.di.CoreFactory
 import com.example.awesomearchsample.data.di.DataFactory
 import com.example.awesomearchsample.data.di.AppContextProvider
@@ -13,7 +14,8 @@ class AwesomeArchSampleFactory(
 
     val coreFactory: CoreFactory by lazy {
         CoreFactory(
-            context = context
+            context = context,
+            networkBaseApiUrl = BuildConfig.NETWORK_API_BASE_URL
         )
     }
 

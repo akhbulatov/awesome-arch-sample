@@ -21,5 +21,6 @@ dependencies {
     testImplementation(libs.junit4)
     testImplementation(libs.coroutines.test)
     testImplementation(libs.turbine)
+    testImplementation(projects.core.common)
     testImplementation(projects.core.testing)
 }

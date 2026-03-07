@@ -1,8 +1,10 @@
 package com.example.awesomearchsample.di
 
 import android.content.Context
+import com.example.awesomearchsample.BuildConfig
 import com.example.awesomearchsample.core.corefactory.di.CoreFactory
 import com.example.awesomearchsample.data.di.DataFactory
+import com.example.awesomearchsample.data.di.AppContextProvider
 import com.example.awesomearchsample.domain.di.DomainFactory
 import com.example.awesomearchsample.feature.common.di.CommonFeatureFactory
 
@@ -12,13 +14,21 @@ class AwesomeArchSampleFactory(
 
     val coreFactory: CoreFactory by lazy {
         CoreFactory(
-            context = context
+            context = context,
+            networkBaseApiUrl = BuildConfig.NETWORK_API_BASE_URL
         )
+    }
+
+    val appContextProvider: AppContextProvider = object : AppContextProvider {
+        override val appContext: Context
+            get() = coreFactory.context
     }
 
     private val dataFactory: DataFactory by lazy {
         DataFactory(
-            coreFactory = coreFactory
+            appContextProvider = appContextProvider,
+            networkFactory = coreFactory.networkFactory,
+            preferencesFactory = coreFactory.preferencesFactory
         )
     }
 
@@ -33,7 +43,7 @@ class AwesomeArchSampleFactory(
 
     val commonFeatureFactory: CommonFeatureFactory by lazy {
         CommonFeatureFactory(
-            coreFactory = coreFactory
+            analyticsFactory = coreFactory.analyticsFactory
         )
     }
 

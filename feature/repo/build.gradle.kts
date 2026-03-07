@@ -8,7 +8,6 @@ android {
 
 dependencies {
     implementation(projects.core.analytics)
-    implementation(projects.core.coreFactory)
     implementation(projects.core.ui)
     implementation(projects.domain)
     implementation(projects.feature.common)
@@ -22,6 +21,7 @@ dependencies {
     testImplementation(libs.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.robolectric)
+    testImplementation(projects.core.common)
     testImplementation(projects.core.testing)
 
     androidTestImplementation(platform(libs.compose.bom))

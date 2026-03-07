@@ -14,7 +14,8 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 class NetworkFactory(
-    private val json: Json
+    private val json: Json,
+    private val baseApiUrl: String
 ) {
 
     private val httpClientEngine: HttpClientEngine by lazy {
@@ -25,7 +26,7 @@ class NetworkFactory(
         HttpClient(engine = httpClientEngine) {
             expectSuccess = true
             defaultRequest {
-                url(urlString = "https://api.github.com/")
+                url(urlString = baseApiUrl)
             }
             install(plugin = ContentNegotiation) {
                 json(json = json)

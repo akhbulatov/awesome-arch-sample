@@ -7,7 +7,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.coreFactory)
     implementation(projects.core.ui)
     implementation(projects.domain)
 
@@ -22,5 +21,6 @@ dependencies {
     testImplementation(libs.junit4)
     testImplementation(libs.coroutines.test)
     testImplementation(libs.turbine)
+    testImplementation(projects.core.common)
     testImplementation(projects.core.testing)
 }

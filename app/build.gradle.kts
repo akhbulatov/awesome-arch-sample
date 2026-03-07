@@ -9,15 +9,20 @@ android {
     defaultConfig {
         applicationId = "com.example.awesomearchsample"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "NETWORK_API_BASE_URL", "\"https://api.github.com/\"")
     }
 
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }
 
 dependencies {
+    implementation(projects.core.analytics)
     implementation(projects.core.coreFactory)
+    implementation(projects.core.network)
+    implementation(projects.core.preferences)
     implementation(projects.core.ui)
     implementation(projects.domain)
     implementation(projects.data)

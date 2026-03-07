@@ -1,7 +1,8 @@
 package com.example.awesomearchsample.data.di
 
 import androidx.room.Room
-import com.example.awesomearchsample.core.corefactory.di.CoreFactory
+import com.example.awesomearchsample.core.network.di.NetworkFactory
+import com.example.awesomearchsample.core.preferences.di.PreferencesFactory
 import com.example.awesomearchsample.data.AppDatabase
 import com.example.awesomearchsample.data.appconfig.di.AppConfigDataFactory
 import com.example.awesomearchsample.data.repo.di.RepoDataFactory
@@ -9,12 +10,14 @@ import com.example.awesomearchsample.data.search.di.SearchDataFactory
 import com.example.awesomearchsample.data.user.di.UserDataFactory
 
 class DataFactory(
-    coreFactory: CoreFactory
+    appContextProvider: AppContextProvider,
+    networkFactory: NetworkFactory,
+    preferencesFactory: PreferencesFactory
 ) {
 
     private val appDatabase: AppDatabase by lazy {
         Room.databaseBuilder(
-            context = coreFactory.context,
+            context = appContextProvider.appContext,
             klass = AppDatabase::class.java,
             name = "awesomearchsample.db"
         )
@@ -24,23 +27,23 @@ class DataFactory(
 
     val repoDataFactory: RepoDataFactory by lazy {
         RepoDataFactory(
-            coreFactory = coreFactory
+            networkFactory = networkFactory
         )
     }
     val searchDataFactory: SearchDataFactory by lazy {
         SearchDataFactory(
             appDatabase = appDatabase,
-            coreFactory = coreFactory
+            networkFactory = networkFactory
         )
     }
     val userDataFactory: UserDataFactory by lazy {
         UserDataFactory(
-            coreFactory = coreFactory
+            networkFactory = networkFactory
         )
     }
     val appConfigDataFactory: AppConfigDataFactory by lazy {
         AppConfigDataFactory(
-            coreFactory = coreFactory
+            preferencesFactory = preferencesFactory
         )
     }
 }

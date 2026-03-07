@@ -10,7 +10,8 @@ import com.example.awesomearchsample.core.serialization.di.SerializationFactory
 import com.example.awesomearchsample.core.ui.di.UiFactory
 
 class CoreFactory(
-    val context: Context
+    val context: Context,
+    private val networkBaseApiUrl: String
 ) {
 
     private val commonImplFactory: CommonImplFactory by lazy {
@@ -25,7 +26,8 @@ class CoreFactory(
 
     val networkFactory: NetworkFactory by lazy {
         NetworkFactory(
-            json = serializationFactory.json
+            json = serializationFactory.json,
+            baseApiUrl = networkBaseApiUrl
         )
     }
 

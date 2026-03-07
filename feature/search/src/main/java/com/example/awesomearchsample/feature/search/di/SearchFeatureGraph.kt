@@ -1,11 +1,11 @@
 package com.example.awesomearchsample.feature.search.di
 
-import com.example.awesomearchsample.core.corefactory.di.CoreFactory
+import com.example.awesomearchsample.core.ui.di.UiFactory
 import com.example.awesomearchsample.domain.di.DomainFactory
 
 class SearchFeatureGraph(
     private val domainFactory: DomainFactory,
-    private val coreFactory: CoreFactory
+    private val uiFactory: UiFactory
 ) : SearchFeatureDependencies {
 
     override val searchDependencies: SearchDependencies by lazy {
@@ -16,7 +16,7 @@ class SearchFeatureGraph(
                 domainFactory.searchDomainFactory.getSearchQueriesUseCase
             override val saveSearchQueryUseCase =
                 domainFactory.searchDomainFactory.saveSearchQueriesUseCase
-            override val uiErrorHandler = coreFactory.uiFactory.uiErrorHandler
+            override val uiErrorHandler = uiFactory.uiErrorHandler
         }
     }
 }

@@ -2,43 +2,14 @@ package com.example.awesomearchsample
 
 import android.app.Application
 import com.example.awesomearchsample.di.AppGraph
-import com.example.awesomearchsample.feature.launch.di.LaunchFeatureDependencies
-import com.example.awesomearchsample.feature.launch.di.LaunchFeatureDependenciesProvider
-import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependencies
-import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependenciesProvider
-import com.example.awesomearchsample.feature.search.di.SearchFeatureDependencies
-import com.example.awesomearchsample.feature.search.di.SearchFeatureDependenciesProvider
-import com.example.awesomearchsample.feature.settings.di.SettingsFeatureDependencies
-import com.example.awesomearchsample.feature.settings.di.SettingsFeatureDependenciesProvider
-import com.example.awesomearchsample.feature.user.di.UserFeatureDependencies
-import com.example.awesomearchsample.feature.user.di.UserFeatureDependenciesProvider
+import com.example.awesomearchsample.di.AppGraphProvider
 
-class AwesomeArchSampleApp : Application(),
-    LaunchFeatureDependenciesProvider,
-    RepoFeatureDependenciesProvider,
-    SearchFeatureDependenciesProvider,
-    SettingsFeatureDependenciesProvider,
-    UserFeatureDependenciesProvider {
+class AwesomeArchSampleApp : Application(), AppGraphProvider {
 
-    private val graph: AppGraph by lazy { AppGraph(this) }
+    override val appGraph: AppGraph by lazy { AppGraph(this) }
 
     override fun onCreate() {
         super.onCreate()
-        graph.appInitializers.init()
+        appGraph.appInitializers.init()
     }
-
-    override fun getLaunchFeatureDependencies(): LaunchFeatureDependencies =
-        graph.launchFeatureDependencies
-
-    override fun getRepoFeatureDependencies(): RepoFeatureDependencies =
-        graph.repoFeatureDependencies
-
-    override fun getSearchFeatureDependencies(): SearchFeatureDependencies =
-        graph.searchFeatureDependencies
-
-    override fun getSettingsFeatureDependencies(): SettingsFeatureDependencies =
-        graph.settingsFeatureDependencies
-
-    override fun getUserFeatureDependencies(): UserFeatureDependencies =
-        graph.userFeatureDependencies
 }

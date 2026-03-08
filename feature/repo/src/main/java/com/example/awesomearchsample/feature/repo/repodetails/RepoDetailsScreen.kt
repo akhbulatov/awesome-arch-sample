@@ -33,7 +33,7 @@ import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.feature.repo.R
-import com.example.awesomearchsample.feature.repo.repodetails.di.rememberRepoDetailsScreenDependencies
+import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsScreenDependencies
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -50,10 +50,10 @@ const val REPO_DETAILS_FORKS_TAG = "repo_details_forks"
 @Composable
 internal fun RepoDetailsScreen(
     route: RepoDetailsRoute,
+    dependencies: RepoDetailsScreenDependencies,
     onNavigateToUserDetails: (String) -> Unit,
     onBack: () -> Unit
 ) {
-    val dependencies = rememberRepoDetailsScreenDependencies()
     val args = RepoDetailsViewModel.Args(
         repoId = route.repoId
     )

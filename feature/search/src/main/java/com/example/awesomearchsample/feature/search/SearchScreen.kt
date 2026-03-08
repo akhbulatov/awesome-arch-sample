@@ -44,7 +44,7 @@ import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.search.model.SearchQuery
 import com.example.awesomearchsample.domain.search.model.SearchResult
-import com.example.awesomearchsample.feature.search.di.rememberSearchScreenDependencies
+import com.example.awesomearchsample.feature.search.di.SearchScreenDependencies
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -54,10 +54,10 @@ const val SEARCH_SCREEN_TAG = "search_screen"
 
 @Composable
 internal fun SearchScreen(
+    dependencies: SearchScreenDependencies,
     onNavigateToRepoDetails: (Long) -> Unit,
     onBack: () -> Unit
 ) {
-    val dependencies = rememberSearchScreenDependencies()
     val viewModel = viewModel<SearchViewModel>(
         factory = SearchViewModel.viewModelFactory(dependencies = dependencies)
     )

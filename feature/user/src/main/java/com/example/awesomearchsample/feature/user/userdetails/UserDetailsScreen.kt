@@ -34,7 +34,7 @@ import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.user.model.UserDetails
-import com.example.awesomearchsample.feature.user.userdetails.di.rememberUserDetailsScreenDependencies
+import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsScreenDependencies
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -45,9 +45,9 @@ const val USER_DETAILS_SCREEN_TAG = "user_details_screen"
 @Composable
 internal fun UserDetailsScreen(
     route: UserDetailsRoute,
+    dependencies: UserDetailsScreenDependencies,
     onBack: () -> Unit
 ) {
-    val dependencies = rememberUserDetailsScreenDependencies()
     val args = UserDetailsViewModel.Args(
         login = route.login
     )

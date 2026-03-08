@@ -5,12 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.di.AppGraph
+import com.example.awesomearchsample.di.AppGraphProvider
 import com.example.awesomearchsample.navigation.AppNavHost
 
 class AwesomeArchSampleActivity : ComponentActivity() {
 
     private val appGraph: AppGraph by lazy {
-        (application as AwesomeArchSampleApp).graph
+        (application as AppGraphProvider).appGraph
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

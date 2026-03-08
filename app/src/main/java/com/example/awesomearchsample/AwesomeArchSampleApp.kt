@@ -2,13 +2,14 @@ package com.example.awesomearchsample
 
 import android.app.Application
 import com.example.awesomearchsample.di.AppGraph
+import com.example.awesomearchsample.di.AppGraphProvider
 
-class AwesomeArchSampleApp : Application() {
+class AwesomeArchSampleApp : Application(), AppGraphProvider {
 
-    internal val graph: AppGraph by lazy { AppGraph(this) }
+    override val appGraph: AppGraph by lazy { AppGraph(this) }
 
     override fun onCreate() {
         super.onCreate()
-        graph.appInitializers.init()
+        appGraph.appInitializers.init()
     }
 }

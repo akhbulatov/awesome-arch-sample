@@ -2,7 +2,7 @@ package com.example.awesomearchsample.feature.common.analytics
 
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent
 import com.example.awesomearchsample.core.analytics.api.AnalyticsClient
-import com.example.awesomearchsample.core.common.util.AppLogger
+import com.example.awesomearchsample.core.commonapi.util.AppLogger
 
 class AnalyticsEventSender(
     private val analyticsClient: AnalyticsClient,

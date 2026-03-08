@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.core.common.error
+package com.example.awesomearchsample.core.commonapi.error
 
 sealed class ErrorEntity {
     data object AuthRequired : ErrorEntity()

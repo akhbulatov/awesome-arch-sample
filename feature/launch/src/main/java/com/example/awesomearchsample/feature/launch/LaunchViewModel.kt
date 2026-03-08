@@ -3,7 +3,7 @@ package com.example.awesomearchsample.feature.launch
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.awesomearchsample.core.common.util.AppLogger
+import com.example.awesomearchsample.core.commonapi.util.AppLogger
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.appconfig.usecase.IsFirstLaunchUseCase
 import com.example.awesomearchsample.domain.appconfig.usecase.SetIsFirstLaunchUseCase

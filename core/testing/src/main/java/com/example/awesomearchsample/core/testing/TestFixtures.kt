@@ -1,7 +1,7 @@
 package com.example.awesomearchsample.core.testing
 
-import com.example.awesomearchsample.core.common.error.ErrorEntity
-import com.example.awesomearchsample.core.common.error.ErrorHandler
+import com.example.awesomearchsample.core.commonapi.error.ErrorEntity
+import com.example.awesomearchsample.core.commonapi.error.ErrorHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher

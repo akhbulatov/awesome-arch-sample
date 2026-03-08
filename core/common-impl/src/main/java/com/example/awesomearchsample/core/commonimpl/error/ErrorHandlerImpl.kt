@@ -1,7 +1,7 @@
 package com.example.awesomearchsample.core.commonimpl.error
 
-import com.example.awesomearchsample.core.common.error.ErrorEntity
-import com.example.awesomearchsample.core.common.error.ErrorHandler
+import com.example.awesomearchsample.core.commonapi.error.ErrorEntity
+import com.example.awesomearchsample.core.commonapi.error.ErrorHandler
 import com.example.awesomearchsample.core.network.error.ErrorNetModel
 import io.ktor.client.plugins.ResponseException
 import io.ktor.client.statement.bodyAsText

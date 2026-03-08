@@ -1,6 +1,6 @@
 package com.example.awesomearchsample.core.commonimpl.di
 
-import com.example.awesomearchsample.core.common.error.ErrorHandler
+import com.example.awesomearchsample.core.commonapi.error.ErrorHandler
 import com.example.awesomearchsample.core.commonimpl.error.ErrorHandlerImpl
 import kotlinx.serialization.json.Json
 

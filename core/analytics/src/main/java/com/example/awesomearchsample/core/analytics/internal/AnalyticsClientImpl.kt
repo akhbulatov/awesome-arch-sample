@@ -2,7 +2,7 @@ package com.example.awesomearchsample.core.analytics.internal
 
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent
 import com.example.awesomearchsample.core.analytics.api.AnalyticsClient
-import com.example.awesomearchsample.core.common.util.AppLogger
+import com.example.awesomearchsample.core.commonapi.util.AppLogger
 
 internal class AnalyticsClientImpl(
     private val analyticsSet: Set<Analytics>,

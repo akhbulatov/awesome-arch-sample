@@ -1,8 +1,8 @@
 package com.example.awesomearchsample.core.ui.error
 
-import com.example.awesomearchsample.core.common.error.ErrorEntity
-import com.example.awesomearchsample.core.common.error.ErrorHandler
-import com.example.awesomearchsample.core.common.util.AppLogger
+import com.example.awesomearchsample.core.commonapi.error.ErrorEntity
+import com.example.awesomearchsample.core.commonapi.error.ErrorHandler
+import com.example.awesomearchsample.core.commonapi.util.AppLogger
 import com.example.awesomearchsample.core.ui.R
 import com.example.awesomearchsample.core.ui.text.UiText
 

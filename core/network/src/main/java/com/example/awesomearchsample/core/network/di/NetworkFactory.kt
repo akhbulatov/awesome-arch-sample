@@ -1,6 +1,6 @@
 package com.example.awesomearchsample.core.network.di
 
-import com.example.awesomearchsample.core.common.util.AppLogger
+import com.example.awesomearchsample.core.commonapi.util.AppLogger
 import com.example.awesomearchsample.core.network.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine

@@ -6,7 +6,7 @@ import com.example.awesomearchsample.core.analytics.internal.Analytics
 import com.example.awesomearchsample.core.analytics.internal.AnalyticsInitializer
 import com.example.awesomearchsample.core.analytics.internal.AnalyticsClientImpl
 import com.example.awesomearchsample.core.analytics.internal.integration.firebase.AppFirebaseAnalytics
-import com.example.awesomearchsample.core.common.app.AppInitializer
+import com.example.awesomearchsample.core.commonapi.app.AppInitializer
 
 class AnalyticsFactory(
     private val context: Context

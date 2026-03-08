@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.core.common.app
+package com.example.awesomearchsample.core.commonapi.app
 
 class AppInitializers(
     private val initializers: Set<AppInitializer>

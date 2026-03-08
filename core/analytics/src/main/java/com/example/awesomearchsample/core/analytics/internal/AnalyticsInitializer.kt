@@ -1,6 +1,6 @@
 package com.example.awesomearchsample.core.analytics.internal
 
-import com.example.awesomearchsample.core.common.app.AppInitializer
+import com.example.awesomearchsample.core.commonapi.app.AppInitializer
 
 internal class AnalyticsInitializer(
     private val analyticsSet: Set<Analytics>

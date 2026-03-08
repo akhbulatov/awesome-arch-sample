@@ -3,7 +3,7 @@ package com.example.awesomearchsample.feature.repo.repos
 import app.cash.turbine.test
 import com.example.awesomearchsample.core.analytics.api.AnalyticsClient
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent
-import com.example.awesomearchsample.core.common.error.ErrorEntity
+import com.example.awesomearchsample.core.commonapi.error.ErrorEntity
 import com.example.awesomearchsample.core.testing.FakeErrorHandler
 import com.example.awesomearchsample.core.testing.MainDispatcherRule
 import com.example.awesomearchsample.core.ui.error.UiError

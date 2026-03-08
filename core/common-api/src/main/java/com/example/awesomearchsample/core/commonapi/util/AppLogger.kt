@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.core.common.util
+package com.example.awesomearchsample.core.commonapi.util
 
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.platformLogWriter

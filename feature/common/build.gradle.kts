@@ -8,7 +8,7 @@ android {
 
 dependencies {
     implementation(projects.core.analytics)
-    implementation(projects.core.common)
+    implementation(projects.core.commonApi)
     implementation(projects.domain)
 
     implementation(platform(libs.compose.bom))

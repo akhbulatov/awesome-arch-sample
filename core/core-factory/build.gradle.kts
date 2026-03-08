@@ -8,7 +8,7 @@ android {
 
 dependencies {
     implementation(projects.core.analytics)
-    api(projects.core.common)
+    api(projects.core.commonApi)
     implementation(projects.core.commonImpl)
     implementation(projects.core.network)
     implementation(projects.core.preferences)

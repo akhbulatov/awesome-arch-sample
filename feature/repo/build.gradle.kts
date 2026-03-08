@@ -21,7 +21,7 @@ dependencies {
     testImplementation(libs.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.robolectric)
-    testImplementation(projects.core.common)
+    testImplementation(projects.core.commonApi)
     testImplementation(projects.core.testing)
 
     androidTestImplementation(platform(libs.compose.bom))

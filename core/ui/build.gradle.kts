@@ -12,7 +12,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.common)
+    implementation(projects.core.commonApi)
 
     api(libs.activity)
     api(libs.activity.compose)

@@ -7,7 +7,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.common)
+    implementation(projects.core.commonApi)
     implementation(libs.coroutines.test)
     implementation(libs.junit4)
 }

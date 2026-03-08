@@ -38,7 +38,7 @@ import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.feature.repo.R
-import com.example.awesomearchsample.feature.repo.repos.di.rememberReposScreenDependencies
+import com.example.awesomearchsample.feature.repo.repos.di.ReposScreenDependencies
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -52,11 +52,11 @@ const val REPO_ITEM_TAG_PREFIX = "repo_item_"
 
 @Composable
 internal fun ReposScreen(
+    dependencies: ReposScreenDependencies,
     onNavigateToSearch: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToRepoDetails: (Long) -> Unit
 ) {
-    val dependencies = rememberReposScreenDependencies()
     val viewModel = viewModel<ReposViewModel>(
         factory = ReposViewModel.viewModelFactory(dependencies = dependencies)
     )

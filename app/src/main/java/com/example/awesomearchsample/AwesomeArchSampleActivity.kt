@@ -4,15 +4,26 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
+import com.example.awesomearchsample.di.AppGraph
 import com.example.awesomearchsample.navigation.AppNavHost
 
 class AwesomeArchSampleActivity : ComponentActivity() {
+
+    private val appGraph: AppGraph by lazy {
+        (application as AwesomeArchSampleApp).graph
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                AppNavHost()
+                AppNavHost(
+                    launchFeatureDependencies = appGraph.launchFeatureDependencies,
+                    repoFeatureDependencies = appGraph.repoFeatureDependencies,
+                    searchFeatureDependencies = appGraph.searchFeatureDependencies,
+                    settingsFeatureDependencies = appGraph.settingsFeatureDependencies,
+                    userFeatureDependencies = appGraph.userFeatureDependencies
+                )
             }
         }
     }

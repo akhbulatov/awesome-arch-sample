@@ -222,23 +222,27 @@ private fun RepoDetailsSuccess(
 //region Previews
 @Preview(showBackground = true)
 @Composable
-private fun RepoDetailsContentPreview() {
+private fun RepoDetailsContentSuccessPreview() {
     AppTheme {
         RepoDetailsContent(
             state = RepoDetailsUiState.Success(
-                repoDetails = RepoDetails(
-                    id = 1,
-                    name = "AwesomeArchSample",
-                    author = "akhbulatov",
-                    description = "Awesome open-source arch sample written in Kotlin",
-                    starsCount = 99,
-                    forksCount = 10
-                )
+                repoDetails = RepoDetailsPreviewData.item
             ),
             onNavigationClick = { },
             onErrorActionClick = { },
             onAuthorClick = {}
         )
     }
+}
+
+private object RepoDetailsPreviewData {
+    val item = RepoDetails(
+        id = 1L,
+        name = "AwesomeArchSample",
+        author = "akhbulatov",
+        description = "Awesome open-source arch sample written in Kotlin",
+        starsCount = 99,
+        forksCount = 10
+    )
 }
 //endregion

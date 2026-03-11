@@ -199,22 +199,26 @@ private fun UserDetailsSuccess(state: UserDetailsUiState.Success) {
 //region Previews
 @Preview(showBackground = true)
 @Composable
-private fun UserDetailsContentPreview() {
+private fun UserDetailsContentSuccessPreview() {
     AppTheme {
         UserDetailsContent(
             state = UserDetailsUiState.Success(
-                userDetails = UserDetails(
-                    id = 1,
-                    login = "akhbulatov",
-                    name = "Alidibir Akhbulatov",
-                    avatarUrl = null,
-                    location = "Makhachkala",
-                    bio = "Android developer"
-                )
+                userDetails = UserDetailsPreviewData.item
             ),
             onNavigationClick = {},
             onErrorActionClick = {}
         )
     }
+}
+
+private object UserDetailsPreviewData {
+    val item = UserDetails(
+        id = 1L,
+        login = "akhbulatov",
+        name = "Alidibir Akhbulatov",
+        avatarUrl = null,
+        location = "Makhachkala",
+        bio = "Android developer"
+    )
 }
 //endregion

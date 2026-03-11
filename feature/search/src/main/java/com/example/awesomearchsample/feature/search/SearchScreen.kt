@@ -277,16 +277,12 @@ private fun RecentQueryItem(query: SearchQuery) {
 //region Previews
 @Preview(showBackground = true)
 @Composable
-private fun SearchContentPreview() {
+private fun SearchContentSuccessPreview() {
     AppTheme {
         SearchContent(
             state = SearchUiState.Success(
                 result = SearchResult.Repos(
-                    data = buildList {
-                        repeat(5) { index ->
-                            add(createRepoForPreview(index))
-                        }
-                    }
+                    data = SearchPreviewData.list
                 )
             ),
             queryInput = "awesome arch sample",
@@ -299,10 +295,19 @@ private fun SearchContentPreview() {
     }
 }
 
-private fun createRepoForPreview(index: Int) = Repo(
-    id = index.toLong(),
-    name = "AwesomeArchSample: $index",
-    author = "akhbulatov",
-    description = "Awesome open-source arch sample written in Kotlin"
-)
+private object SearchPreviewData {
+    private val item = Repo(
+        id = 0L,
+        name = "AwesomeArchSample: 0",
+        author = "akhbulatov",
+        description = "Awesome open-source arch sample written in Kotlin"
+    )
+
+    val list = List(5) { index ->
+        item.copy(
+            id = index.toLong(),
+            name = "AwesomeArchSample: $index"
+        )
+    }
+}
 //endregion

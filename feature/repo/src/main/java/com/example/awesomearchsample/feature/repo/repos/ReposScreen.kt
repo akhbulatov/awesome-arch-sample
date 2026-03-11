@@ -244,15 +244,11 @@ private fun RepoItem(
 //region Previews
 @Preview(showBackground = true)
 @Composable
-private fun ReposContentPreview() {
+private fun ReposContentSuccessPreview() {
     AppTheme {
         ReposContent(
             state = ReposUiState.Success(
-                repos = buildList {
-                    repeat(5) { index ->
-                        add(createRepoForPreview(index))
-                    }
-                }
+                repos = ReposPreviewData.list
             ),
             onSearchClick = {},
             onSettingsClick = {},
@@ -267,16 +263,25 @@ private fun ReposContentPreview() {
 private fun RepoItemPreview() {
     AppTheme {
         RepoItem(
-            repo = createRepoForPreview(index = 0),
+            repo = ReposPreviewData.item,
             onRepoItemClick = {}
         )
     }
 }
 
-private fun createRepoForPreview(index: Int) = Repo(
-    id = index.toLong(),
-    name = "AwesomeArchSample: $index",
-    author = "akhbulatov",
-    description = "Awesome open-source arch sample written in Kotlin"
-)
+private object ReposPreviewData {
+    val item = Repo(
+        id = 0L,
+        name = "AwesomeArchSample: 0",
+        author = "akhbulatov",
+        description = "Awesome open-source arch sample written in Kotlin"
+    )
+
+    val list = List(5) { index ->
+        item.copy(
+            id = index.toLong(),
+            name = "AwesomeArchSample: $index"
+        )
+    }
+}
 //endregion

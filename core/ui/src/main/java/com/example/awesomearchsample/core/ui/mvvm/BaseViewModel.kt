@@ -1,25 +1,26 @@
 package com.example.awesomearchsample.core.ui.mvvm
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<S, E : BaseUiEffect>(initialUiState: S) : ViewModel() {
 
     protected val mutableUiState = MutableStateFlow(initialUiState)
     val uiState = mutableUiState.asStateFlow()
 
-    protected val mutableUiEffect = MutableSharedFlow<E>(
-        replay = 0, // one-shot effects, no replay for new collectors
-        extraBufferCapacity = 1 // avoid blocking when collector isn't ready
-    )
-    val uiEffect = mutableUiEffect.asSharedFlow()
+    private val mutableUiEffect = Channel<E>(capacity = Channel.BUFFERED)
+    val uiEffect = mutableUiEffect.receiveAsFlow()
 
     protected fun emitEffect(effect: E) {
-        mutableUiEffect.tryEmit(effect)
+        viewModelScope.launch {
+            mutableUiEffect.send(effect)
+        }
     }
 
     protected inline fun <reified SS : S> withState(block: (SS) -> Unit) {

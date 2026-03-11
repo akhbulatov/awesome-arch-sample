@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
@@ -277,23 +278,25 @@ private fun RecentQueryItem(query: SearchQuery) {
 @Preview(showBackground = true)
 @Composable
 private fun SearchContentPreview() {
-    SearchContent(
-        state = SearchUiState.Success(
-            result = SearchResult.Repos(
-                data = buildList {
-                    repeat(5) { index ->
-                        add(createRepoForPreview(index))
+    AppTheme {
+        SearchContent(
+            state = SearchUiState.Success(
+                result = SearchResult.Repos(
+                    data = buildList {
+                        repeat(5) { index ->
+                            add(createRepoForPreview(index))
+                        }
                     }
-                }
-            )
-        ),
-        queryInput = "awesome arch sample",
-        onQueryInputChange = {},
-        onNavigationClick = {},
-        onErrorActionClick = {},
-        onSearchActionClick = {},
-        onRepoResultItemClick = {}
-    )
+                )
+            ),
+            queryInput = "awesome arch sample",
+            onQueryInputChange = {},
+            onNavigationClick = {},
+            onErrorActionClick = {},
+            onSearchActionClick = {},
+            onRepoResultItemClick = {}
+        )
+    }
 }
 
 private fun createRepoForPreview(index: Int) = Repo(

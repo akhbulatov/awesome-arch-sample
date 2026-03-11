@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
+import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.Repo
@@ -244,28 +245,32 @@ private fun RepoItem(
 @Preview(showBackground = true)
 @Composable
 private fun ReposContentPreview() {
-    ReposContent(
-        state = ReposUiState.Success(
-            repos = buildList {
-                repeat(5) { index ->
-                    add(createRepoForPreview(index))
+    AppTheme {
+        ReposContent(
+            state = ReposUiState.Success(
+                repos = buildList {
+                    repeat(5) { index ->
+                        add(createRepoForPreview(index))
+                    }
                 }
-            }
-        ),
-        onSearchClick = {},
-        onSettingsClick = {},
-        onErrorActionClick = {},
-        onRepoClick = {}
-    )
+            ),
+            onSearchClick = {},
+            onSettingsClick = {},
+            onErrorActionClick = {},
+            onRepoClick = {}
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun RepoItemPreview() {
-    RepoItem(
-        repo = createRepoForPreview(index = 0),
-        onRepoItemClick = {}
-    )
+    AppTheme {
+        RepoItem(
+            repo = createRepoForPreview(index = 0),
+            onRepoItemClick = {}
+        )
+    }
 }
 
 private fun createRepoForPreview(index: Int) = Repo(

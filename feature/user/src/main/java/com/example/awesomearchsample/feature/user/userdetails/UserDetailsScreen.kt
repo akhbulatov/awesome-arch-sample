@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
+import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
@@ -199,19 +200,21 @@ private fun UserDetailsSuccess(state: UserDetailsUiState.Success) {
 @Preview(showBackground = true)
 @Composable
 private fun UserDetailsContentPreview() {
-    UserDetailsContent(
-        state = UserDetailsUiState.Success(
-            userDetails = UserDetails(
-                id = 1,
-                login = "akhbulatov",
-                name = "Alidibir Akhbulatov",
-                avatarUrl = null,
-                location = "Makhachkala",
-                bio = "Android developer"
-            )
-        ),
-        onNavigationClick = {},
-        onErrorActionClick = {}
-    )
+    AppTheme {
+        UserDetailsContent(
+            state = UserDetailsUiState.Success(
+                userDetails = UserDetails(
+                    id = 1,
+                    login = "akhbulatov",
+                    name = "Alidibir Akhbulatov",
+                    avatarUrl = null,
+                    location = "Makhachkala",
+                    bio = "Android developer"
+                )
+            ),
+            onNavigationClick = {},
+            onErrorActionClick = {}
+        )
+    }
 }
 //endregion

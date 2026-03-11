@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
@@ -222,20 +223,22 @@ private fun RepoDetailsSuccess(
 @Preview(showBackground = true)
 @Composable
 private fun RepoDetailsContentPreview() {
-    RepoDetailsContent(
-        state = RepoDetailsUiState.Success(
-            repoDetails = RepoDetails(
-                id = 1,
-                name = "AwesomeArchSample",
-                author = "akhbulatov",
-                description = "Awesome open-source arch sample written in Kotlin",
-                starsCount = 99,
-                forksCount = 10
-            )
-        ),
-        onNavigationClick = { },
-        onErrorActionClick = { },
-        onAuthorClick = {}
-    )
+    AppTheme {
+        RepoDetailsContent(
+            state = RepoDetailsUiState.Success(
+                repoDetails = RepoDetails(
+                    id = 1,
+                    name = "AwesomeArchSample",
+                    author = "akhbulatov",
+                    description = "Awesome open-source arch sample written in Kotlin",
+                    starsCount = 99,
+                    forksCount = 10
+                )
+            ),
+            onNavigationClick = { },
+            onErrorActionClick = { },
+            onAuthorClick = {}
+        )
+    }
 }
 //endregion

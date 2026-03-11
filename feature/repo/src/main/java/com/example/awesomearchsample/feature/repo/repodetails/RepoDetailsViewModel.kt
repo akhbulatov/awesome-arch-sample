@@ -6,8 +6,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
-import com.example.awesomearchsample.core.ui.mvvm.onSuccess
-import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsScreenDependencies
 import kotlinx.coroutines.launch
@@ -44,10 +42,10 @@ internal class RepoDetailsViewModel(
     }
 
     fun onAuthorClick() {
-        uiState.value.onSuccess<RepoDetails> { repoDetails ->
+        withState<RepoDetailsUiState.Success> { success ->
             emitEffect(
                 RepoDetailsUiEffect.NavigateToUserDetails(
-                    login = repoDetails.author
+                    login = success.repoDetails.author
                 )
             )
         }

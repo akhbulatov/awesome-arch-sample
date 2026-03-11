@@ -5,7 +5,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
-import com.example.awesomearchsample.core.ui.mvvm.updateSuccess
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.updatedByToggleInFavorites
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
@@ -54,7 +53,7 @@ internal class ReposViewModel(
     }
 
     fun onFavoritesClick(repo: Repo) {
-        mutableUiState.updateSuccess { success: ReposUiState.Success ->
+        updateState<ReposUiState.Success> { success ->
             val updatedRepos = success.repos.updatedByToggleInFavorites(repoBy = repo)
             success.copy(repos = updatedRepos)
         }

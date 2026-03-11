@@ -3,6 +3,7 @@ package com.example.awesomearchsample.core.ui.mvvm
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -19,5 +20,17 @@ abstract class BaseViewModel<S, E : BaseUiEffect>(initialUiState: S) : ViewModel
 
     protected fun emitEffect(effect: E) {
         mutableUiEffect.tryEmit(effect)
+    }
+
+    protected inline fun <reified SS : S> withState(block: (SS) -> Unit) {
+        val state = uiState.value as? SS ?: return
+        block(state)
+    }
+
+    protected inline fun <reified SS : S> updateState(block: (SS) -> S) {
+        mutableUiState.update { current ->
+            val state = current as? SS ?: return@update current
+            block(state)
+        }
     }
 }

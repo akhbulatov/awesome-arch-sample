@@ -16,7 +16,7 @@ internal class RepoDetailsViewModel(
     private val args: Args,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState.Idle) {
+) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState.Initial) {
 
     data class Args(
         val repoId: Long

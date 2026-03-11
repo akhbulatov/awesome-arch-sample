@@ -28,7 +28,7 @@ internal class SearchViewModel(
     private val getSearchQueriesUseCase: GetSearchQueriesUseCase,
     private val saveSearchQueryUseCase: SaveSearchQueryUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<SearchUiState, SearchUiEffect>(initialUiState = SearchUiState.Idle()) {
+) : BaseViewModel<SearchUiState, SearchUiEffect>(initialUiState = SearchUiState.Initial()) {
 
     var queryInput by mutableStateOf(value = "")
         private set
@@ -42,7 +42,7 @@ internal class SearchViewModel(
             .onEach { searchQueries ->
                 mutableUiState.update { state ->
                     when (state) {
-                        is SearchUiState.Idle -> state.copy(recentQueries = searchQueries)
+                        is SearchUiState.Initial -> state.copy(recentQueries = searchQueries)
                         else -> state
                     }
                 }

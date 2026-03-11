@@ -127,7 +127,7 @@ internal fun ReposContent(
                 .testTag(REPOS_SCREEN_TAG)
         ) {
             when (state) {
-                is ReposUiState.Idle -> Unit
+                is ReposUiState.Initial -> Unit
                 is ReposUiState.Loading -> EmptyProgress()
                 is ReposUiState.Error -> EmptyError(
                     error = state.error,

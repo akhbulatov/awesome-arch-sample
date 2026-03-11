@@ -120,7 +120,7 @@ internal fun RepoDetailsContent(
                 .testTag(REPO_DETAILS_SCREEN_TAG)
         ) {
             when (state) {
-                is RepoDetailsUiState.Idle -> Unit
+                is RepoDetailsUiState.Initial -> Unit
                 is RepoDetailsUiState.Loading -> EmptyProgress()
                 is RepoDetailsUiState.Error -> EmptyError(
                     error = state.error,

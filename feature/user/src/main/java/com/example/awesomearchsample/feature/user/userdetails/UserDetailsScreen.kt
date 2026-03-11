@@ -103,7 +103,7 @@ private fun UserDetailsContent(
                 .testTag(USER_DETAILS_SCREEN_TAG)
         ) {
             when (state) {
-                is UserDetailsUiState.Idle -> Unit
+                is UserDetailsUiState.Initial -> Unit
                 is UserDetailsUiState.Loading -> EmptyProgress()
                 is UserDetailsUiState.Error -> EmptyError(
                     error = state.error,

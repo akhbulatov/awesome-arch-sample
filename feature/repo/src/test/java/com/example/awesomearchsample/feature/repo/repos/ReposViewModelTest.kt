@@ -52,7 +52,7 @@ class ReposViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(ReposUiState.Idle, awaitItem())
+            assertEquals(ReposUiState.Initial, awaitItem())
 
             // Loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
@@ -79,7 +79,7 @@ class ReposViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(ReposUiState.Idle, awaitItem())
+            assertEquals(ReposUiState.Initial, awaitItem())
 
             // Loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
@@ -118,7 +118,7 @@ class ReposViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(ReposUiState.Idle, awaitItem())
+            assertEquals(ReposUiState.Initial, awaitItem())
 
             // Initial loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
@@ -161,7 +161,7 @@ class ReposViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(ReposUiState.Idle, awaitItem())
+            assertEquals(ReposUiState.Initial, awaitItem())
 
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
             assertEquals(ReposUiState.Loading, awaitItem())

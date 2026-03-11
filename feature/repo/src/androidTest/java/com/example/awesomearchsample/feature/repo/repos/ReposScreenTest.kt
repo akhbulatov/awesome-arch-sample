@@ -133,7 +133,7 @@ class ReposScreenTest {
         composeRule.setContent {
             AppTheme {
                 ReposContent(
-                    state = ReposUiState.Idle,
+                    state = ReposUiState.Initial,
                     onSearchClick = {},
                     onErrorActionClick = {},
                     onRepoClick = {}

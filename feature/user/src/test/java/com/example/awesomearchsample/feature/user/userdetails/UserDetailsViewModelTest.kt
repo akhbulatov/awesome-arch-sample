@@ -46,7 +46,7 @@ class UserDetailsViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(UserDetailsUiState.Idle, awaitItem())
+            assertEquals(UserDetailsUiState.Initial, awaitItem())
 
             // Loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
@@ -81,7 +81,7 @@ class UserDetailsViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(UserDetailsUiState.Idle, awaitItem())
+            assertEquals(UserDetailsUiState.Initial, awaitItem())
 
             // Loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
@@ -126,7 +126,7 @@ class UserDetailsViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(UserDetailsUiState.Idle, awaitItem())
+            assertEquals(UserDetailsUiState.Initial, awaitItem())
 
             // Initial loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()

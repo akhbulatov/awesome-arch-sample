@@ -158,7 +158,7 @@ private fun SearchContent(
                     state = state,
                     onRepoResultItemClick = onRepoResultItemClick
                 )
-                is SearchUiState.Idle -> {
+                is SearchUiState.Initial -> {
                     if (state.recentQueries.isNotEmpty()) {
                         RecentQueryList(queries = state.recentQueries)
                     }

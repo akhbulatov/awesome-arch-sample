@@ -33,13 +33,9 @@ import coil3.compose.AsyncImage
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
-import com.example.awesomearchsample.core.ui.navigation.NavRoute
+import com.example.awesomearchsample.feature.user.navigation.UserDetailsRoute
 import com.example.awesomearchsample.domain.user.model.UserDetails
 import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsScreenDependencies
-import kotlinx.serialization.Serializable
-
-@Serializable
-internal data class UserDetailsRoute(val login: String) : NavRoute
 
 const val USER_DETAILS_SCREEN_TAG = "user_details_screen"
 

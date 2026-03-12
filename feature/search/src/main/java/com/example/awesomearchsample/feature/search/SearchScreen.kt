@@ -41,15 +41,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
-import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.search.model.SearchQuery
 import com.example.awesomearchsample.domain.search.model.SearchResult
 import com.example.awesomearchsample.feature.search.di.SearchScreenDependencies
-import kotlinx.serialization.Serializable
-
-@Serializable
-internal object SearchRoute : NavRoute
 
 const val SEARCH_SCREEN_TAG = "search_screen"
 

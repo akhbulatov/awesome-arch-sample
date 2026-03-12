@@ -4,9 +4,7 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.example.awesomearchsample.core.ui.navigation.AppNavigator
 import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependencies
-import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsRoute
 import com.example.awesomearchsample.feature.repo.repodetails.RepoDetailsScreen
-import com.example.awesomearchsample.feature.repo.repos.ReposRoute
 import com.example.awesomearchsample.feature.repo.repos.ReposScreen
 
 fun EntryProviderScope<NavKey>.addRepoEntries(

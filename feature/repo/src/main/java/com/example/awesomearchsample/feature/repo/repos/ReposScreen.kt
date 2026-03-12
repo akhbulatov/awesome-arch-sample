@@ -36,14 +36,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.error.UiError
-import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.repos.di.ReposScreenDependencies
-import kotlinx.serialization.Serializable
-
-@Serializable
-object ReposRoute : NavRoute
 
 const val REPOS_SCREEN_TAG = "repos_screen"
 const val REPOS_LOADING_TAG = "repos_loading"

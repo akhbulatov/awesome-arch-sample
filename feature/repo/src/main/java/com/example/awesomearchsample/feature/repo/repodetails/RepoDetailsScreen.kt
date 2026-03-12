@@ -31,14 +31,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
-import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.feature.repo.R
+import com.example.awesomearchsample.feature.repo.navigation.RepoDetailsRoute
 import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsScreenDependencies
-import kotlinx.serialization.Serializable
-
-@Serializable
-internal data class RepoDetailsRoute(val repoId: Long) : NavRoute
 
 const val REPO_DETAILS_SCREEN_TAG = "repo_details_screen"
 const val REPO_DETAILS_LOADING_TAG = "repo_details_loading"

@@ -1,7 +1,7 @@
-package com.example.awesomearchsample.feature.launch.host
+package com.example.awesomearchsample.feature.repo.navigation
 
 import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-object LaunchHostRoute : NavRoute
+object ReposRoute : NavRoute

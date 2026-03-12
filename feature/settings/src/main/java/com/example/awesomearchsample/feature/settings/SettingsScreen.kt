@@ -24,12 +24,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import com.example.awesomearchsample.feature.settings.di.SettingsScreenDependencies
-import kotlinx.serialization.Serializable
-
-@Serializable
-internal object SettingsRoute : NavRoute
 
 @Composable
 internal fun SettingsScreen(

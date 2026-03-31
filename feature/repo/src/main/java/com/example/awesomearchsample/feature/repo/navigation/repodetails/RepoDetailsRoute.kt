@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.navigation
+package com.example.awesomearchsample.feature.repo.navigation.repodetails
 
 import com.example.awesomearchsample.core.ui.navigation.AppNavigator
 import com.example.awesomearchsample.core.ui.navigation.NavRoute

@@ -4,6 +4,8 @@ import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.example.awesomearchsample.core.ui.navigation.AppNavigator
 import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependencies
+import com.example.awesomearchsample.feature.repo.navigation.repodetails.addRepoDetailsEntry
+import com.example.awesomearchsample.feature.repo.navigation.repos.addReposEntry
 
 fun EntryProviderScope<NavKey>.addRepoEntries(
     repoFeatureDependencies: RepoFeatureDependencies,

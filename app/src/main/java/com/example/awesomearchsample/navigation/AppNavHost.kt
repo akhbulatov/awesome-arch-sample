@@ -18,8 +18,8 @@ import com.example.awesomearchsample.feature.main.navigation.MainHostRoute
 import com.example.awesomearchsample.feature.main.navigation.navigateToMainHost
 import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependencies
 import com.example.awesomearchsample.feature.repo.navigation.addRepoEntries
-import com.example.awesomearchsample.feature.repo.navigation.navigateToRepoDetails
-import com.example.awesomearchsample.feature.repo.navigation.ReposRoute
+import com.example.awesomearchsample.feature.repo.navigation.repodetails.navigateToRepoDetails
+import com.example.awesomearchsample.feature.repo.navigation.repos.ReposRoute
 import com.example.awesomearchsample.feature.search.di.SearchFeatureDependencies
 import com.example.awesomearchsample.feature.search.navigation.addSearchEntries
 import com.example.awesomearchsample.feature.search.navigation.navigateToSearch

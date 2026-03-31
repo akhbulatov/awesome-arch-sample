@@ -33,7 +33,7 @@ import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.feature.repo.R
-import com.example.awesomearchsample.feature.repo.navigation.RepoDetailsRoute
+import com.example.awesomearchsample.feature.repo.navigation.repodetails.RepoDetailsRoute
 import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsScreenDependencies
 
 const val REPO_DETAILS_SCREEN_TAG = "repo_details_screen"

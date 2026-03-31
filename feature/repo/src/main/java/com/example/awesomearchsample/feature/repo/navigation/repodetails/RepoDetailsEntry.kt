@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.repo.navigation
+package com.example.awesomearchsample.feature.repo.navigation.repodetails
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey

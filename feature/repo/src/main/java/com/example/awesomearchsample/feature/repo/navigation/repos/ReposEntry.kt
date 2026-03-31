@@ -1,9 +1,10 @@
-package com.example.awesomearchsample.feature.repo.navigation
+package com.example.awesomearchsample.feature.repo.navigation.repos
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
 import com.example.awesomearchsample.core.ui.navigation.AppNavigator
 import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependencies
+import com.example.awesomearchsample.feature.repo.navigation.repodetails.navigateToRepoDetails
 import com.example.awesomearchsample.feature.repo.repos.ReposScreen
 
 internal fun EntryProviderScope<NavKey>.addReposEntry(

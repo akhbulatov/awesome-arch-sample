@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.feature.settings.navigation
+package com.example.awesomearchsample.feature.settings.navigation.advancedsettings
 
 import com.example.awesomearchsample.core.ui.navigation.AppNavigator
 import com.example.awesomearchsample.core.ui.navigation.NavRoute

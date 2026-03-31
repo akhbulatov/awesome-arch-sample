@@ -13,7 +13,7 @@ import com.example.awesomearchsample.feature.launch.host.LaunchHostScreen
 import com.example.awesomearchsample.feature.launch.navigation.addLaunchEntries
 import com.example.awesomearchsample.feature.main.host.MainHostScreen
 import com.example.awesomearchsample.feature.launch.navigation.LaunchHostRoute
-import com.example.awesomearchsample.feature.launch.navigation.LaunchRoute
+import com.example.awesomearchsample.feature.launch.navigation.launch.LaunchRoute
 import com.example.awesomearchsample.feature.main.navigation.MainHostRoute
 import com.example.awesomearchsample.feature.main.navigation.navigateToMainHost
 import com.example.awesomearchsample.feature.repo.di.RepoFeatureDependencies
@@ -22,13 +22,13 @@ import com.example.awesomearchsample.feature.repo.navigation.repodetails.navigat
 import com.example.awesomearchsample.feature.repo.navigation.repos.ReposRoute
 import com.example.awesomearchsample.feature.search.di.SearchFeatureDependencies
 import com.example.awesomearchsample.feature.search.navigation.addSearchEntries
-import com.example.awesomearchsample.feature.search.navigation.navigateToSearch
+import com.example.awesomearchsample.feature.search.navigation.search.navigateToSearch
 import com.example.awesomearchsample.feature.settings.di.SettingsFeatureDependencies
 import com.example.awesomearchsample.feature.settings.navigation.addSettingsEntries
-import com.example.awesomearchsample.feature.settings.navigation.navigateToSettings
+import com.example.awesomearchsample.feature.settings.navigation.settings.navigateToSettings
 import com.example.awesomearchsample.feature.user.di.UserFeatureDependencies
 import com.example.awesomearchsample.feature.user.navigation.addUserEntries
-import com.example.awesomearchsample.feature.user.navigation.navigateToUserDetails
+import com.example.awesomearchsample.feature.user.navigation.userdetails.navigateToUserDetails
 
 @Composable
 fun AppNavHost(

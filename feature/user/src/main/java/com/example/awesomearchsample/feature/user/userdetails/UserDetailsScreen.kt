@@ -33,7 +33,7 @@ import coil3.compose.AsyncImage
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
-import com.example.awesomearchsample.feature.user.navigation.UserDetailsRoute
+import com.example.awesomearchsample.feature.user.navigation.userdetails.UserDetailsRoute
 import com.example.awesomearchsample.domain.user.model.UserDetails
 import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsScreenDependencies
 

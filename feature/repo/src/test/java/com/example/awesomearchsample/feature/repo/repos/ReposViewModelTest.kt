@@ -54,7 +54,7 @@ class ReposViewModelTest {
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
                 ReposUiState(
-                    data = ReposUiData(repos = expected),
+                    content = ReposContent(repos = expected),
                     isInitialLoading = false
                 ),
                 awaitItem()
@@ -161,7 +161,7 @@ class ReposViewModelTest {
             assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
             assertEquals(
                 ReposUiState(
-                    data = ReposUiData(repos = expected),
+                    content = ReposContent(repos = expected),
                     isInitialLoading = false
                 ),
                 awaitItem()
@@ -193,7 +193,7 @@ class ReposViewModelTest {
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
                 ReposUiState(
-                    data = ReposUiData(repos = listOf(repo)),
+                    content = ReposContent(repos = listOf(repo)),
                     isInitialLoading = false
                 ),
                 awaitItem()
@@ -203,7 +203,7 @@ class ReposViewModelTest {
 
             assertEquals(
                 ReposUiState(
-                    data = ReposUiData(repos = expected),
+                    content = ReposContent(repos = expected),
                     isInitialLoading = false
                 ),
                 awaitItem()
@@ -250,7 +250,7 @@ class ReposViewModelTest {
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
                 ReposUiState(
-                    data = ReposUiData(repos = initial),
+                    content = ReposContent(repos = initial),
                     isInitialLoading = false
                 ),
                 awaitItem()
@@ -261,7 +261,7 @@ class ReposViewModelTest {
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
             assertEquals(
                 ReposUiState(
-                    data = ReposUiData(repos = initial),
+                    content = ReposContent(repos = initial),
                     isInitialLoading = false,
                     isRefreshing = true
                 ),
@@ -271,7 +271,7 @@ class ReposViewModelTest {
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
                 ReposUiState(
-                    data = ReposUiData(repos = refreshed),
+                    content = ReposContent(repos = refreshed),
                     isInitialLoading = false
                 ),
                 awaitItem()
@@ -312,7 +312,7 @@ class ReposViewModelTest {
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
                 ReposUiState(
-                    data = ReposUiData(repos = initial),
+                    content = ReposContent(repos = initial),
                     isInitialLoading = false
                 ),
                 awaitItem()
@@ -323,7 +323,7 @@ class ReposViewModelTest {
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
             assertEquals(
                 ReposUiState(
-                    data = ReposUiData(repos = initial),
+                    content = ReposContent(repos = initial),
                     isInitialLoading = false,
                     isRefreshing = true
                 ),
@@ -333,7 +333,7 @@ class ReposViewModelTest {
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
                 ReposUiState(
-                    data = ReposUiData(repos = initial),
+                    content = ReposContent(repos = initial),
                     isInitialLoading = false
                 ),
                 awaitItem()

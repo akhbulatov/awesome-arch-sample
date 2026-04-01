@@ -48,7 +48,7 @@ class ReposScreenTest {
 
         setReposScreen(
             state = ReposUiState(
-                data = ReposUiData(repos = repos),
+                content = ReposContent(repos = repos),
                 isInitialLoading = false
             )
         )
@@ -70,7 +70,7 @@ class ReposScreenTest {
 
         setReposScreen(
             state = ReposUiState(
-                data = ReposUiData(repos = listOf(repo)),
+                content = ReposContent(repos = listOf(repo)),
                 isInitialLoading = false
             ),
             onRepoClick = { clickedRepo = it }
@@ -147,7 +147,7 @@ class ReposScreenTest {
 
         setReposScreen(
             state = ReposUiState(
-                data = ReposUiData(repos = emptyList()),
+                content = ReposContent(repos = emptyList()),
                 isInitialLoading = false
             ),
             onSearchClick = { searchClicked = true }
@@ -164,7 +164,7 @@ class ReposScreenTest {
     fun reposScreen_successWithEmptyList_doesNotShowList() {
         setReposScreen(
             state = ReposUiState(
-                data = ReposUiData(repos = emptyList()),
+                content = ReposContent(repos = emptyList()),
                 isInitialLoading = false
             )
         )

@@ -40,11 +40,11 @@ internal class ReposViewModel(
                 val repos = getReposUseCase.invoke()
                 mutableUiState.value = if (repos.isNotEmpty()) {
                     ReposUiState(
-                        data = ReposUiData(repos = repos)
+                        content = ReposContent(repos = repos)
                     )
                 } else {
                     ReposUiState(
-                        data = ReposUiData(),
+                        content = ReposContent(),
                         isInitialLoading = false,
                         initialEmptyData = UiEmptyData(
                             title = UiText.Res(R.string.repos_empty_title),
@@ -74,12 +74,12 @@ internal class ReposViewModel(
                 val repos = getReposUseCase.invoke()
                 mutableUiState.value = if (repos.isNotEmpty()) {
                     ReposUiState(
-                        data = ReposUiData(repos = repos),
+                        content = ReposContent(repos = repos),
                         isInitialLoading = false
                     )
                 } else {
                     ReposUiState(
-                        data = ReposUiData(),
+                        content = ReposContent(),
                         isInitialLoading = false,
                         initialEmptyData = UiEmptyData(
                             title = UiText.Res(R.string.repos_empty_title),
@@ -118,8 +118,8 @@ internal class ReposViewModel(
     fun onFavoritesClick(repo: Repo) {
         mutableUiState.update { state ->
             state.copy(
-                data = state.data.copy(
-                    repos = state.data.repos.updatedByToggleInFavorites(repoBy = repo)
+                content = state.content.copy(
+                    repos = state.content.repos.updatedByToggleInFavorites(repoBy = repo)
                 )
             )
         }

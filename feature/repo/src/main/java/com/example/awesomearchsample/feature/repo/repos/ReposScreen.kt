@@ -164,8 +164,8 @@ internal fun ReposScreen(
                         )
                     }
                     else -> {
-                        ReposData(
-                            data = state.data,
+                        ReposContentBody(
+                            content = state.content,
                             onRepoClick = onRepoClick
                         )
                     }
@@ -208,12 +208,12 @@ private fun ReposInitialEmptyData(
 }
 
 @Composable
-private fun ReposData(
-    data: ReposUiData,
+private fun ReposContentBody(
+    content: ReposContent,
     onRepoClick: OnRepoItemClick
 ) {
     RepoList(
-        repos = data.repos,
+        repos = content.repos,
         onRepoItemClick = onRepoClick
     )
 }
@@ -289,7 +289,7 @@ private fun ReposScreenDataPreview() {
     AppTheme {
         ReposScreen(
             state = ReposUiState(
-                data = ReposUiData(repos = ReposPreviewData.list),
+                content = ReposContent(repos = ReposPreviewData.list),
                 isInitialLoading = false
             ),
             snackbarHostState = SnackbarHostState(),

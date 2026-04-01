@@ -31,10 +31,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
-import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
+import com.example.awesomearchsample.core.ui.designsystem.ErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
-import com.example.awesomearchsample.feature.user.navigation.userdetails.UserDetailsRoute
 import com.example.awesomearchsample.domain.user.model.UserDetails
+import com.example.awesomearchsample.feature.user.navigation.userdetails.UserDetailsRoute
 import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsScreenDependencies
 
 const val USER_DETAILS_SCREEN_TAG = "user_details_screen"
@@ -126,8 +126,8 @@ private fun EmptyError(
     error: UiError,
     onActionClick: () -> Unit
 ) {
-    EmptyErrorComponent(
-        uiError = error,
+    ErrorComponent(
+        error = error,
         onActionClick = onActionClick
     )
 }

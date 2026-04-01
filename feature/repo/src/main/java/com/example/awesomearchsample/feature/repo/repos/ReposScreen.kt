@@ -17,14 +17,19 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,7 +39,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
-import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
+import com.example.awesomearchsample.core.ui.designsystem.EmptyDataComponent
+import com.example.awesomearchsample.core.ui.designsystem.ErrorComponent
+import com.example.awesomearchsample.core.ui.designsystem.UiEmptyData
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.feature.repo.R
@@ -57,6 +64,8 @@ internal fun ReposScreen(
         factory = ReposViewModel.viewModelFactory(dependencies = dependencies)
     )
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.uiEffect.collect { effect ->
@@ -64,15 +73,21 @@ internal fun ReposScreen(
                 ReposUiEffect.NavigateToSearch -> onNavigateToSearch()
                 ReposUiEffect.NavigateToSettings -> onNavigateToSettings()
                 is ReposUiEffect.NavigateToRepoDetails -> onNavigateToRepoDetails(effect.repoId)
+                is ReposUiEffect.ShowErrorMessage -> {
+                    snackbarHostState.showSnackbar(effect.message.asString(context))
+                }
             }
         }
     }
 
     ReposContent(
         state = state,
+        snackbarHostState = snackbarHostState,
         onSearchClick = viewModel::onSearchClick,
         onSettingsClick = viewModel::onSettingsClick,
         onErrorActionClick = viewModel::onErrorActionClick,
+        onEmptyDataActionClick = viewModel::onRefresh,
+        onRefresh = viewModel::onRefresh,
         onRepoClick = viewModel::onRepoClick
     )
 }
@@ -83,9 +98,12 @@ private typealias OnRepoItemClick = (Repo) -> Unit
 @Composable
 internal fun ReposContent(
     state: ReposUiState,
+    snackbarHostState: SnackbarHostState,
     onSearchClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onErrorActionClick: () -> Unit,
+    onEmptyDataActionClick: () -> Unit,
+    onRefresh: () -> Unit,
     onRepoClick: OnRepoItemClick
 ) {
     Scaffold(
@@ -114,30 +132,42 @@ internal fun ReposContent(
                     }
                 }
             )
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
         }
     ) { innerPadding ->
-        Box(
+        PullToRefreshBox(
+            isRefreshing = state.isRefreshing,
+            onRefresh = onRefresh,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .testTag(REPOS_SCREEN_TAG)
         ) {
-            when (state) {
-                is ReposUiState.Initial -> Unit
-                is ReposUiState.Loading -> {
-                    ReposLoading()
-                }
-                is ReposUiState.Error -> {
-                    ReposError(
-                        error = state.error,
-                        onActionClick = onErrorActionClick
-                    )
-                }
-                is ReposUiState.Success -> {
-                    ReposSuccess(
-                        state = state,
-                        onRepoClick = onRepoClick
-                    )
+            Box(modifier = Modifier.fillMaxSize()) {
+                when {
+                    state.isInitialLoading -> {
+                        ReposInitialLoading()
+                    }
+                    state.initialError != null -> {
+                        ReposInitialError(
+                            error = state.initialError,
+                            onActionClick = onErrorActionClick
+                        )
+                    }
+                    state.initialEmptyData != null -> {
+                        ReposInitialEmptyData(
+                            emptyData = state.initialEmptyData,
+                            onActionClick = onEmptyDataActionClick
+                        )
+                    }
+                    else -> {
+                        ReposData(
+                            data = state.data,
+                            onRepoClick = onRepoClick
+                        )
+                    }
                 }
             }
         }
@@ -145,7 +175,7 @@ internal fun ReposContent(
 }
 
 @Composable
-private fun ReposLoading() {
+private fun ReposInitialLoading() {
     CircularProgressIndicator(
         modifier = Modifier
             .fillMaxSize()
@@ -155,23 +185,34 @@ private fun ReposLoading() {
 }
 
 @Composable
-private fun ReposError(
+private fun ReposInitialError(
     error: UiError,
     onActionClick: () -> Unit
 ) {
-    EmptyErrorComponent(
-        uiError = error,
+    ErrorComponent(
+        error = error,
         onActionClick = onActionClick
     )
 }
 
 @Composable
-private fun ReposSuccess(
-    state: ReposUiState.Success,
+private fun ReposInitialEmptyData(
+    emptyData: UiEmptyData,
+    onActionClick: () -> Unit
+) {
+    EmptyDataComponent(
+        emptyData = emptyData,
+        onActionClick = onActionClick
+    )
+}
+
+@Composable
+private fun ReposData(
+    data: ReposUiData,
     onRepoClick: OnRepoItemClick
 ) {
     RepoList(
-        repos = state.repos,
+        repos = data.repos,
         onRepoItemClick = onRepoClick
     )
 }
@@ -246,12 +287,16 @@ private fun RepoItem(
 private fun ReposContentSuccessPreview() {
     AppTheme {
         ReposContent(
-            state = ReposUiState.Success(
-                repos = ReposPreviewData.list
+            state = ReposUiState(
+                data = ReposUiData(repos = ReposPreviewData.list),
+                isInitialLoading = false
             ),
+            snackbarHostState = SnackbarHostState(),
             onSearchClick = {},
             onSettingsClick = {},
             onErrorActionClick = {},
+            onEmptyDataActionClick = {},
+            onRefresh = {},
             onRepoClick = {}
         )
     }

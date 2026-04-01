@@ -6,6 +6,7 @@ import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent
 import com.example.awesomearchsample.core.commonapi.error.ErrorEntity
 import com.example.awesomearchsample.core.testing.FakeErrorHandler
 import com.example.awesomearchsample.core.testing.MainDispatcherRule
+import com.example.awesomearchsample.core.ui.designsystem.UiEmptyData
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.text.UiText
@@ -15,6 +16,7 @@ import com.example.awesomearchsample.domain.repo.repository.RepoRepository
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEvents
+import com.example.awesomearchsample.feature.repo.R
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -27,12 +29,10 @@ class ReposViewModelTest {
 
     @Rule
     @JvmField
-    // Replaces Dispatchers.Main for viewModelScope.
     val mainDispatcherRule = MainDispatcherRule()
 
     @Test
     fun init_returnsSuccess() = runTest(mainDispatcherRule.testDispatcher) {
-        // Arrange
         val expected = listOf(
             Repo(
                 id = 1L,
@@ -43,24 +43,22 @@ class ReposViewModelTest {
             )
         )
         val repository = FakeRepoRepository(results = listOf(Result.success(expected)))
-        val useCase = GetReposUseCase(repository)
-        val errorHandler = UiErrorHandler(FakeErrorHandler())
-        val analytics = AnalyticsEventSender(FakeAnalyticsClient())
+        val viewModel = createViewModel(repository = repository)
 
-        // Act
-        val viewModel = ReposViewModel(useCase, errorHandler, analytics)
-
-        // Assert
         viewModel.uiState.test {
-            assertEquals(ReposUiState.Initial, awaitItem())
+            assertEquals(ReposUiState(), awaitItem())
 
-            // Loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(ReposUiState.Loading, awaitItem())
+            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
 
-            // Success phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
-            assertEquals(ReposUiState.Success(expected), awaitItem())
+            assertEquals(
+                ReposUiState(
+                    data = ReposUiData(repos = expected),
+                    isInitialLoading = false
+                ),
+                awaitItem()
+            )
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -68,26 +66,53 @@ class ReposViewModelTest {
 
     @Test
     fun init_returnsError() = runTest(mainDispatcherRule.testDispatcher) {
-        // Arrange
         val repository = FakeRepoRepository(results = listOf(Result.failure(IllegalStateException("boom"))))
-        val useCase = GetReposUseCase(repository)
-        val errorHandler = UiErrorHandler(FakeErrorHandler(ErrorEntity.Message("boom")))
-        val analytics = AnalyticsEventSender(FakeAnalyticsClient())
+        val viewModel = createViewModel(
+            repository = repository,
+            errorHandler = UiErrorHandler(FakeErrorHandler(ErrorEntity.Message("boom")))
+        )
 
-        // Act
-        val viewModel = ReposViewModel(useCase, errorHandler, analytics)
-
-        // Assert
         viewModel.uiState.test {
-            assertEquals(ReposUiState.Initial, awaitItem())
+            assertEquals(ReposUiState(), awaitItem())
 
-            // Loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(ReposUiState.Loading, awaitItem())
+            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
 
-            // Error phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
-            assertEquals(ReposUiState.Error(UiError(UiText.Plain("boom"))), awaitItem())
+            assertEquals(
+                ReposUiState(
+                    isInitialLoading = false,
+                    initialError = UiError(UiText.Plain("boom"))
+                ),
+                awaitItem()
+            )
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun init_withEmptyList_returnsEmptyData() = runTest(mainDispatcherRule.testDispatcher) {
+        val repository = FakeRepoRepository(results = listOf(Result.success(emptyList())))
+        val viewModel = createViewModel(repository = repository)
+
+        viewModel.uiState.test {
+            assertEquals(ReposUiState(), awaitItem())
+
+            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
+            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
+
+            mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(
+                ReposUiState(
+                    isInitialLoading = false,
+                    initialEmptyData = UiEmptyData(
+                        title = UiText.Res(R.string.repos_empty_title),
+                        actionText = UiText.Res(com.example.awesomearchsample.core.ui.R.string.action_refresh)
+                    )
+                ),
+                awaitItem()
+            )
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -95,7 +120,6 @@ class ReposViewModelTest {
 
     @Test
     fun onErrorActionClick_retriesLoading() = runTest(mainDispatcherRule.testDispatcher) {
-        // Arrange
         val expected = listOf(
             Repo(
                 id = 1L,
@@ -111,32 +135,37 @@ class ReposViewModelTest {
                 Result.success(expected)
             )
         )
-        val useCase = GetReposUseCase(repository)
-        val errorHandler = UiErrorHandler(FakeErrorHandler(ErrorEntity.Message("boom")))
-        val analytics = AnalyticsEventSender(FakeAnalyticsClient())
-        val viewModel = ReposViewModel(useCase, errorHandler, analytics)
+        val viewModel = createViewModel(
+            repository = repository,
+            errorHandler = UiErrorHandler(FakeErrorHandler(ErrorEntity.Message("boom")))
+        )
 
-        // Assert
         viewModel.uiState.test {
-            assertEquals(ReposUiState.Initial, awaitItem())
+            assertEquals(ReposUiState(), awaitItem())
 
-            // Initial loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(ReposUiState.Loading, awaitItem())
+            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
 
-            // Error phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
-            assertEquals(ReposUiState.Error(UiError(UiText.Plain("boom"))), awaitItem())
+            assertEquals(
+                ReposUiState(
+                    isInitialLoading = false,
+                    initialError = UiError(UiText.Plain("boom"))
+                ),
+                awaitItem()
+            )
 
-            // Act
             viewModel.onErrorActionClick()
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
 
-            // Assert
-            // Retry loading phase
-            assertEquals(ReposUiState.Loading, awaitItem())
-            // Retry success phase
-            assertEquals(ReposUiState.Success(expected), awaitItem())
+            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
+            assertEquals(
+                ReposUiState(
+                    data = ReposUiData(repos = expected),
+                    isInitialLoading = false
+                ),
+                awaitItem()
+            )
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -144,7 +173,6 @@ class ReposViewModelTest {
 
     @Test
     fun onFavoritesClick_updatesRepo() = runTest(mainDispatcherRule.testDispatcher) {
-        // Arrange
         val repo = Repo(
             id = 1L,
             name = "Awesome",
@@ -154,26 +182,171 @@ class ReposViewModelTest {
         )
         val expected = listOf(repo.copy(inFavorites = true))
         val repository = FakeRepoRepository(results = listOf(Result.success(listOf(repo))))
-        val useCase = GetReposUseCase(repository)
-        val errorHandler = UiErrorHandler(FakeErrorHandler())
-        val analytics = AnalyticsEventSender(FakeAnalyticsClient())
-        val viewModel = ReposViewModel(useCase, errorHandler, analytics)
+        val viewModel = createViewModel(repository = repository)
 
-        // Assert
         viewModel.uiState.test {
-            assertEquals(ReposUiState.Initial, awaitItem())
+            assertEquals(ReposUiState(), awaitItem())
 
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(ReposUiState.Loading, awaitItem())
+            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
 
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
-            assertEquals(ReposUiState.Success(listOf(repo)), awaitItem())
+            assertEquals(
+                ReposUiState(
+                    data = ReposUiData(repos = listOf(repo)),
+                    isInitialLoading = false
+                ),
+                awaitItem()
+            )
 
-            // Act
             viewModel.onFavoritesClick(repo)
 
-            // Assert
-            assertEquals(ReposUiState.Success(expected), awaitItem())
+            assertEquals(
+                ReposUiState(
+                    data = ReposUiData(repos = expected),
+                    isInitialLoading = false
+                ),
+                awaitItem()
+            )
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun onRefresh_keepsContentAndUpdatesRefreshingState() = runTest(mainDispatcherRule.testDispatcher) {
+        val initial = listOf(
+            Repo(
+                id = 1L,
+                name = "Awesome",
+                author = "Ada",
+                description = "Sample",
+                inFavorites = false
+            )
+        )
+        val refreshed = listOf(
+            Repo(
+                id = 2L,
+                name = "Better",
+                author = "Ada",
+                description = "Updated",
+                inFavorites = false
+            )
+        )
+        val repository = FakeRepoRepository(
+            results = listOf(
+                Result.success(initial),
+                Result.success(refreshed)
+            )
+        )
+        val viewModel = createViewModel(repository = repository)
+
+        viewModel.uiState.test {
+            assertEquals(ReposUiState(), awaitItem())
+
+            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
+            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
+
+            mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(
+                ReposUiState(
+                    data = ReposUiData(repos = initial),
+                    isInitialLoading = false
+                ),
+                awaitItem()
+            )
+
+            viewModel.onRefresh()
+
+            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
+            assertEquals(
+                ReposUiState(
+                    data = ReposUiData(repos = initial),
+                    isInitialLoading = false,
+                    isRefreshing = true
+                ),
+                awaitItem()
+            )
+
+            mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(
+                ReposUiState(
+                    data = ReposUiData(repos = refreshed),
+                    isInitialLoading = false
+                ),
+                awaitItem()
+            )
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun onRefresh_errorEmitsSnackbarEffectAndStopsRefreshing() = runTest(mainDispatcherRule.testDispatcher) {
+        val initial = listOf(
+            Repo(
+                id = 1L,
+                name = "Awesome",
+                author = "Ada",
+                description = "Sample",
+                inFavorites = false
+            )
+        )
+        val repository = FakeRepoRepository(
+            results = listOf(
+                Result.success(initial),
+                Result.failure(IllegalStateException("boom"))
+            )
+        )
+        val viewModel = createViewModel(
+            repository = repository,
+            errorHandler = UiErrorHandler(FakeErrorHandler(ErrorEntity.Message("boom")))
+        )
+
+        viewModel.uiState.test {
+            assertEquals(ReposUiState(), awaitItem())
+
+            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
+            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
+
+            mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(
+                ReposUiState(
+                    data = ReposUiData(repos = initial),
+                    isInitialLoading = false
+                ),
+                awaitItem()
+            )
+
+            viewModel.onRefresh()
+
+            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
+            assertEquals(
+                ReposUiState(
+                    data = ReposUiData(repos = initial),
+                    isInitialLoading = false,
+                    isRefreshing = true
+                ),
+                awaitItem()
+            )
+
+            mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(
+                ReposUiState(
+                    data = ReposUiData(repos = initial),
+                    isInitialLoading = false
+                ),
+                awaitItem()
+            )
+
+            cancelAndIgnoreRemainingEvents()
+        }
+
+        viewModel.uiEffect.test {
+            assertEquals(
+                ReposUiEffect.ShowErrorMessage(message = UiText.Plain("boom")),
+                awaitItem()
+            )
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -181,19 +354,12 @@ class ReposViewModelTest {
 
     @Test
     fun onSearchClick_emitsNavigationEffect() = runTest(mainDispatcherRule.testDispatcher) {
-        // Arrange
         val repository = FakeRepoRepository(results = listOf(Result.success(emptyList())))
-        val useCase = GetReposUseCase(repository)
-        val errorHandler = UiErrorHandler(FakeErrorHandler())
-        val analytics = AnalyticsEventSender(FakeAnalyticsClient())
-        val viewModel = ReposViewModel(useCase, errorHandler, analytics)
+        val viewModel = createViewModel(repository = repository)
 
-        // Assert
         viewModel.uiEffect.test {
-            // Act
             viewModel.onSearchClick()
 
-            // Assert
             assertEquals(ReposUiEffect.NavigateToSearch, awaitItem())
 
             cancelAndIgnoreRemainingEvents()
@@ -202,7 +368,6 @@ class ReposViewModelTest {
 
     @Test
     fun onRepoClick_emitsNavigationEffect_andSendsAnalytics() = runTest(mainDispatcherRule.testDispatcher) {
-        // Arrange
         val repo = Repo(
             id = 1L,
             name = "Awesome",
@@ -211,18 +376,15 @@ class ReposViewModelTest {
             inFavorites = false
         )
         val repository = FakeRepoRepository(results = listOf(Result.success(listOf(repo))))
-        val useCase = GetReposUseCase(repository)
-        val errorHandler = UiErrorHandler(FakeErrorHandler())
         val analyticsClient = FakeAnalyticsClient()
-        val analytics = AnalyticsEventSender(analyticsClient)
-        val viewModel = ReposViewModel(useCase, errorHandler, analytics)
+        val viewModel = createViewModel(
+            repository = repository,
+            analytics = AnalyticsEventSender(analyticsClient)
+        )
 
-        // Assert
         viewModel.uiEffect.test {
-            // Act
             viewModel.onRepoClick(repo)
 
-            // Assert
             assertEquals(ReposUiEffect.NavigateToRepoDetails(repoId = 1L), awaitItem())
 
             val event = analyticsClient.lastEvent as AnalyticsEvents.Repo.RepoClick
@@ -234,13 +396,24 @@ class ReposViewModelTest {
         }
     }
 
+    private fun createViewModel(
+        repository: FakeRepoRepository,
+        errorHandler: UiErrorHandler = UiErrorHandler(FakeErrorHandler()),
+        analytics: AnalyticsEventSender = AnalyticsEventSender(FakeAnalyticsClient())
+    ): ReposViewModel {
+        return ReposViewModel(
+            getReposUseCase = GetReposUseCase(repository),
+            errorHandler = errorHandler,
+            analyticsEventSender = analytics
+        )
+    }
+
     private class FakeRepoRepository(
-        private val results: List<Result<List<Repo>>> // Sequence of outcomes for successive calls.
+        private val results: List<Result<List<Repo>>>
     ) : RepoRepository {
-        private var callIndex = 0 // Tracks which result to return next.
+        private var callIndex = 0
 
         override suspend fun getRepos(): List<Repo> {
-            // Returns sequential Result values to simulate failure-then-success flows.
             val result = results.getOrNull(callIndex) ?: results.last()
             callIndex += 1
             return result.getOrThrow()

@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
-import com.example.awesomearchsample.core.ui.designsystem.EmptyErrorComponent
+import com.example.awesomearchsample.core.ui.designsystem.ErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.feature.repo.R
@@ -147,8 +147,8 @@ private fun EmptyError(
     error: UiError,
     onActionClick: () -> Unit
 ) {
-    EmptyErrorComponent(
-        uiError = error,
+    ErrorComponent(
+        error = error,
         onActionClick = onActionClick
     )
 }

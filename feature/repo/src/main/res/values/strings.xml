@@ -2,6 +2,7 @@
 <resources>
     <!-- Repos -->
     <string name="repos_title">Repositories</string>
+    <string name="repos_empty_title">No repositories yet</string>
 
     <!-- Repo Details -->
     <string name="repo_details_stars">Stars: %d</string>

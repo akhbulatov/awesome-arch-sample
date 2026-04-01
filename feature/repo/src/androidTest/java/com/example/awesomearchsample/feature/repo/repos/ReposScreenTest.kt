@@ -1,5 +1,6 @@
 package com.example.awesomearchsample.feature.repo.repos
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -9,7 +10,9 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
+import com.example.awesomearchsample.core.ui.designsystem.EMPTY_DATA_ACTION_BUTTON_TAG
 import com.example.awesomearchsample.core.ui.designsystem.ERROR_RETRY_BUTTON_TAG
+import com.example.awesomearchsample.core.ui.designsystem.UiEmptyData
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.text.UiText
 import com.example.awesomearchsample.domain.repo.model.Repo
@@ -43,16 +46,12 @@ class ReposScreenTest {
             )
         )
 
-        composeRule.setContent {
-            AppTheme {
-                ReposContent(
-                    state = ReposUiState.Success(repos = repos),
-                    onSearchClick = {},
-                    onErrorActionClick = {},
-                    onRepoClick = {}
-                )
-            }
-        }
+        setReposContent(
+            state = ReposUiState(
+                data = ReposUiData(repos = repos),
+                isInitialLoading = false
+            )
+        )
 
         composeRule.onNodeWithText("Awesome").assertIsDisplayed()
         composeRule.onNodeWithText("Compose").assertIsDisplayed()
@@ -69,16 +68,13 @@ class ReposScreenTest {
         )
         var clickedRepo: Repo? = null
 
-        composeRule.setContent {
-            AppTheme {
-                ReposContent(
-                    state = ReposUiState.Success(repos = listOf(repo)),
-                    onSearchClick = {},
-                    onErrorActionClick = {},
-                    onRepoClick = { clickedRepo = it }
-                )
-            }
-        }
+        setReposContent(
+            state = ReposUiState(
+                data = ReposUiData(repos = listOf(repo)),
+                isInitialLoading = false
+            ),
+            onRepoClick = { clickedRepo = it }
+        )
 
         composeRule.onNodeWithText("ClickMe").performClick()
 
@@ -91,18 +87,13 @@ class ReposScreenTest {
     fun reposContent_errorState_showsRefreshAndInvokesCallback() {
         var retryClicked = false
 
-        composeRule.setContent {
-            AppTheme {
-                ReposContent(
-                    state = ReposUiState.Error(
-                        error = UiError(UiText.Plain("Error"))
-                    ),
-                    onSearchClick = {},
-                    onErrorActionClick = { retryClicked = true },
-                    onRepoClick = {}
-                )
-            }
-        }
+        setReposContent(
+            state = ReposUiState(
+                isInitialLoading = false,
+                initialError = UiError(UiText.Plain("Error"))
+            ),
+            onErrorActionClick = { retryClicked = true }
+        )
 
         composeRule.onNodeWithTag(ERROR_RETRY_BUTTON_TAG).assertIsDisplayed()
         composeRule.onNodeWithTag(ERROR_RETRY_BUTTON_TAG).performClick()
@@ -113,35 +104,40 @@ class ReposScreenTest {
     }
 
     @Test
-    fun reposContent_loadingState_showsProgress() {
-        composeRule.setContent {
-            AppTheme {
-                ReposContent(
-                    state = ReposUiState.Loading,
-                    onSearchClick = {},
-                    onErrorActionClick = {},
-                    onRepoClick = {}
+    fun reposContent_emptyState_showsActionAndInvokesCallback() {
+        var actionClicked = false
+
+        setReposContent(
+            state = ReposUiState(
+                isInitialLoading = false,
+                initialEmptyData = UiEmptyData(
+                    title = UiText.Plain("Empty"),
+                    actionText = UiText.Plain("Refresh")
                 )
-            }
+            ),
+            onEmptyDataActionClick = { actionClicked = true }
+        )
+
+        composeRule.onNodeWithText("Empty").assertIsDisplayed()
+        composeRule.onNodeWithTag(EMPTY_DATA_ACTION_BUTTON_TAG).assertIsDisplayed()
+        composeRule.onNodeWithTag(EMPTY_DATA_ACTION_BUTTON_TAG).performClick()
+
+        composeRule.runOnIdle {
+            assertEquals(true, actionClicked)
         }
+    }
+
+    @Test
+    fun reposContent_loadingState_showsProgress() {
+        setReposContent(state = ReposUiState(isInitialLoading = true))
 
         composeRule.onNodeWithTag(REPOS_LOADING_TAG).assertIsDisplayed()
     }
 
     @Test
-    fun reposContent_idleState_showsNoLoadingOrError() {
-        composeRule.setContent {
-            AppTheme {
-                ReposContent(
-                    state = ReposUiState.Initial,
-                    onSearchClick = {},
-                    onErrorActionClick = {},
-                    onRepoClick = {}
-                )
-            }
-        }
+    fun reposContent_loadingState_showsNoError() {
+        setReposContent(state = ReposUiState(isInitialLoading = true))
 
-        composeRule.onAllNodesWithTag(REPOS_LOADING_TAG).assertCountEquals(0)
         composeRule.onAllNodesWithTag(ERROR_RETRY_BUTTON_TAG).assertCountEquals(0)
     }
 
@@ -149,16 +145,13 @@ class ReposScreenTest {
     fun reposContent_searchClick_invokesCallback() {
         var searchClicked = false
 
-        composeRule.setContent {
-            AppTheme {
-                ReposContent(
-                    state = ReposUiState.Success(repos = emptyList()),
-                    onSearchClick = { searchClicked = true },
-                    onErrorActionClick = {},
-                    onRepoClick = {}
-                )
-            }
-        }
+        setReposContent(
+            state = ReposUiState(
+                data = ReposUiData(repos = emptyList()),
+                isInitialLoading = false
+            ),
+            onSearchClick = { searchClicked = true }
+        )
 
         composeRule.onNodeWithTag(REPOS_SEARCH_BUTTON_TAG).performClick()
 
@@ -169,17 +162,36 @@ class ReposScreenTest {
 
     @Test
     fun reposContent_successWithEmptyList_doesNotShowList() {
+        setReposContent(
+            state = ReposUiState(
+                data = ReposUiData(repos = emptyList()),
+                isInitialLoading = false
+            )
+        )
+
+        composeRule.onAllNodesWithTag(REPOS_LIST_TAG).assertCountEquals(0)
+    }
+
+    private fun setReposContent(
+        state: ReposUiState,
+        onSearchClick: () -> Unit = {},
+        onErrorActionClick: () -> Unit = {},
+        onEmptyDataActionClick: () -> Unit = {},
+        onRepoClick: (Repo) -> Unit = {}
+    ) {
         composeRule.setContent {
             AppTheme {
                 ReposContent(
-                    state = ReposUiState.Success(repos = emptyList()),
-                    onSearchClick = {},
-                    onErrorActionClick = {},
-                    onRepoClick = {}
+                    state = state,
+                    snackbarHostState = SnackbarHostState(),
+                    onSearchClick = onSearchClick,
+                    onSettingsClick = {},
+                    onErrorActionClick = onErrorActionClick,
+                    onEmptyDataActionClick = onEmptyDataActionClick,
+                    onRefresh = {},
+                    onRepoClick = onRepoClick
                 )
             }
         }
-
-        composeRule.onAllNodesWithTag(REPOS_LIST_TAG).assertCountEquals(0)
     }
 }

@@ -80,7 +80,7 @@ internal fun ReposScreen(
         }
     }
 
-    ReposContent(
+    ReposScreen(
         state = state,
         snackbarHostState = snackbarHostState,
         onSearchClick = viewModel::onSearchClick,
@@ -96,7 +96,8 @@ private typealias OnRepoItemClick = (Repo) -> Unit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ReposContent(
+// Internal нужна для Compose UI тестов.
+internal fun ReposScreen(
     state: ReposUiState,
     snackbarHostState: SnackbarHostState,
     onSearchClick: () -> Unit,
@@ -284,9 +285,9 @@ private fun RepoItem(
 //region Previews
 @Preview(showBackground = true)
 @Composable
-private fun ReposContentSuccessPreview() {
+private fun ReposScreenDataPreview() {
     AppTheme {
-        ReposContent(
+        ReposScreen(
             state = ReposUiState(
                 data = ReposUiData(repos = ReposPreviewData.list),
                 isInitialLoading = false

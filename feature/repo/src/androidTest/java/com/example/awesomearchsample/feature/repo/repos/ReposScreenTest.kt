@@ -28,7 +28,7 @@ class ReposScreenTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun reposContent_showsRepoNames() {
+    fun reposScreen_showsRepoNames() {
         val repos = listOf(
             Repo(
                 id = 1L,
@@ -46,7 +46,7 @@ class ReposScreenTest {
             )
         )
 
-        setReposContent(
+        setReposScreen(
             state = ReposUiState(
                 data = ReposUiData(repos = repos),
                 isInitialLoading = false
@@ -58,7 +58,7 @@ class ReposScreenTest {
     }
 
     @Test
-    fun reposContent_clickOnItem_invokesCallback() {
+    fun reposScreen_clickOnItem_invokesCallback() {
         val repo = Repo(
             id = 10L,
             name = "ClickMe",
@@ -68,7 +68,7 @@ class ReposScreenTest {
         )
         var clickedRepo: Repo? = null
 
-        setReposContent(
+        setReposScreen(
             state = ReposUiState(
                 data = ReposUiData(repos = listOf(repo)),
                 isInitialLoading = false
@@ -84,10 +84,10 @@ class ReposScreenTest {
     }
 
     @Test
-    fun reposContent_errorState_showsRefreshAndInvokesCallback() {
+    fun reposScreen_errorState_showsRefreshAndInvokesCallback() {
         var retryClicked = false
 
-        setReposContent(
+        setReposScreen(
             state = ReposUiState(
                 isInitialLoading = false,
                 initialError = UiError(UiText.Plain("Error"))
@@ -104,10 +104,10 @@ class ReposScreenTest {
     }
 
     @Test
-    fun reposContent_emptyState_showsActionAndInvokesCallback() {
+    fun reposScreen_emptyState_showsActionAndInvokesCallback() {
         var actionClicked = false
 
-        setReposContent(
+        setReposScreen(
             state = ReposUiState(
                 isInitialLoading = false,
                 initialEmptyData = UiEmptyData(
@@ -128,24 +128,24 @@ class ReposScreenTest {
     }
 
     @Test
-    fun reposContent_loadingState_showsProgress() {
-        setReposContent(state = ReposUiState(isInitialLoading = true))
+    fun reposScreen_loadingState_showsProgress() {
+        setReposScreen(state = ReposUiState(isInitialLoading = true))
 
         composeRule.onNodeWithTag(REPOS_LOADING_TAG).assertIsDisplayed()
     }
 
     @Test
-    fun reposContent_loadingState_showsNoError() {
-        setReposContent(state = ReposUiState(isInitialLoading = true))
+    fun reposScreen_loadingState_showsNoError() {
+        setReposScreen(state = ReposUiState(isInitialLoading = true))
 
         composeRule.onAllNodesWithTag(ERROR_RETRY_BUTTON_TAG).assertCountEquals(0)
     }
 
     @Test
-    fun reposContent_searchClick_invokesCallback() {
+    fun reposScreen_searchClick_invokesCallback() {
         var searchClicked = false
 
-        setReposContent(
+        setReposScreen(
             state = ReposUiState(
                 data = ReposUiData(repos = emptyList()),
                 isInitialLoading = false
@@ -161,8 +161,8 @@ class ReposScreenTest {
     }
 
     @Test
-    fun reposContent_successWithEmptyList_doesNotShowList() {
-        setReposContent(
+    fun reposScreen_successWithEmptyList_doesNotShowList() {
+        setReposScreen(
             state = ReposUiState(
                 data = ReposUiData(repos = emptyList()),
                 isInitialLoading = false
@@ -172,7 +172,7 @@ class ReposScreenTest {
         composeRule.onAllNodesWithTag(REPOS_LIST_TAG).assertCountEquals(0)
     }
 
-    private fun setReposContent(
+    private fun setReposScreen(
         state: ReposUiState,
         onSearchClick: () -> Unit = {},
         onErrorActionClick: () -> Unit = {},
@@ -181,7 +181,7 @@ class ReposScreenTest {
     ) {
         composeRule.setContent {
             AppTheme {
-                ReposContent(
+                ReposScreen(
                     state = state,
                     snackbarHostState = SnackbarHostState(),
                     onSearchClick = onSearchClick,

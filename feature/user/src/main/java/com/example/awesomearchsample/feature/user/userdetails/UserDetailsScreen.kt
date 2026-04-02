@@ -56,7 +56,7 @@ internal fun UserDetailsScreen(
     )
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    UserDetailsContent(
+    UserDetailsScreen(
         state = state,
         onNavigationClick = onBack,
         onErrorActionClick = viewModel::onErrorActionClick
@@ -65,15 +65,12 @@ internal fun UserDetailsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun UserDetailsContent(
+internal fun UserDetailsScreen(
     state: UserDetailsUiState,
     onNavigationClick: () -> Unit,
     onErrorActionClick: () -> Unit
 ) {
-    val title = when (state) {
-        is UserDetailsUiState.Success -> state.userDetails.login
-        else -> ""
-    }
+    val title = state.content?.userDetails?.login.orEmpty()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -99,21 +96,20 @@ private fun UserDetailsContent(
                 .padding(innerPadding)
                 .testTag(USER_DETAILS_SCREEN_TAG)
         ) {
-            when (state) {
-                is UserDetailsUiState.Initial -> Unit
-                is UserDetailsUiState.Loading -> EmptyProgress()
-                is UserDetailsUiState.Error -> EmptyError(
-                    error = state.error,
+            when {
+                state.isInitialLoading -> UserDetailsInitialLoading()
+                state.initialError != null -> UserDetailsInitialError(
+                    error = state.initialError,
                     onActionClick = onErrorActionClick
                 )
-                is UserDetailsUiState.Success -> UserDetailsSuccess(state)
+                state.content != null -> UserDetailsContentBody(content = state.content)
             }
         }
     }
 }
 
 @Composable
-private fun EmptyProgress() {
+private fun UserDetailsInitialLoading() {
     CircularProgressIndicator(
         modifier = Modifier
             .fillMaxSize()
@@ -122,7 +118,7 @@ private fun EmptyProgress() {
 }
 
 @Composable
-private fun EmptyError(
+private fun UserDetailsInitialError(
     error: UiError,
     onActionClick: () -> Unit
 ) {
@@ -133,8 +129,8 @@ private fun EmptyError(
 }
 
 @Composable
-private fun UserDetailsSuccess(state: UserDetailsUiState.Success) {
-    val userDetails = state.userDetails
+private fun UserDetailsContentBody(content: UserDetailsContent) {
+    val userDetails = content.userDetails
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -193,13 +189,15 @@ private fun UserDetailsSuccess(state: UserDetailsUiState.Success) {
 }
 
 //region Previews
-@Preview(showBackground = true)
+@Preview
 @Composable
-private fun UserDetailsContentSuccessPreview() {
+private fun UserDetailsScreenPreview() {
     AppTheme {
-        UserDetailsContent(
-            state = UserDetailsUiState.Success(
-                userDetails = UserDetailsPreviewData.item
+        UserDetailsScreen(
+            state = UserDetailsUiState(
+                content = UserDetailsContent(
+                    userDetails = UserDetailsPreviewData.item
+                )
             ),
             onNavigationClick = {},
             onErrorActionClick = {}

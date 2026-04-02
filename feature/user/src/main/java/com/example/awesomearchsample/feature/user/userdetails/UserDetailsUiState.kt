@@ -3,9 +3,12 @@ package com.example.awesomearchsample.feature.user.userdetails
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.domain.user.model.UserDetails
 
-internal sealed class UserDetailsUiState {
-    data object Initial : UserDetailsUiState()
-    data object Loading : UserDetailsUiState()
-    data class Error(val error: UiError) : UserDetailsUiState()
-    data class Success(val userDetails: UserDetails) : UserDetailsUiState()
-}
+internal data class UserDetailsUiState(
+    val isInitialLoading: Boolean = false,
+    val initialError: UiError? = null,
+    val content: UserDetailsContent? = null
+)
+
+internal data class UserDetailsContent(
+    val userDetails: UserDetails
+)

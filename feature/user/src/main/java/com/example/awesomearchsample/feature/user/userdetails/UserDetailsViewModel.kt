@@ -8,13 +8,14 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.user.usecase.GetUserDetailsUseCase
 import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsScreenDependencies
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 internal class UserDetailsViewModel(
     private val args: Args,
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<UserDetailsUiState, BaseUiEffect>(initialUiState = UserDetailsUiState.Initial) {
+) : BaseViewModel<UserDetailsUiState, BaseUiEffect>(initialUiState = UserDetailsUiState()) {
 
     data class Args(
         val login: String
@@ -27,14 +28,20 @@ internal class UserDetailsViewModel(
     private fun loadUserDetails() {
         viewModelScope.launch {
             try {
-                mutableUiState.value = UserDetailsUiState.Loading
+                mutableUiState.value = UserDetailsUiState(isInitialLoading = true)
                 val userDetails = getUserDetailsUseCase.invoke(login = args.login)
-                mutableUiState.value = UserDetailsUiState.Success(userDetails = userDetails)
+                mutableUiState.value = UserDetailsUiState(
+                    content = UserDetailsContent(userDetails = userDetails)
+                )
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 errorHandler.proceed(
                     error = e,
                     errorListener = { uiError ->
-                        mutableUiState.value = UserDetailsUiState.Error(error = uiError)
+                        mutableUiState.value = UserDetailsUiState(
+                            initialError = uiError
+                        )
                     }
                 )
             }

@@ -3,11 +3,12 @@ package com.example.awesomearchsample.feature.repo.repos
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.awesomearchsample.core.commonapi.util.autoCancelJob
+import com.example.awesomearchsample.core.commonapi.util.launchCatching
 import com.example.awesomearchsample.core.ui.designsystem.UiEmptyData
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.core.ui.text.UiText
-import com.example.awesomearchsample.core.ui.utils.autoCancelJob
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.repo.model.updatedByToggleInFavorites
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
@@ -15,9 +16,6 @@ import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSend
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEvents
 import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.repos.di.ReposScreenDependencies
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.update
 
 internal class ReposViewModel(
@@ -26,75 +24,71 @@ internal class ReposViewModel(
     private val analyticsEventSender: AnalyticsEventSender
 ) : BaseViewModel<ReposUiState, ReposUiEffect>(initialUiState = ReposUiState()) {
 
-    private var loadReposJob: Job? by autoCancelJob()
+    private var reposJob by autoCancelJob()
 
     init {
-        loadInitialRepos()
+        loadRepos()
     }
 
-    private fun loadInitialRepos() {
-        loadReposJob = viewModelScope.launch {
-            try {
-                mutableUiState.value = ReposUiState(isInitialLoading = true)
-
-                val repos = getReposUseCase.invoke()
-                mutableUiState.value = if (repos.isNotEmpty()) {
-                    ReposUiState(
-                        content = ReposContent(repos = repos)
-                    )
-                } else {
-                    ReposUiState(
-                        content = ReposContent(),
-                        isInitialLoading = false,
-                        initialEmptyData = UiEmptyData(
-                            title = UiText.Res(R.string.repos_empty_title),
-                            actionText = UiText.Res(com.example.awesomearchsample.core.ui.R.string.action_refresh)
-                        )
-                    )
-                }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
+    private fun loadRepos() {
+        reposJob = viewModelScope.launchCatching(
+            onFailure = { e ->
                 errorHandler.proceed(e) { uiError ->
-                    mutableUiState.value = ReposUiState(
-                        initialError = uiError
-                    )
+                    mutableUiState.value = ReposUiState(initialError = uiError)
                 }
-            } finally {
+            },
+            onFinally = {
                 mutableUiState.update { it.copy(isInitialLoading = false) }
+            }
+        ) {
+            mutableUiState.value = ReposUiState(isInitialLoading = true)
+
+            val repos = getReposUseCase.invoke()
+            mutableUiState.value = if (repos.isNotEmpty()) {
+                ReposUiState(
+                    content = ReposContent(repos = repos)
+                )
+            } else {
+                ReposUiState(
+                    content = ReposContent(),
+                    isInitialLoading = false,
+                    initialEmptyData = UiEmptyData(
+                        title = UiText.Res(R.string.repos_empty_title),
+                        actionText = UiText.Res(com.example.awesomearchsample.core.ui.R.string.action_refresh)
+                    )
+                )
             }
         }
     }
 
     private fun refreshRepos() {
-        loadReposJob = viewModelScope.launch {
-            try {
-                mutableUiState.update { it.copy(isRefreshing = true) }
-
-                val repos = getReposUseCase.invoke()
-                mutableUiState.value = if (repos.isNotEmpty()) {
-                    ReposUiState(
-                        content = ReposContent(repos = repos),
-                        isInitialLoading = false
-                    )
-                } else {
-                    ReposUiState(
-                        content = ReposContent(),
-                        isInitialLoading = false,
-                        initialEmptyData = UiEmptyData(
-                            title = UiText.Res(R.string.repos_empty_title),
-                            actionText = UiText.Res(com.example.awesomearchsample.core.ui.R.string.action_refresh)
-                        )
-                    )
-                }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
+        reposJob = viewModelScope.launchCatching(
+            onFailure = { e ->
                 errorHandler.proceed(e) { uiError ->
                     emitEffect(ReposUiEffect.ShowErrorMessage(message = uiError.title))
                 }
-            } finally {
+            },
+            onFinally = {
                 mutableUiState.update { it.copy(isRefreshing = false) }
+            }
+        ) {
+            mutableUiState.update { it.copy(isRefreshing = true) }
+
+            val repos = getReposUseCase.invoke()
+            mutableUiState.value = if (repos.isNotEmpty()) {
+                ReposUiState(
+                    content = ReposContent(repos = repos),
+                    isInitialLoading = false
+                )
+            } else {
+                ReposUiState(
+                    content = ReposContent(),
+                    isInitialLoading = false,
+                    initialEmptyData = UiEmptyData(
+                        title = UiText.Res(R.string.repos_empty_title),
+                        actionText = UiText.Res(com.example.awesomearchsample.core.ui.R.string.action_refresh)
+                    )
+                )
             }
         }
     }
@@ -108,7 +102,7 @@ internal class ReposViewModel(
     }
 
     fun onErrorActionClick() {
-        loadInitialRepos()
+        loadRepos()
     }
 
     fun onRefresh() {

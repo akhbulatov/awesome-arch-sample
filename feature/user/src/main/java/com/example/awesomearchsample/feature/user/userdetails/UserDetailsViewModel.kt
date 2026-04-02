@@ -3,13 +3,12 @@ package com.example.awesomearchsample.feature.user.userdetails
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.awesomearchsample.core.commonapi.util.launchCatching
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.user.usecase.GetUserDetailsUseCase
 import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsScreenDependencies
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.launch
 
 internal class UserDetailsViewModel(
     private val args: Args,
@@ -26,25 +25,19 @@ internal class UserDetailsViewModel(
     }
 
     private fun loadUserDetails() {
-        viewModelScope.launch {
-            try {
-                mutableUiState.value = UserDetailsUiState(isInitialLoading = true)
-                val userDetails = getUserDetailsUseCase.invoke(login = args.login)
-                mutableUiState.value = UserDetailsUiState(
-                    content = UserDetailsContent(userDetails = userDetails)
-                )
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                errorHandler.proceed(
-                    error = e,
-                    errorListener = { uiError ->
-                        mutableUiState.value = UserDetailsUiState(
-                            initialError = uiError
-                        )
-                    }
-                )
+        viewModelScope.launchCatching(
+            onFailure = { e ->
+                errorHandler.proceed(e) { uiError ->
+                    mutableUiState.value = UserDetailsUiState(initialError = uiError)
+                }
             }
+        ) {
+            mutableUiState.value = UserDetailsUiState(isInitialLoading = true)
+
+            val userDetails = getUserDetailsUseCase.invoke(login = args.login)
+            mutableUiState.value = UserDetailsUiState(
+                content = UserDetailsContent(userDetails = userDetails)
+            )
         }
     }
 

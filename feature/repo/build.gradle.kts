@@ -8,6 +8,7 @@ android {
 
 dependencies {
     implementation(projects.core.analytics)
+    implementation(projects.core.commonApi)
     implementation(projects.core.ui)
     implementation(projects.domain)
     implementation(projects.feature.common)

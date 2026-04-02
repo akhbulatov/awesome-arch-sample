@@ -7,6 +7,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.commonApi)
     implementation(projects.core.ui)
     implementation(projects.domain)
 

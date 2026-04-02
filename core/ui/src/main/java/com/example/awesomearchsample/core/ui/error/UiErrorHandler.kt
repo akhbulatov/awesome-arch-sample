@@ -11,32 +11,30 @@ class UiErrorHandler(
 ) {
 
     suspend fun proceed(error: Throwable, errorListener: (UiError) -> Unit = {}) {
+        val errorEntity = errorHandler.getError(error)
+
         AppLogger.e(error)
         errorHandler.recordError(error)
-        when (val errorEntity = errorHandler.getError(error)) {
-            is ErrorEntity.AuthRequired -> errorListener(
-                UiError(
-                    title = UiText.Res(R.string.error_user_not_authorized),
-                )
-            )
-            is ErrorEntity.Message -> errorListener(
-                UiError(title = UiText.Plain(errorEntity.value))
-            )
-            is ErrorEntity.Network -> errorListener(
-                UiError(
-                    title = UiText.Res(R.string.error_network_title),
-                )
-            )
-            is ErrorEntity.InternalNetwork -> errorListener(
-                UiError(
-                    title = UiText.Res(R.string.error_internal_title),
-                )
-            )
-            is ErrorEntity.Unknown -> errorListener(
-                UiError(
-                    title = UiText.Res(R.string.error_unknown_title),
-                )
-            )
-        }
+
+        val uiError = errorEntity.toUiError()
+        errorListener(uiError)
+    }
+
+    private fun ErrorEntity.toUiError(): UiError = when (this) {
+        is ErrorEntity.AuthRequired -> UiError(
+            title = UiText.Res(R.string.error_user_not_authorized),
+        )
+        is ErrorEntity.Message -> UiError(
+            title = UiText.Plain(value)
+        )
+        is ErrorEntity.Network -> UiError(
+            title = UiText.Res(R.string.error_network_title),
+        )
+        is ErrorEntity.InternalNetwork -> UiError(
+            title = UiText.Res(R.string.error_internal_title),
+        )
+        is ErrorEntity.Unknown -> UiError(
+            title = UiText.Res(R.string.error_unknown_title),
+        )
     }
 }

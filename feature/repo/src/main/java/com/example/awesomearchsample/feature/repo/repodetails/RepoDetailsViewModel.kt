@@ -3,13 +3,12 @@ package com.example.awesomearchsample.feature.repo.repodetails
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.awesomearchsample.core.commonapi.util.launchCatching
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsScreenDependencies
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.launch
 
 internal class RepoDetailsViewModel(
     private val args: Args,
@@ -26,25 +25,19 @@ internal class RepoDetailsViewModel(
     }
 
     private fun loadRepoDetails() {
-        viewModelScope.launch {
-            try {
-                mutableUiState.value = RepoDetailsUiState(isInitialLoading = true)
-                val repoDetails = getRepoDetailsUseCase.invoke(repoId = args.repoId)
-                mutableUiState.value = RepoDetailsUiState(
-                    content = RepoDetailsContent(repoDetails = repoDetails)
-                )
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                errorHandler.proceed(
-                    error = e,
-                    errorListener = { uiError ->
-                        mutableUiState.value = RepoDetailsUiState(
-                            initialError = uiError
-                        )
-                    }
-                )
+        viewModelScope.launchCatching(
+            onFailure = { e ->
+                errorHandler.proceed(e) { uiError ->
+                    mutableUiState.value = RepoDetailsUiState(initialError = uiError)
+                }
             }
+        ) {
+            mutableUiState.value = RepoDetailsUiState(isInitialLoading = true)
+
+            val repoDetails = getRepoDetailsUseCase.invoke(repoId = args.repoId)
+            mutableUiState.value = RepoDetailsUiState(
+                content = RepoDetailsContent(repoDetails = repoDetails)
+            )
         }
     }
 

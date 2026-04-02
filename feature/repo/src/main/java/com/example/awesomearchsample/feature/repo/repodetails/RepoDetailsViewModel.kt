@@ -8,13 +8,14 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsScreenDependencies
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 internal class RepoDetailsViewModel(
     private val args: Args,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState.Initial) {
+) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState()) {
 
     data class Args(
         val repoId: Long
@@ -27,14 +28,20 @@ internal class RepoDetailsViewModel(
     private fun loadRepoDetails() {
         viewModelScope.launch {
             try {
-                mutableUiState.value = RepoDetailsUiState.Loading
+                mutableUiState.value = RepoDetailsUiState(isInitialLoading = true)
                 val repoDetails = getRepoDetailsUseCase.invoke(repoId = args.repoId)
-                mutableUiState.value = RepoDetailsUiState.Success(repoDetails = repoDetails)
+                mutableUiState.value = RepoDetailsUiState(
+                    content = RepoDetailsContent(repoDetails = repoDetails)
+                )
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 errorHandler.proceed(
                     error = e,
                     errorListener = { uiError ->
-                        mutableUiState.value = RepoDetailsUiState.Error(error = uiError)
+                        mutableUiState.value = RepoDetailsUiState(
+                            initialError = uiError
+                        )
                     }
                 )
             }
@@ -42,13 +49,12 @@ internal class RepoDetailsViewModel(
     }
 
     fun onAuthorClick() {
-        withState<RepoDetailsUiState.Success> { success ->
-            emitEffect(
-                RepoDetailsUiEffect.NavigateToUserDetails(
-                    login = success.repoDetails.author
-                )
+        val content = uiState.value.content ?: return
+        emitEffect(
+            RepoDetailsUiEffect.NavigateToUserDetails(
+                login = content.repoDetails.author
             )
-        }
+        )
     }
 
     fun onErrorActionClick() {

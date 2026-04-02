@@ -22,7 +22,7 @@ class RepoDetailsScreenTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun repoDetailsContent_success_showsBasicInfo() {
+    fun repoDetailsScreen_success_showsBasicInfo() {
         val details = RepoDetails(
             id = 1L,
             name = "AwesomeRepo",
@@ -34,8 +34,10 @@ class RepoDetailsScreenTest {
 
         composeRule.setContent {
             AppTheme {
-                RepoDetailsContent(
-                    state = RepoDetailsUiState.Success(repoDetails = details),
+                RepoDetailsScreen(
+                    state = RepoDetailsUiState(
+                        content = RepoDetailsContent(repoDetails = details)
+                    ),
                     onNavigationClick = {},
                     onErrorActionClick = {},
                     onAuthorClick = {}
@@ -50,7 +52,7 @@ class RepoDetailsScreenTest {
     }
 
     @Test
-    fun repoDetailsContent_authorClick_invokesCallback() {
+    fun repoDetailsScreen_authorClick_invokesCallback() {
         val details = RepoDetails(
             id = 1L,
             name = "AwesomeRepo",
@@ -63,8 +65,10 @@ class RepoDetailsScreenTest {
 
         composeRule.setContent {
             AppTheme {
-                RepoDetailsContent(
-                    state = RepoDetailsUiState.Success(repoDetails = details),
+                RepoDetailsScreen(
+                    state = RepoDetailsUiState(
+                        content = RepoDetailsContent(repoDetails = details)
+                    ),
                     onNavigationClick = {},
                     onErrorActionClick = {},
                     onAuthorClick = { authorClicked = true }
@@ -80,7 +84,7 @@ class RepoDetailsScreenTest {
     }
 
     @Test
-    fun repoDetailsContent_backClick_invokesCallback() {
+    fun repoDetailsScreen_backClick_invokesCallback() {
         val details = RepoDetails(
             id = 1L,
             name = "AwesomeRepo",
@@ -93,8 +97,10 @@ class RepoDetailsScreenTest {
 
         composeRule.setContent {
             AppTheme {
-                RepoDetailsContent(
-                    state = RepoDetailsUiState.Success(repoDetails = details),
+                RepoDetailsScreen(
+                    state = RepoDetailsUiState(
+                        content = RepoDetailsContent(repoDetails = details)
+                    ),
                     onNavigationClick = { backClicked = true },
                     onErrorActionClick = {},
                     onAuthorClick = {}
@@ -110,11 +116,11 @@ class RepoDetailsScreenTest {
     }
 
     @Test
-    fun repoDetailsContent_loading_showsProgress() {
+    fun repoDetailsScreen_loading_showsProgress() {
         composeRule.setContent {
             AppTheme {
-                RepoDetailsContent(
-                    state = RepoDetailsUiState.Loading,
+                RepoDetailsScreen(
+                    state = RepoDetailsUiState(isInitialLoading = true),
                     onNavigationClick = {},
                     onErrorActionClick = {},
                     onAuthorClick = {}
@@ -126,14 +132,14 @@ class RepoDetailsScreenTest {
     }
 
     @Test
-    fun repoDetailsContent_error_showsRetryAndInvokesCallback() {
+    fun repoDetailsScreen_error_showsRetryAndInvokesCallback() {
         var retryClicked = false
 
         composeRule.setContent {
             AppTheme {
-                RepoDetailsContent(
-                    state = RepoDetailsUiState.Error(
-                        error = UiError(UiText.Plain("Error"))
+                RepoDetailsScreen(
+                    state = RepoDetailsUiState(
+                        initialError = UiError(UiText.Plain("Error"))
                     ),
                     onNavigationClick = {},
                     onErrorActionClick = { retryClicked = true },

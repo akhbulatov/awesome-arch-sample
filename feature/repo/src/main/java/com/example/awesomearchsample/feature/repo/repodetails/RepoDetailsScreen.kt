@@ -70,7 +70,7 @@ internal fun RepoDetailsScreen(
         }
     }
 
-    RepoDetailsContent(
+    RepoDetailsScreen(
         state = state,
         onNavigationClick = onBack,
         onErrorActionClick = viewModel::onErrorActionClick,
@@ -80,21 +80,17 @@ internal fun RepoDetailsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun RepoDetailsContent(
+internal fun RepoDetailsScreen(
     state: RepoDetailsUiState,
     onNavigationClick: () -> Unit,
     onErrorActionClick: () -> Unit,
     onAuthorClick: () -> Unit
 ) {
-    val title = when (state) {
-        is RepoDetailsUiState.Success -> state.repoDetails.name
-        else -> ""
-    }
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = title)
+                    Text(text = state.content?.repoDetails?.name.orEmpty())
                 },
                 navigationIcon = {
                     IconButton(
@@ -116,15 +112,14 @@ internal fun RepoDetailsContent(
                 .padding(innerPadding)
                 .testTag(REPO_DETAILS_SCREEN_TAG)
         ) {
-            when (state) {
-                is RepoDetailsUiState.Initial -> Unit
-                is RepoDetailsUiState.Loading -> EmptyProgress()
-                is RepoDetailsUiState.Error -> EmptyError(
-                    error = state.error,
+            when {
+                state.isInitialLoading -> RepoDetailsInitialLoading()
+                state.initialError != null -> RepoDetailsInitialError(
+                    error = state.initialError,
                     onActionClick = onErrorActionClick
                 )
-                is RepoDetailsUiState.Success -> RepoDetailsSuccess(
-                    state = state,
+                state.content != null -> RepoDetailsContentBody(
+                    content = state.content,
                     onAuthorClick = onAuthorClick
                 )
             }
@@ -133,7 +128,7 @@ internal fun RepoDetailsContent(
 }
 
 @Composable
-private fun EmptyProgress() {
+private fun RepoDetailsInitialLoading() {
     CircularProgressIndicator(
         modifier = Modifier
             .fillMaxSize()
@@ -143,7 +138,7 @@ private fun EmptyProgress() {
 }
 
 @Composable
-private fun EmptyError(
+private fun RepoDetailsInitialError(
     error: UiError,
     onActionClick: () -> Unit
 ) {
@@ -154,11 +149,11 @@ private fun EmptyError(
 }
 
 @Composable
-private fun RepoDetailsSuccess(
-    state: RepoDetailsUiState.Success,
+private fun RepoDetailsContentBody(
+    content: RepoDetailsContent,
     onAuthorClick: () -> Unit
 ) {
-    val repoDetails = state.repoDetails
+    val repoDetails = content.repoDetails
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -218,11 +213,13 @@ private fun RepoDetailsSuccess(
 //region Previews
 @Preview(showBackground = true)
 @Composable
-private fun RepoDetailsContentSuccessPreview() {
+private fun RepoDetailsScreenSuccessPreview() {
     AppTheme {
-        RepoDetailsContent(
-            state = RepoDetailsUiState.Success(
-                repoDetails = RepoDetailsPreviewData.item
+        RepoDetailsScreen(
+            state = RepoDetailsUiState(
+                content = RepoDetailsContent(
+                    repoDetails = RepoDetailsPreviewData.item
+                )
             ),
             onNavigationClick = { },
             onErrorActionClick = { },

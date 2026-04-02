@@ -3,9 +3,12 @@ package com.example.awesomearchsample.feature.repo.repodetails
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 
-internal sealed class RepoDetailsUiState {
-    data object Initial : RepoDetailsUiState()
-    data object Loading : RepoDetailsUiState()
-    data class Error(val error: UiError) : RepoDetailsUiState()
-    data class Success(val repoDetails: RepoDetails) : RepoDetailsUiState()
-}
+internal data class RepoDetailsUiState(
+    val isInitialLoading: Boolean = false,
+    val initialError: UiError? = null,
+    val content: RepoDetailsContent? = null
+)
+
+internal data class RepoDetailsContent(
+    val repoDetails: RepoDetails
+)

@@ -211,9 +211,9 @@ private fun RepoDetailsContentBody(
 }
 
 //region Previews
-@Preview(showBackground = true)
+@Preview
 @Composable
-private fun RepoDetailsScreenSuccessPreview() {
+private fun RepoDetailsScreenPreview() {
     AppTheme {
         RepoDetailsScreen(
             state = RepoDetailsUiState(

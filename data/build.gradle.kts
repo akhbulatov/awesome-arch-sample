@@ -18,7 +18,9 @@ dependencies {
     implementation(projects.core.preferences)
     implementation(projects.domain)
 
+    implementation(platform(libs.ktor.bom))
     implementation(libs.ktor.client.core)
+
     implementation(libs.serialization.json)
 
     implementation(libs.room.ktx)

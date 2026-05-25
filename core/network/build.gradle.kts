@@ -15,9 +15,10 @@ dependencies {
     implementation(projects.core.commonApi)
     implementation(projects.core.serialization)
 
+    implementation(platform(libs.ktor.bom))
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.contentNegotiation)
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.serialization.json)
+    implementation(libs.ktor.serialization.kotlinx.json)
 }

@@ -11,5 +11,6 @@ dependencies {
     implementation(projects.core.network)
     implementation(projects.core.serialization)
 
+    implementation(platform(libs.ktor.bom))
     implementation(libs.ktor.client.core)
 }

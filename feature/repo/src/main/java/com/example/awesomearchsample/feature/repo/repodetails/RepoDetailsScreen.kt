@@ -113,15 +113,21 @@ internal fun RepoDetailsScreen(
                 .testTag(REPO_DETAILS_SCREEN_TAG)
         ) {
             when {
-                state.isInitialLoading -> RepoDetailsInitialLoading()
-                state.initialError != null -> RepoDetailsInitialError(
-                    error = state.initialError,
-                    onActionClick = onErrorActionClick
-                )
-                state.content != null -> RepoDetailsContentBody(
-                    content = state.content,
-                    onAuthorClick = onAuthorClick
-                )
+                state.isInitialLoading -> {
+                    RepoDetailsInitialLoading()
+                }
+                state.initialError != null -> {
+                    RepoDetailsInitialError(
+                        error = state.initialError,
+                        onActionClick = onErrorActionClick
+                    )
+                }
+                state.content != null -> {
+                    RepoDetailsContent(
+                        content = state.content,
+                        onAuthorClick = onAuthorClick
+                    )
+                }
             }
         }
     }
@@ -149,7 +155,7 @@ private fun RepoDetailsInitialError(
 }
 
 @Composable
-private fun RepoDetailsContentBody(
+private fun RepoDetailsContent(
     content: RepoDetailsContent,
     onAuthorClick: () -> Unit
 ) {
@@ -221,8 +227,8 @@ private fun RepoDetailsScreenPreview() {
                     repoDetails = RepoDetailsPreviewData.item
                 )
             ),
-            onNavigationClick = { },
-            onErrorActionClick = { },
+            onNavigationClick = {},
+            onErrorActionClick = {},
             onAuthorClick = {}
         )
     }

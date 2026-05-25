@@ -97,12 +97,18 @@ internal fun UserDetailsScreen(
                 .testTag(USER_DETAILS_SCREEN_TAG)
         ) {
             when {
-                state.isInitialLoading -> UserDetailsInitialLoading()
-                state.initialError != null -> UserDetailsInitialError(
-                    error = state.initialError,
-                    onActionClick = onErrorActionClick
-                )
-                state.content != null -> UserDetailsContentBody(content = state.content)
+                state.isInitialLoading -> {
+                    UserDetailsInitialLoading()
+                }
+                state.initialError != null -> {
+                    UserDetailsInitialError(
+                        error = state.initialError,
+                        onActionClick = onErrorActionClick
+                    )
+                }
+                state.content != null -> {
+                    UserDetailsContent(content = state.content)
+                }
             }
         }
     }
@@ -129,7 +135,9 @@ private fun UserDetailsInitialError(
 }
 
 @Composable
-private fun UserDetailsContentBody(content: UserDetailsContent) {
+private fun UserDetailsContent(
+    content: UserDetailsContent
+) {
     val userDetails = content.userDetails
     Column(
         modifier = Modifier

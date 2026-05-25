@@ -36,9 +36,6 @@ internal class ReposViewModel(
                 errorHandler.proceed(e) { uiError ->
                     mutableUiState.value = ReposUiState(initialError = uiError)
                 }
-            },
-            onFinally = {
-                mutableUiState.update { it.copy(isInitialLoading = false) }
             }
         ) {
             mutableUiState.value = ReposUiState(isInitialLoading = true)
@@ -50,8 +47,6 @@ internal class ReposViewModel(
                 )
             } else {
                 ReposUiState(
-                    content = ReposContent(),
-                    isInitialLoading = false,
                     initialEmptyData = UiEmptyData(
                         title = UiText.Res(R.string.repos_empty_title),
                         actionText = UiText.Res(com.example.awesomearchsample.core.ui.R.string.action_refresh)
@@ -78,12 +73,9 @@ internal class ReposViewModel(
             mutableUiState.value = if (repos.isNotEmpty()) {
                 ReposUiState(
                     content = ReposContent(repos = repos),
-                    isInitialLoading = false
                 )
             } else {
                 ReposUiState(
-                    content = ReposContent(),
-                    isInitialLoading = false,
                     initialEmptyData = UiEmptyData(
                         title = UiText.Res(R.string.repos_empty_title),
                         actionText = UiText.Res(com.example.awesomearchsample.core.ui.R.string.action_refresh)
@@ -111,9 +103,11 @@ internal class ReposViewModel(
 
     fun onFavoritesClick(repo: Repo) {
         mutableUiState.update { state ->
+            val content = state.content ?: return@update state
+
             state.copy(
-                content = state.content.copy(
-                    repos = state.content.repos.updatedByToggleInFavorites(repoBy = repo)
+                content = content.copy(
+                    repos = content.repos.updatedByToggleInFavorites(repoBy = repo)
                 )
             )
         }

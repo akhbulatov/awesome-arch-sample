@@ -163,8 +163,8 @@ internal fun ReposScreen(
                             onActionClick = onEmptyDataActionClick
                         )
                     }
-                    else -> {
-                        ReposContentBody(
+                    state.content != null -> {
+                        ReposContent(
                             content = state.content,
                             onRepoClick = onRepoClick
                         )
@@ -208,7 +208,7 @@ private fun ReposInitialEmptyData(
 }
 
 @Composable
-private fun ReposContentBody(
+private fun ReposContent(
     content: ReposContent,
     onRepoClick: OnRepoItemClick
 ) {

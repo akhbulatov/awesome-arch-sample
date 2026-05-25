@@ -8,7 +8,7 @@ internal data class ReposUiState(
     val isInitialLoading: Boolean = false,
     val initialError: UiError? = null,
     val initialEmptyData: UiEmptyData? = null,
-    val content: ReposContent = ReposContent(),
+    val content: ReposContent? = null,
     val isRefreshing: Boolean = false
 )
 

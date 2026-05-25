@@ -62,7 +62,7 @@ ktor-client-core = { module = "io.ktor:ktor-client-core" }
 ktor-client-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp" }
-ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json" }
+ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json" }
 
 # Serialization
 serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "serialization" }

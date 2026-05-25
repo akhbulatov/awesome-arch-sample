@@ -16,6 +16,7 @@ import com.example.awesomearchsample.core.ui.designsystem.UiEmptyData
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.text.UiText
 import com.example.awesomearchsample.domain.repo.model.Repo
+import com.example.awesomearchsample.feature.repo.repos.component.REPOS_LIST_TAG
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test

@@ -11,7 +11,7 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.awesomearchsample.feature.repo.repodetails.REPO_DETAILS_SCREEN_TAG
 import com.example.awesomearchsample.feature.repo.repodetails.REPO_DETAILS_AUTHOR_TAG
-import com.example.awesomearchsample.feature.repo.repos.REPO_ITEM_TAG_PREFIX
+import com.example.awesomearchsample.feature.repo.repos.component.REPO_ITEM_TAG_PREFIX
 import com.example.awesomearchsample.feature.repo.repos.REPOS_SEARCH_BUTTON_TAG
 import com.example.awesomearchsample.feature.repo.repos.REPOS_SCREEN_TAG
 import com.example.awesomearchsample.feature.search.SEARCH_SCREEN_TAG

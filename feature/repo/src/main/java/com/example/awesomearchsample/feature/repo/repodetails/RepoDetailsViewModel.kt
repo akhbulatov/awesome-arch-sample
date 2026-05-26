@@ -18,12 +18,12 @@ internal class RepoDetailsViewModel(
     private val errorHandler: UiErrorHandler
 ) : BaseViewModel<BaseUiEffect>() {
 
-    val uiState: StateFlow<RepoDetailsUiState>
-        field = MutableStateFlow(RepoDetailsUiState())
-
     data class Args(
         val repoId: Long
     )
+
+    val uiState: StateFlow<RepoDetailsUiState>
+        field = MutableStateFlow(RepoDetailsUiState())
 
     init {
         loadRepoDetails()

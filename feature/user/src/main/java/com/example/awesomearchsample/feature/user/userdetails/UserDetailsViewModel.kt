@@ -18,12 +18,12 @@ internal class UserDetailsViewModel(
     private val errorHandler: UiErrorHandler
 ) : BaseViewModel<BaseUiEffect>() {
 
-    val uiState: StateFlow<UserDetailsUiState>
-        field = MutableStateFlow(UserDetailsUiState())
-
     data class Args(
         val login: String
     )
+
+    val uiState: StateFlow<UserDetailsUiState>
+        field = MutableStateFlow(UserDetailsUiState())
 
     init {
         loadUserDetails()

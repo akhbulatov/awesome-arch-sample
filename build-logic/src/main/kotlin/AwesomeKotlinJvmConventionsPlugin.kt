@@ -15,6 +15,7 @@ class AwesomeKotlinJvmConventionsPlugin : Plugin<Project> {
             jvmToolchain(21)
             compilerOptions {
                 jvmTarget.set(JvmTarget.JVM_21)
+                freeCompilerArgs.add("-Xexplicit-backing-fields")
             }
         }
 

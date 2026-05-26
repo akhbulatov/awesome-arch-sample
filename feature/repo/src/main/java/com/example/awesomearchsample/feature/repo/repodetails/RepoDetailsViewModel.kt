@@ -9,12 +9,17 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.repo.usecase.GetRepoDetailsUseCase
 import com.example.awesomearchsample.feature.repo.repodetails.di.RepoDetailsScreenDependencies
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 internal class RepoDetailsViewModel(
     private val args: Args,
     private val getRepoDetailsUseCase: GetRepoDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<RepoDetailsUiState, BaseUiEffect>(initialUiState = RepoDetailsUiState()) {
+) : BaseViewModel<BaseUiEffect>() {
+
+    val uiState: StateFlow<RepoDetailsUiState>
+        field = MutableStateFlow(RepoDetailsUiState())
 
     data class Args(
         val repoId: Long
@@ -28,14 +33,14 @@ internal class RepoDetailsViewModel(
         viewModelScope.launchCatching(
             onFailure = { e ->
                 errorHandler.proceed(e) { uiError ->
-                    mutableUiState.value = RepoDetailsUiState(initialError = uiError)
+                    uiState.value = RepoDetailsUiState(initialError = uiError)
                 }
             }
         ) {
-            mutableUiState.value = RepoDetailsUiState(isInitialLoading = true)
+            uiState.value = RepoDetailsUiState(isInitialLoading = true)
 
             val repoDetails = getRepoDetailsUseCase.invoke(repoId = args.repoId)
-            mutableUiState.value = RepoDetailsUiState(
+            uiState.value = RepoDetailsUiState(
                 content = RepoDetailsContent(repoDetails = repoDetails)
             )
         }

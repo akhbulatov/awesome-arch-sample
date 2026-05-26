@@ -16,13 +16,18 @@ import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSend
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEvents
 import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.repos.di.ReposScreenDependencies
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
 internal class ReposViewModel(
     private val getReposUseCase: GetReposUseCase,
     private val errorHandler: UiErrorHandler,
     private val analyticsEventSender: AnalyticsEventSender
-) : BaseViewModel<ReposUiState, ReposUiEffect>(initialUiState = ReposUiState()) {
+) : BaseViewModel<ReposUiEffect>() {
+
+    val uiState: StateFlow<ReposUiState>
+        field = MutableStateFlow(ReposUiState())
 
     private var reposJob by autoCancelJob()
 
@@ -34,14 +39,14 @@ internal class ReposViewModel(
         reposJob = viewModelScope.launchCatching(
             onFailure = { e ->
                 errorHandler.proceed(e) { uiError ->
-                    mutableUiState.value = ReposUiState(initialError = uiError)
+                    uiState.value = ReposUiState(initialError = uiError)
                 }
             }
         ) {
-            mutableUiState.value = ReposUiState(isInitialLoading = true)
+            uiState.value = ReposUiState(isInitialLoading = true)
 
             val repos = getReposUseCase.invoke()
-            mutableUiState.value = if (repos.isNotEmpty()) {
+            uiState.value = if (repos.isNotEmpty()) {
                 ReposUiState(
                     content = ReposContent(repos = repos)
                 )
@@ -64,13 +69,13 @@ internal class ReposViewModel(
                 }
             },
             onFinally = {
-                mutableUiState.update { it.copy(isRefreshing = false) }
+                uiState.update { it.copy(isRefreshing = false) }
             }
         ) {
-            mutableUiState.update { it.copy(isRefreshing = true) }
+            uiState.update { it.copy(isRefreshing = true) }
 
             val repos = getReposUseCase.invoke()
-            mutableUiState.value = if (repos.isNotEmpty()) {
+            uiState.value = if (repos.isNotEmpty()) {
                 ReposUiState(
                     content = ReposContent(repos = repos),
                 )
@@ -102,7 +107,7 @@ internal class ReposViewModel(
     }
 
     fun onFavoritesClick(repo: Repo) {
-        mutableUiState.update { state ->
+        uiState.update { state ->
             val content = state.content ?: return@update state
 
             state.copy(

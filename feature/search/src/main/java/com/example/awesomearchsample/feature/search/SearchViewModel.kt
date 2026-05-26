@@ -17,6 +17,8 @@ import com.example.awesomearchsample.domain.search.usecase.GetSearchQueriesUseCa
 import com.example.awesomearchsample.domain.search.usecase.GetSearchResultUseCase
 import com.example.awesomearchsample.domain.search.usecase.SaveSearchQueryUseCase
 import com.example.awesomearchsample.feature.search.di.SearchScreenDependencies
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -28,7 +30,10 @@ internal class SearchViewModel(
     private val getSearchQueriesUseCase: GetSearchQueriesUseCase,
     private val saveSearchQueryUseCase: SaveSearchQueryUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<SearchUiState, SearchUiEffect>(initialUiState = SearchUiState.Initial()) {
+) : BaseViewModel<SearchUiEffect>() {
+
+    val uiState: StateFlow<SearchUiState>
+        field = MutableStateFlow<SearchUiState>(SearchUiState.Initial())
 
     var queryInput by mutableStateOf(value = "")
         private set
@@ -40,7 +45,7 @@ internal class SearchViewModel(
     private fun observeSearchQueries() {
         getSearchQueriesUseCase.invoke()
             .onEach { searchQueries ->
-                mutableUiState.update { state ->
+                uiState.update { state ->
                     when (state) {
                         is SearchUiState.Initial -> state.copy(recentQueries = searchQueries)
                         else -> state
@@ -75,9 +80,9 @@ internal class SearchViewModel(
     private fun loadSearchResult(query: String) {
         viewModelScope.launch {
             try {
-                mutableUiState.value = SearchUiState.Loading
+                uiState.value = SearchUiState.Loading
                 val searchResult = getSearchResultUseCase.invoke(query)
-                mutableUiState.value = if ((searchResult as SearchResult.Repos).data.isNotEmpty()) {
+                uiState.value = if ((searchResult as SearchResult.Repos).data.isNotEmpty()) {
                     SearchUiState.Success(result = searchResult)
                 } else {
                     SearchUiState.Error(
@@ -90,7 +95,7 @@ internal class SearchViewModel(
                 errorHandler.proceed(
                     error = e,
                     errorListener = { uiError ->
-                        mutableUiState.value = SearchUiState.Error(error = uiError)
+                        uiState.value = SearchUiState.Error(error = uiError)
                     }
                 )
             }

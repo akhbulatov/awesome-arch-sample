@@ -9,12 +9,17 @@ import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
 import com.example.awesomearchsample.domain.user.usecase.GetUserDetailsUseCase
 import com.example.awesomearchsample.feature.user.userdetails.di.UserDetailsScreenDependencies
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 internal class UserDetailsViewModel(
     private val args: Args,
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
     private val errorHandler: UiErrorHandler
-) : BaseViewModel<UserDetailsUiState, BaseUiEffect>(initialUiState = UserDetailsUiState()) {
+) : BaseViewModel<BaseUiEffect>() {
+
+    val uiState: StateFlow<UserDetailsUiState>
+        field = MutableStateFlow(UserDetailsUiState())
 
     data class Args(
         val login: String
@@ -28,14 +33,14 @@ internal class UserDetailsViewModel(
         viewModelScope.launchCatching(
             onFailure = { e ->
                 errorHandler.proceed(e) { uiError ->
-                    mutableUiState.value = UserDetailsUiState(initialError = uiError)
+                    uiState.value = UserDetailsUiState(initialError = uiError)
                 }
             }
         ) {
-            mutableUiState.value = UserDetailsUiState(isInitialLoading = true)
+            uiState.value = UserDetailsUiState(isInitialLoading = true)
 
             val userDetails = getUserDetailsUseCase.invoke(login = args.login)
-            mutableUiState.value = UserDetailsUiState(
+            uiState.value = UserDetailsUiState(
                 content = UserDetailsContent(userDetails = userDetails)
             )
         }

@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 internal class LaunchViewModel(
     private val isFirstLaunchUseCase: IsFirstLaunchUseCase,
     private val setIsFirstLaunchUseCase: SetIsFirstLaunchUseCase
-) : BaseViewModel<Unit, LaunchUiEffect>(initialUiState = Unit) {
+) : BaseViewModel<LaunchUiEffect>() {
 
     init {
         viewModelScope.launch {

@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.annotation.StringRes
 
 sealed class UiText {
-    data class Plain(val value: String) : UiText()
+    data class Plain(
+        val value: String
+    ) : UiText()
+
     data class Res(
-        @StringRes val id: Int,
+        @param:StringRes val id: Int,
         val args: List<Any> = emptyList()
     ) : UiText()
 

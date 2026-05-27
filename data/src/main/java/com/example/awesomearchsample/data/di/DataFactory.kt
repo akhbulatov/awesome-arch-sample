@@ -21,7 +21,7 @@ class DataFactory(
             klass = AppDatabase::class.java,
             name = "awesomearchsample.db"
         )
-            .fallbackToDestructiveMigration()
+            .fallbackToDestructiveMigration(dropAllTables = true)
             .build()
     }
 

@@ -1,4 +1,4 @@
-package com.example.awesomearchsample.data.appconfig
+package com.example.awesomearchsample.data.appsettings
 
 import com.example.awesomearchsample.core.preferences.AppPreferences
 import kotlinx.coroutines.flow.Flow
@@ -8,14 +8,14 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class AppConfigRepositoryImplTest {
+class AppSettingsRepositoryImplTest {
 
     @Test
     fun isFirstLaunch_returnsPreferencesValue() = runBlocking {
         // Arrange
         val expected = true
         val preferences = FakeAppPreferences(flowOf(expected))
-        val repository = AppConfigRepositoryImpl(preferences)
+        val repository = AppSettingsRepositoryImpl(preferences)
 
         // Act
         val actual = repository.isFirstLaunch().first()
@@ -29,7 +29,7 @@ class AppConfigRepositoryImplTest {
         // Arrange
         val expected = false
         val preferences = FakeAppPreferences()
-        val repository = AppConfigRepositoryImpl(preferences)
+        val repository = AppSettingsRepositoryImpl(preferences)
 
         // Act
         repository.setIsFirstLaunch(expected)

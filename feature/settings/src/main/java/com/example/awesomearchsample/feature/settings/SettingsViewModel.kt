@@ -5,8 +5,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.ui.mvvm.BaseUiEffect
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
-import com.example.awesomearchsample.domain.appconfig.usecase.GetNotificationsEnabledUseCase
-import com.example.awesomearchsample.domain.appconfig.usecase.SetNotificationsEnabledUseCase
+import com.example.awesomearchsample.domain.appsettings.usecase.GetNotificationsEnabledUseCase
+import com.example.awesomearchsample.domain.appsettings.usecase.SetNotificationsEnabledUseCase
 import com.example.awesomearchsample.feature.settings.di.SettingsScreenDependencies
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +23,7 @@ internal class SettingsViewModel(
 
     init {
         viewModelScope.launch {
-            getNotificationsEnabledUseCase.invoke().collectLatest { enabled ->
+            getNotificationsEnabledUseCase().collectLatest { enabled ->
                 uiState.value = SettingsUiState(notificationsEnabled = enabled)
             }
         }
@@ -32,7 +32,7 @@ internal class SettingsViewModel(
     fun onNotificationsToggle() {
         val newValue = !uiState.value.notificationsEnabled
         viewModelScope.launch {
-            setNotificationsEnabledUseCase.invoke(newValue)
+            setNotificationsEnabledUseCase(newValue)
         }
     }
 

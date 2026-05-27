@@ -4,7 +4,7 @@ import androidx.room.Room
 import com.example.awesomearchsample.core.network.di.NetworkFactory
 import com.example.awesomearchsample.core.preferences.di.PreferencesFactory
 import com.example.awesomearchsample.data.AppDatabase
-import com.example.awesomearchsample.data.appconfig.di.AppConfigDataFactory
+import com.example.awesomearchsample.data.appsettings.di.AppSettingsDataFactory
 import com.example.awesomearchsample.data.repo.di.RepoDataFactory
 import com.example.awesomearchsample.data.search.di.SearchDataFactory
 import com.example.awesomearchsample.data.user.di.UserDataFactory
@@ -41,8 +41,8 @@ class DataFactory(
             networkFactory = networkFactory
         )
     }
-    val appConfigDataFactory: AppConfigDataFactory by lazy {
-        AppConfigDataFactory(
+    val appSettingsDataFactory: AppSettingsDataFactory by lazy {
+        AppSettingsDataFactory(
             preferencesFactory = preferencesFactory
         )
     }

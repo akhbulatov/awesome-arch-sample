@@ -5,8 +5,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.awesomearchsample.core.commonapi.util.AppLogger
 import com.example.awesomearchsample.core.ui.mvvm.BaseViewModel
-import com.example.awesomearchsample.domain.appconfig.usecase.IsFirstLaunchUseCase
-import com.example.awesomearchsample.domain.appconfig.usecase.SetIsFirstLaunchUseCase
+import com.example.awesomearchsample.domain.appsettings.usecase.IsFirstLaunchUseCase
+import com.example.awesomearchsample.domain.appsettings.usecase.SetIsFirstLaunchUseCase
 import com.example.awesomearchsample.feature.launch.di.LaunchScreenDependencies
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -18,9 +18,9 @@ internal class LaunchViewModel(
 
     init {
         viewModelScope.launch {
-            if (!isFirstLaunchUseCase.invoke().first()) {
+            if (!isFirstLaunchUseCase().first()) {
                 AppLogger.d("FIRST APP LAUNCH!")
-                setIsFirstLaunchUseCase.invoke(true)
+                setIsFirstLaunchUseCase(true)
             }
 
             emitEffect(LaunchUiEffect.NavigateToMainHost)

@@ -9,9 +9,9 @@ class SettingsFeatureGraph(
     override val settingsScreenDependencies: SettingsScreenDependencies by lazy {
         object : SettingsScreenDependencies {
             override val getNotificationsEnabledUseCase =
-                domainFactory.appConfigDomainFactory.getNotificationsEnabledUseCase
+                domainFactory.appSettingsDomainFactory.getNotificationsEnabledUseCase
             override val setNotificationsEnabledUseCase =
-                domainFactory.appConfigDomainFactory.setNotificationsEnabledUseCase
+                domainFactory.appSettingsDomainFactory.setNotificationsEnabledUseCase
         }
     }
 }

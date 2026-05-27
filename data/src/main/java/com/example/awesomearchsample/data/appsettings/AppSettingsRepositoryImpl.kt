@@ -1,12 +1,12 @@
-package com.example.awesomearchsample.data.appconfig
+package com.example.awesomearchsample.data.appsettings
 
 import com.example.awesomearchsample.core.preferences.AppPreferences
-import com.example.awesomearchsample.domain.appconfig.repository.AppConfigRepository
+import com.example.awesomearchsample.domain.appsettings.repository.AppSettingsRepository
 import kotlinx.coroutines.flow.Flow
 
-internal class AppConfigRepositoryImpl(
+internal class AppSettingsRepositoryImpl(
     private val appPreferences: AppPreferences
-) : AppConfigRepository {
+) : AppSettingsRepository {
 
     override fun isFirstLaunch(): Flow<Boolean> {
         return appPreferences.isFirstLaunch()

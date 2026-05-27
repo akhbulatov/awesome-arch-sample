@@ -9,9 +9,9 @@ class LaunchFeatureGraph(
     override val launchScreenDependencies: LaunchScreenDependencies by lazy {
         object : LaunchScreenDependencies {
             override val isFirstLaunchUseCase =
-                domainFactory.appConfigDomainFactory.isFirstLaunchUseCase
+                domainFactory.appSettingsDomainFactory.isFirstLaunchUseCase
             override val setIsFirstLaunchUseCase =
-                domainFactory.appConfigDomainFactory.setIsFirstLaunchUseCase
+                domainFactory.appSettingsDomainFactory.setIsFirstLaunchUseCase
         }
     }
 }

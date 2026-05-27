@@ -37,7 +37,7 @@ class AwesomeArchSampleFactory(
             repoRepository = dataFactory.repoDataFactory.repoRepository,
             searchRepository = dataFactory.searchDataFactory.searchRepository,
             userRepository = dataFactory.userDataFactory.userRepository,
-            appConfigRepository = dataFactory.appConfigDataFactory.appConfigRepository
+            appSettingsRepository = dataFactory.appSettingsDataFactory.appSettingsRepository
         )
     }
 

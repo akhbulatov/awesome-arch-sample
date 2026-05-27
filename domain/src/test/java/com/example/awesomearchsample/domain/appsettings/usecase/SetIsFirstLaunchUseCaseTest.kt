@@ -1,6 +1,6 @@
-package com.example.awesomearchsample.domain.appconfig.usecase
+package com.example.awesomearchsample.domain.appsettings.usecase
 
-import com.example.awesomearchsample.domain.appconfig.repository.AppConfigRepository
+import com.example.awesomearchsample.domain.appsettings.repository.AppSettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -12,17 +12,17 @@ class SetIsFirstLaunchUseCaseTest {
     fun invoke_setsIsFirstLaunch() = runBlocking {
         // Arrange
         val expected = false
-        val repository = FakeAppConfigRepository()
+        val repository = FakeAppSettingsRepository()
         val useCase = SetIsFirstLaunchUseCase(repository)
 
         // Act
-        useCase.invoke(expected)
+        useCase(expected)
 
         // Assert
         assertEquals(expected, repository.lastSetValue)
     }
 
-    private class FakeAppConfigRepository : AppConfigRepository {
+    private class FakeAppSettingsRepository : AppSettingsRepository {
         var lastSetValue: Boolean? = null
             private set
 

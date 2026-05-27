@@ -1,6 +1,6 @@
-package com.example.awesomearchsample.domain.appconfig.usecase
+package com.example.awesomearchsample.domain.appsettings.usecase
 
-import com.example.awesomearchsample.domain.appconfig.repository.AppConfigRepository
+import com.example.awesomearchsample.domain.appsettings.repository.AppSettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -14,19 +14,19 @@ class IsFirstLaunchUseCaseTest {
     fun invoke_returnsIsFirstLaunch() = runBlocking {
         // Arrange
         val expected = true
-        val repository = FakeAppConfigRepository(flowOf(expected))
+        val repository = FakeAppSettingsRepository(flowOf(expected))
         val useCase = IsFirstLaunchUseCase(repository)
 
         // Act
-        val actual = useCase.invoke().first()
+        val actual = useCase().first()
 
         // Assert
         assertEquals(expected, actual)
     }
 
-    private class FakeAppConfigRepository(
+    private class FakeAppSettingsRepository(
         private val isFirstLaunchFlow: Flow<Boolean>
-    ) : AppConfigRepository {
+    ) : AppSettingsRepository {
         override fun isFirstLaunch(): Flow<Boolean> {
             return isFirstLaunchFlow
         }

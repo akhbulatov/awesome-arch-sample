@@ -63,7 +63,7 @@ internal fun RepoDetailsScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        viewModel.uiEffect.collect { effect ->
+        viewModel.uiEffects.collect { effect ->
             when (effect) {
                 is RepoDetailsUiEffect.NavigateToUserDetails -> onNavigateToUserDetails(effect.login)
             }

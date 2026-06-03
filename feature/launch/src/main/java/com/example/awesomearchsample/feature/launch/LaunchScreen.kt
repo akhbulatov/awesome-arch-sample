@@ -15,7 +15,7 @@ internal fun LaunchScreen(
     )
 
     LaunchedEffect(Unit) {
-        viewModel.uiEffect.collect { effect ->
+        viewModel.uiEffects.collect { effect ->
             when (effect) {
                 LaunchUiEffect.NavigateToMainHost -> onNavigateToMainHost()
             }

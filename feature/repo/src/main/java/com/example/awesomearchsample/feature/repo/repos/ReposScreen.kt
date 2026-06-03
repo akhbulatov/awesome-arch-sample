@@ -55,7 +55,7 @@ internal fun ReposScreen(
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.uiEffect.collect { effect ->
+        viewModel.uiEffects.collect { effect ->
             when (effect) {
                 ReposUiEffect.NavigateToSearch -> onNavigateToSearch()
                 ReposUiEffect.NavigateToSettings -> onNavigateToSettings()

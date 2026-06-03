@@ -342,7 +342,7 @@ class ReposViewModelTest {
             cancelAndIgnoreRemainingEvents()
         }
 
-        viewModel.uiEffect.test {
+        viewModel.uiEffects.test {
             assertEquals(
                 ReposUiEffect.ShowErrorMessage(message = UiText.Plain("boom")),
                 awaitItem()
@@ -357,7 +357,7 @@ class ReposViewModelTest {
         val repository = FakeRepoRepository(results = listOf(Result.success(emptyList())))
         val viewModel = createViewModel(repository = repository)
 
-        viewModel.uiEffect.test {
+        viewModel.uiEffects.test {
             viewModel.onSearchClick()
 
             assertEquals(ReposUiEffect.NavigateToSearch, awaitItem())
@@ -382,7 +382,7 @@ class ReposViewModelTest {
             analytics = AnalyticsEventSender(analyticsClient)
         )
 
-        viewModel.uiEffect.test {
+        viewModel.uiEffects.test {
             viewModel.onRepoClick(repo)
 
             assertEquals(ReposUiEffect.NavigateToRepoDetails(repoId = 1L), awaitItem())

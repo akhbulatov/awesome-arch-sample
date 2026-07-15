@@ -1,6 +1,6 @@
 package com.example.awesomearchsample.data.di
 
-import androidx.room.Room
+import androidx.room3.Room
 import com.example.awesomearchsample.core.network.di.NetworkFactory
 import com.example.awesomearchsample.core.preferences.di.PreferencesFactory
 import com.example.awesomearchsample.data.AppDatabase

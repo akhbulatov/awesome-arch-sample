@@ -7,7 +7,7 @@ lifecycle = "2.11.0"
 coil = "3.5.0"
 coroutines = "1.11.0"
 serialization = "1.11.0"
-room = "2.8.4"
+room3 = "3.0.0"
 navigation3 = "1.1.4"
 
 [plugins]
@@ -19,6 +19,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version = "2.3.9" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+room3 = { id = "androidx.room3", version.ref = "room3" }
 
 [libraries]
 # Build logic
@@ -69,8 +70,8 @@ serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-cor
 serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
 # Database
-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room3-runtime = { module = "androidx.room3:room3-runtime", version.ref = "room3" }
+room3-compiler = { module = "androidx.room3:room3-compiler", version.ref = "room3" }
 
 # Preferences
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version = "1.2.1" }

@@ -1,7 +1,7 @@
 package com.example.awesomearchsample.data
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
+import androidx.room3.Database
+import androidx.room3.RoomDatabase
 import com.example.awesomearchsample.data.search.local.database.SearchQueryDao
 import com.example.awesomearchsample.data.search.local.database.model.SearchQueryDbModel
 

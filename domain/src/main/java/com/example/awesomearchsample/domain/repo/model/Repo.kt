@@ -7,15 +7,3 @@ data class Repo(
     val description: String?,
     val inFavorites: Boolean = false
 )
-
-fun List<Repo>.updatedByToggleInFavorites(repoBy: Repo): List<Repo> {
-    return this.map { repo ->
-        if (repo.id == repoBy.id) {
-            repo.copy(
-                inFavorites = !repo.inFavorites
-            )
-        } else {
-            repo
-        }
-    }
-}

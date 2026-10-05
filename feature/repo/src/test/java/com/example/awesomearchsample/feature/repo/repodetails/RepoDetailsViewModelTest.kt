@@ -47,18 +47,12 @@ class RepoDetailsViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(RepoDetailsUiState(), awaitItem())
-
-            // Loading phase
-            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(RepoDetailsUiState(isInitialLoading = true), awaitItem())
+            assertEquals(RepoDetailsUiState.Loading, awaitItem())
 
             // Success phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                RepoDetailsUiState(
-                    content = RepoDetailsContent(repoDetails = expected)
-                ),
+                RepoDetailsUiState.Success(repoDetails = expected),
                 awaitItem()
             )
 
@@ -87,18 +81,12 @@ class RepoDetailsViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(RepoDetailsUiState(), awaitItem())
-
-            // Loading phase
-            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(RepoDetailsUiState(isInitialLoading = true), awaitItem())
+            assertEquals(RepoDetailsUiState.Loading, awaitItem())
 
             // Error phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                RepoDetailsUiState(
-                    initialError = UiError(UiText.Plain("boom"))
-                ),
+                RepoDetailsUiState.Error(UiError(UiText.Plain("boom"))),
                 awaitItem()
             )
 
@@ -137,18 +125,12 @@ class RepoDetailsViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(RepoDetailsUiState(), awaitItem())
-
-            // Initial loading phase
-            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(RepoDetailsUiState(isInitialLoading = true), awaitItem())
+            assertEquals(RepoDetailsUiState.Loading, awaitItem())
 
             // Error phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                RepoDetailsUiState(
-                    initialError = UiError(UiText.Plain("boom"))
-                ),
+                RepoDetailsUiState.Error(UiError(UiText.Plain("boom"))),
                 awaitItem()
             )
 
@@ -158,14 +140,12 @@ class RepoDetailsViewModelTest {
             // Assert
             // Retry loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(RepoDetailsUiState(isInitialLoading = true), awaitItem())
+            assertEquals(RepoDetailsUiState.Loading, awaitItem())
 
             // Retry success phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                RepoDetailsUiState(
-                    content = RepoDetailsContent(repoDetails = expected)
-                ),
+                RepoDetailsUiState.Success(repoDetails = expected),
                 awaitItem()
             )
 

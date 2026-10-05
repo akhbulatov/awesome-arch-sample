@@ -12,7 +12,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.designsystem.EMPTY_DATA_ACTION_BUTTON_TAG
 import com.example.awesomearchsample.core.ui.designsystem.ERROR_RETRY_BUTTON_TAG
-import com.example.awesomearchsample.core.ui.designsystem.UiEmptyData
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.text.UiText
 import com.example.awesomearchsample.domain.repo.model.Repo
@@ -47,10 +46,7 @@ class ReposScreenTest {
         )
 
         setReposScreen(
-            state = ReposUiState(
-                content = ReposContent(repos = repos),
-                isInitialLoading = false
-            )
+            state = ReposUiState.Success(repos = repos)
         )
 
         composeRule.onNodeWithText("Awesome").assertIsDisplayed()
@@ -69,10 +65,7 @@ class ReposScreenTest {
         var clickedRepo: Repo? = null
 
         setReposScreen(
-            state = ReposUiState(
-                content = ReposContent(repos = listOf(repo)),
-                isInitialLoading = false
-            ),
+            state = ReposUiState.Success(repos = listOf(repo)),
             onRepoClick = { clickedRepo = it }
         )
 
@@ -88,10 +81,7 @@ class ReposScreenTest {
         var retryClicked = false
 
         setReposScreen(
-            state = ReposUiState(
-                isInitialLoading = false,
-                initialError = UiError(UiText.Plain("Error"))
-            ),
+            state = ReposUiState.Error(UiError(UiText.Plain("Error"))),
             onErrorActionClick = { retryClicked = true }
         )
 
@@ -108,17 +98,10 @@ class ReposScreenTest {
         var actionClicked = false
 
         setReposScreen(
-            state = ReposUiState(
-                isInitialLoading = false,
-                initialEmptyData = UiEmptyData(
-                    title = UiText.Plain("Empty"),
-                    actionText = UiText.Plain("Refresh")
-                )
-            ),
+            state = ReposUiState.Success(repos = emptyList()),
             onEmptyDataActionClick = { actionClicked = true }
         )
 
-        composeRule.onNodeWithText("Empty").assertIsDisplayed()
         composeRule.onNodeWithTag(EMPTY_DATA_ACTION_BUTTON_TAG).assertIsDisplayed()
         composeRule.onNodeWithTag(EMPTY_DATA_ACTION_BUTTON_TAG).performClick()
 
@@ -129,14 +112,14 @@ class ReposScreenTest {
 
     @Test
     fun reposScreen_loadingState_showsProgress() {
-        setReposScreen(state = ReposUiState(isInitialLoading = true))
+        setReposScreen(state = ReposUiState.Loading)
 
         composeRule.onNodeWithTag(REPOS_LOADING_TAG).assertIsDisplayed()
     }
 
     @Test
     fun reposScreen_loadingState_showsNoError() {
-        setReposScreen(state = ReposUiState(isInitialLoading = true))
+        setReposScreen(state = ReposUiState.Loading)
 
         composeRule.onAllNodesWithTag(ERROR_RETRY_BUTTON_TAG).assertCountEquals(0)
     }
@@ -146,10 +129,7 @@ class ReposScreenTest {
         var searchClicked = false
 
         setReposScreen(
-            state = ReposUiState(
-                content = ReposContent(repos = emptyList()),
-                isInitialLoading = false
-            ),
+            state = ReposUiState.Success(repos = emptyList()),
             onSearchClick = { searchClicked = true }
         )
 
@@ -164,6 +144,7 @@ class ReposScreenTest {
         state: ReposUiState,
         onSearchClick: () -> Unit = {},
         onErrorActionClick: () -> Unit = {},
+        onRefresh: () -> Unit = {},
         onEmptyDataActionClick: () -> Unit = {},
         onRepoClick: (Repo) -> Unit = {}
     ) {
@@ -175,9 +156,9 @@ class ReposScreenTest {
                     onSearchClick = onSearchClick,
                     onSettingsClick = {},
                     onErrorActionClick = onErrorActionClick,
-                    onEmptyDataActionClick = onEmptyDataActionClick,
-                    onRefresh = {},
-                    onRepoClick = onRepoClick
+                    onRefresh = onRefresh,
+                    onRepoClick = onRepoClick,
+                    onEmptyDataActionClick = onEmptyDataActionClick
                 )
             }
         }

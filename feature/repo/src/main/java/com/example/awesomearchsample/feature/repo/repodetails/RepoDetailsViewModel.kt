@@ -23,7 +23,7 @@ internal class RepoDetailsViewModel(
     )
 
     val uiState: StateFlow<RepoDetailsUiState>
-        field = MutableStateFlow(RepoDetailsUiState())
+        field = MutableStateFlow<RepoDetailsUiState>(RepoDetailsUiState.Loading)
 
     init {
         loadRepoDetails()
@@ -33,24 +33,22 @@ internal class RepoDetailsViewModel(
         viewModelScope.launchCatching(
             onFailure = { e ->
                 errorHandler.proceed(e) { uiError ->
-                    uiState.value = RepoDetailsUiState(initialError = uiError)
+                    uiState.value = RepoDetailsUiState.Error(uiError)
                 }
             }
         ) {
-            uiState.value = RepoDetailsUiState(isInitialLoading = true)
+            uiState.value = RepoDetailsUiState.Loading
 
             val repoDetails = getRepoDetailsUseCase.invoke(repoId = args.repoId)
-            uiState.value = RepoDetailsUiState(
-                content = RepoDetailsContent(repoDetails = repoDetails)
-            )
+            uiState.value = RepoDetailsUiState.Success(repoDetails = repoDetails)
         }
     }
 
     fun onAuthorClick() {
-        val content = uiState.value.content ?: return
+        val repoDetails = (uiState.value as? RepoDetailsUiState.Success)?.repoDetails ?: return
         emitEffect(
             RepoDetailsUiEffect.NavigateToUserDetails(
-                login = content.repoDetails.author
+                login = repoDetails.author
             )
         )
     }

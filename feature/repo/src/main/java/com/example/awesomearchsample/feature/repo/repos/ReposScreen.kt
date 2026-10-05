@@ -31,6 +31,7 @@ import com.example.awesomearchsample.core.ui.designsystem.EmptyDataComponent
 import com.example.awesomearchsample.core.ui.designsystem.ErrorComponent
 import com.example.awesomearchsample.core.ui.designsystem.UiEmptyData
 import com.example.awesomearchsample.core.ui.error.UiError
+import com.example.awesomearchsample.core.ui.text.UiText
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.repos.component.RepoList
@@ -73,9 +74,9 @@ internal fun ReposScreen(
         onSearchClick = viewModel::onSearchClick,
         onSettingsClick = viewModel::onSettingsClick,
         onErrorActionClick = viewModel::onErrorActionClick,
-        onEmptyDataActionClick = viewModel::onRefresh,
         onRefresh = viewModel::onRefresh,
-        onRepoClick = viewModel::onRepoClick
+        onRepoClick = viewModel::onRepoClick,
+        onEmptyDataActionClick = viewModel::onEmptyDataActionClick
     )
 }
 
@@ -90,9 +91,9 @@ internal fun ReposScreen(
     onSearchClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onErrorActionClick: () -> Unit,
-    onEmptyDataActionClick: () -> Unit,
     onRefresh: () -> Unit,
-    onRepoClick: OnRepoItemClick
+    onRepoClick: OnRepoItemClick,
+    onEmptyDataActionClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -125,37 +126,30 @@ internal fun ReposScreen(
             SnackbarHost(hostState = snackbarHostState)
         }
     ) { innerPadding ->
-        PullToRefreshBox(
-            isRefreshing = state.isRefreshing,
-            onRefresh = onRefresh,
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .testTag(REPOS_SCREEN_TAG)
         ) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                when {
-                    state.isInitialLoading -> {
-                        ReposInitialLoading()
-                    }
-                    state.initialError != null -> {
-                        ReposInitialError(
-                            error = state.initialError,
-                            onActionClick = onErrorActionClick
-                        )
-                    }
-                    state.initialEmptyData != null -> {
-                        ReposInitialEmptyData(
-                            emptyData = state.initialEmptyData,
-                            onActionClick = onEmptyDataActionClick
-                        )
-                    }
-                    state.content != null -> {
-                        ReposContent(
-                            content = state.content,
-                            onRepoClick = onRepoClick
-                        )
-                    }
+            when (state) {
+                ReposUiState.Loading -> {
+                    ReposLoading()
+                }
+                is ReposUiState.Error -> {
+                    ReposError(
+                        error = state.error,
+                        onActionClick = onErrorActionClick
+                    )
+                }
+                is ReposUiState.Success -> {
+                    ReposSuccess(
+                        repos = state.repos,
+                        isRefreshing = state.isRefreshing,
+                        onRefresh = onRefresh,
+                        onRepoClick = onRepoClick,
+                        onEmptyDataActionClick = onEmptyDataActionClick
+                    )
                 }
             }
         }
@@ -163,7 +157,7 @@ internal fun ReposScreen(
 }
 
 @Composable
-private fun ReposInitialLoading() {
+private fun ReposLoading() {
     CircularProgressIndicator(
         modifier = Modifier
             .fillMaxSize()
@@ -173,7 +167,7 @@ private fun ReposInitialLoading() {
 }
 
 @Composable
-private fun ReposInitialError(
+private fun ReposError(
     error: UiError,
     onActionClick: () -> Unit
 ) {
@@ -184,42 +178,57 @@ private fun ReposInitialError(
 }
 
 @Composable
-private fun ReposInitialEmptyData(
-    emptyData: UiEmptyData,
-    onActionClick: () -> Unit
+private fun ReposSuccess(
+    repos: List<Repo>,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
+    onRepoClick: OnRepoItemClick,
+    onEmptyDataActionClick: () -> Unit
 ) {
-    EmptyDataComponent(
-        emptyData = emptyData,
-        onActionClick = onActionClick
-    )
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = onRefresh,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (repos.isNotEmpty()) {
+            RepoList(
+                repos = repos,
+                onRepoItemClick = onRepoClick
+            )
+        } else {
+            ReposEmptyData(
+                onActionClick = onEmptyDataActionClick
+            )
+        }
+    }
 }
 
 @Composable
-private fun ReposContent(
-    content: ReposContent,
-    onRepoClick: OnRepoItemClick
+private fun ReposEmptyData(
+    onActionClick: () -> Unit
 ) {
-    RepoList(
-        repos = content.repos,
-        onRepoItemClick = onRepoClick
+    EmptyDataComponent(
+        emptyData = UiEmptyData(
+            title = UiText.Res(R.string.repos_empty_title),
+            actionText = UiText.Res(com.example.awesomearchsample.core.ui.R.string.action_refresh)
+        ),
+        onActionClick = onActionClick
     )
 }
 
 //region Previews
 @Preview(showBackground = true)
 @Composable
-private fun ReposScreenContentPreview() {
+private fun ReposScreenSuccessPreview() {
     AppTheme {
         ReposScreen(
-            state = ReposUiState(
-                content = ReposContent(
-                    repos = listOf(
-                        Repo(
-                            id = 0L,
-                            name = "AwesomeArchSample: 0",
-                            author = "akhbulatov",
-                            description = "Awesome open-source arch sample written in Kotlin"
-                        )
+            state = ReposUiState.Success(
+                repos = listOf(
+                    Repo(
+                        id = 0L,
+                        name = "AwesomeArchSample: 0",
+                        author = "akhbulatov",
+                        description = "Awesome open-source arch sample written in Kotlin"
                     )
                 )
             ),
@@ -227,9 +236,9 @@ private fun ReposScreenContentPreview() {
             onSearchClick = {},
             onSettingsClick = {},
             onErrorActionClick = {},
-            onEmptyDataActionClick = {},
             onRefresh = {},
-            onRepoClick = {}
+            onRepoClick = {},
+            onEmptyDataActionClick = {}
         )
     }
 }

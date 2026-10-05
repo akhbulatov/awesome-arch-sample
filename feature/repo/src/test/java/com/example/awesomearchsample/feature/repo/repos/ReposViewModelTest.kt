@@ -6,7 +6,6 @@ import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent
 import com.example.awesomearchsample.core.commonapi.error.ErrorEntity
 import com.example.awesomearchsample.core.testing.FakeErrorHandler
 import com.example.awesomearchsample.core.testing.MainDispatcherRule
-import com.example.awesomearchsample.core.ui.designsystem.UiEmptyData
 import com.example.awesomearchsample.core.ui.error.UiError
 import com.example.awesomearchsample.core.ui.error.UiErrorHandler
 import com.example.awesomearchsample.core.ui.text.UiText
@@ -16,7 +15,6 @@ import com.example.awesomearchsample.domain.repo.repository.RepoRepository
 import com.example.awesomearchsample.domain.repo.usecase.GetReposUseCase
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEvents
-import com.example.awesomearchsample.feature.repo.R
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -46,17 +44,12 @@ class ReposViewModelTest {
         val viewModel = createViewModel(repository = repository)
 
         viewModel.uiState.test {
-            assertEquals(ReposUiState(), awaitItem())
+            assertEquals(ReposUiState.Loading, awaitItem())
 
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
-
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                ReposUiState(
-                    content = ReposContent(repos = expected),
-                    isInitialLoading = false
-                ),
+                ReposUiState.Success(repos = expected),
                 awaitItem()
             )
 
@@ -73,17 +66,12 @@ class ReposViewModelTest {
         )
 
         viewModel.uiState.test {
-            assertEquals(ReposUiState(), awaitItem())
+            assertEquals(ReposUiState.Loading, awaitItem())
 
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
-
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                ReposUiState(
-                    isInitialLoading = false,
-                    initialError = UiError(UiText.Plain("boom"))
-                ),
+                ReposUiState.Error(UiError(UiText.Plain("boom"))),
                 awaitItem()
             )
 
@@ -92,29 +80,44 @@ class ReposViewModelTest {
     }
 
     @Test
-    fun init_withEmptyList_returnsEmptyData() = runTest(mainDispatcherRule.testDispatcher) {
+    fun init_withEmptyList_returnsSuccess() = runTest(mainDispatcherRule.testDispatcher) {
         val repository = FakeRepoRepository(results = listOf(Result.success(emptyList())))
         val viewModel = createViewModel(repository = repository)
 
         viewModel.uiState.test {
-            assertEquals(ReposUiState(), awaitItem())
+            assertEquals(ReposUiState.Loading, awaitItem())
 
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
-
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                ReposUiState(
-                    isInitialLoading = false,
-                    initialEmptyData = UiEmptyData(
-                        title = UiText.Res(R.string.repos_empty_title),
-                        actionText = UiText.Res(com.example.awesomearchsample.core.ui.R.string.action_refresh)
-                    )
-                ),
+                ReposUiState.Success(repos = emptyList()),
                 awaitItem()
             )
 
             cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun onRefresh_withEmptyResult_reloadsRepos() = runTest(mainDispatcherRule.testDispatcher) {
+        val repo = Repo(id = 1L, name = "Awesome", author = "Ada", description = "Sample")
+        val repository = FakeRepoRepository(
+            results = listOf(Result.success(emptyList()), Result.success(listOf(repo)))
+        )
+        val viewModel = createViewModel(repository = repository)
+
+        viewModel.uiState.test {
+            assertEquals(ReposUiState.Loading, awaitItem())
+            mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(ReposUiState.Success(repos = emptyList()), awaitItem())
+
+            viewModel.onRefresh()
+            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
+            assertEquals(ReposUiState.Success(repos = emptyList(), isRefreshing = true), awaitItem())
+
+            mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
+            assertEquals(ReposUiState.Success(repos = listOf(repo), isRefreshing = true), awaitItem())
+            assertEquals(ReposUiState.Success(repos = listOf(repo)), awaitItem())
         }
     }
 
@@ -141,29 +144,21 @@ class ReposViewModelTest {
         )
 
         viewModel.uiState.test {
-            assertEquals(ReposUiState(), awaitItem())
+            assertEquals(ReposUiState.Loading, awaitItem())
 
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
-
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                ReposUiState(
-                    isInitialLoading = false,
-                    initialError = UiError(UiText.Plain("boom"))
-                ),
+                ReposUiState.Error(UiError(UiText.Plain("boom"))),
                 awaitItem()
             )
 
             viewModel.onErrorActionClick()
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
 
-            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
+            assertEquals(ReposUiState.Loading, awaitItem())
             assertEquals(
-                ReposUiState(
-                    content = ReposContent(repos = expected),
-                    isInitialLoading = false
-                ),
+                ReposUiState.Success(repos = expected),
                 awaitItem()
             )
 
@@ -185,27 +180,19 @@ class ReposViewModelTest {
         val viewModel = createViewModel(repository = repository)
 
         viewModel.uiState.test {
-            assertEquals(ReposUiState(), awaitItem())
+            assertEquals(ReposUiState.Loading, awaitItem())
 
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
-
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                ReposUiState(
-                    content = ReposContent(repos = listOf(repo)),
-                    isInitialLoading = false
-                ),
+                ReposUiState.Success(repos = listOf(repo)),
                 awaitItem()
             )
 
             viewModel.onFavoritesClick(repo)
 
             assertEquals(
-                ReposUiState(
-                    content = ReposContent(repos = expected),
-                    isInitialLoading = false
-                ),
+                ReposUiState.Success(repos = expected),
                 awaitItem()
             )
 
@@ -242,17 +229,12 @@ class ReposViewModelTest {
         val viewModel = createViewModel(repository = repository)
 
         viewModel.uiState.test {
-            assertEquals(ReposUiState(), awaitItem())
+            assertEquals(ReposUiState.Loading, awaitItem())
 
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
-
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                ReposUiState(
-                    content = ReposContent(repos = initial),
-                    isInitialLoading = false
-                ),
+                ReposUiState.Success(repos = initial),
                 awaitItem()
             )
 
@@ -260,20 +242,17 @@ class ReposViewModelTest {
 
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
             assertEquals(
-                ReposUiState(
-                    content = ReposContent(repos = initial),
-                    isInitialLoading = false,
-                    isRefreshing = true
-                ),
+                ReposUiState.Success(repos = initial, isRefreshing = true),
                 awaitItem()
             )
 
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                ReposUiState(
-                    content = ReposContent(repos = refreshed),
-                    isInitialLoading = false
-                ),
+                ReposUiState.Success(repos = refreshed, isRefreshing = true),
+                awaitItem()
+            )
+            assertEquals(
+                ReposUiState.Success(repos = refreshed),
                 awaitItem()
             )
 
@@ -304,17 +283,12 @@ class ReposViewModelTest {
         )
 
         viewModel.uiState.test {
-            assertEquals(ReposUiState(), awaitItem())
+            assertEquals(ReposUiState.Loading, awaitItem())
 
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(ReposUiState(isInitialLoading = true), awaitItem())
-
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                ReposUiState(
-                    content = ReposContent(repos = initial),
-                    isInitialLoading = false
-                ),
+                ReposUiState.Success(repos = initial),
                 awaitItem()
             )
 
@@ -322,20 +296,13 @@ class ReposViewModelTest {
 
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
             assertEquals(
-                ReposUiState(
-                    content = ReposContent(repos = initial),
-                    isInitialLoading = false,
-                    isRefreshing = true
-                ),
+                ReposUiState.Success(repos = initial, isRefreshing = true),
                 awaitItem()
             )
 
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                ReposUiState(
-                    content = ReposContent(repos = initial),
-                    isInitialLoading = false
-                ),
+                ReposUiState.Success(repos = initial),
                 awaitItem()
             )
 

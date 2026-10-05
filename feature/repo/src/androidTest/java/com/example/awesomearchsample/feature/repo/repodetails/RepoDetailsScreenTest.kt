@@ -35,9 +35,7 @@ class RepoDetailsScreenTest {
         composeRule.setContent {
             AppTheme {
                 RepoDetailsScreen(
-                    state = RepoDetailsUiState(
-                        content = RepoDetailsContent(repoDetails = details)
-                    ),
+                    state = RepoDetailsUiState.Success(repoDetails = details),
                     onNavigationClick = {},
                     onErrorActionClick = {},
                     onAuthorClick = {}
@@ -66,9 +64,7 @@ class RepoDetailsScreenTest {
         composeRule.setContent {
             AppTheme {
                 RepoDetailsScreen(
-                    state = RepoDetailsUiState(
-                        content = RepoDetailsContent(repoDetails = details)
-                    ),
+                    state = RepoDetailsUiState.Success(repoDetails = details),
                     onNavigationClick = {},
                     onErrorActionClick = {},
                     onAuthorClick = { authorClicked = true }
@@ -98,9 +94,7 @@ class RepoDetailsScreenTest {
         composeRule.setContent {
             AppTheme {
                 RepoDetailsScreen(
-                    state = RepoDetailsUiState(
-                        content = RepoDetailsContent(repoDetails = details)
-                    ),
+                    state = RepoDetailsUiState.Success(repoDetails = details),
                     onNavigationClick = { backClicked = true },
                     onErrorActionClick = {},
                     onAuthorClick = {}
@@ -120,7 +114,7 @@ class RepoDetailsScreenTest {
         composeRule.setContent {
             AppTheme {
                 RepoDetailsScreen(
-                    state = RepoDetailsUiState(isInitialLoading = true),
+                    state = RepoDetailsUiState.Loading,
                     onNavigationClick = {},
                     onErrorActionClick = {},
                     onAuthorClick = {}
@@ -138,9 +132,7 @@ class RepoDetailsScreenTest {
         composeRule.setContent {
             AppTheme {
                 RepoDetailsScreen(
-                    state = RepoDetailsUiState(
-                        initialError = UiError(UiText.Plain("Error"))
-                    ),
+                    state = RepoDetailsUiState.Error(UiError(UiText.Plain("Error"))),
                     onNavigationClick = {},
                     onErrorActionClick = { retryClicked = true },
                     onAuthorClick = {}

@@ -90,7 +90,9 @@ internal fun RepoDetailsScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = state.content?.repoDetails?.name.orEmpty())
+                    Text(
+                        text = (state as? RepoDetailsUiState.Success)?.repoDetails?.name.orEmpty()
+                    )
                 },
                 navigationIcon = {
                     IconButton(
@@ -112,19 +114,19 @@ internal fun RepoDetailsScreen(
                 .padding(innerPadding)
                 .testTag(REPO_DETAILS_SCREEN_TAG)
         ) {
-            when {
-                state.isInitialLoading -> {
-                    RepoDetailsInitialLoading()
+            when (state) {
+                is RepoDetailsUiState.Loading -> {
+                    RepoDetailsLoading()
                 }
-                state.initialError != null -> {
-                    RepoDetailsInitialError(
-                        error = state.initialError,
+                is RepoDetailsUiState.Error -> {
+                    RepoDetailsError(
+                        error = state.error,
                         onActionClick = onErrorActionClick
                     )
                 }
-                state.content != null -> {
-                    RepoDetailsContent(
-                        content = state.content,
+                is RepoDetailsUiState.Success -> {
+                    RepoDetailsSuccess(
+                        repoDetails = state.repoDetails,
                         onAuthorClick = onAuthorClick
                     )
                 }
@@ -134,7 +136,7 @@ internal fun RepoDetailsScreen(
 }
 
 @Composable
-private fun RepoDetailsInitialLoading() {
+private fun RepoDetailsLoading() {
     CircularProgressIndicator(
         modifier = Modifier
             .fillMaxSize()
@@ -144,7 +146,7 @@ private fun RepoDetailsInitialLoading() {
 }
 
 @Composable
-private fun RepoDetailsInitialError(
+private fun RepoDetailsError(
     error: UiError,
     onActionClick: () -> Unit
 ) {
@@ -155,11 +157,10 @@ private fun RepoDetailsInitialError(
 }
 
 @Composable
-private fun RepoDetailsContent(
-    content: RepoDetailsContent,
+private fun RepoDetailsSuccess(
+    repoDetails: RepoDetails,
     onAuthorClick: () -> Unit
 ) {
-    val repoDetails = content.repoDetails
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -219,13 +220,11 @@ private fun RepoDetailsContent(
 //region Previews
 @Preview
 @Composable
-private fun RepoDetailsScreenPreview() {
+private fun RepoDetailsScreenSuccessPreview() {
     AppTheme {
         RepoDetailsScreen(
-            state = RepoDetailsUiState(
-                content = RepoDetailsContent(
-                    repoDetails = RepoDetailsPreviewData.item
-                )
+            state = RepoDetailsUiState.Success(
+                repoDetails = RepoDetailsPreviewData.item
             ),
             onNavigationClick = {},
             onErrorActionClick = {},

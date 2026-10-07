@@ -70,7 +70,7 @@ internal fun UserDetailsScreen(
     onNavigationClick: () -> Unit,
     onErrorActionClick: () -> Unit
 ) {
-    val title = state.content?.userDetails?.login.orEmpty()
+    val title = (state as? UserDetailsUiState.Success)?.userDetails?.login.orEmpty()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -96,18 +96,18 @@ internal fun UserDetailsScreen(
                 .padding(innerPadding)
                 .testTag(USER_DETAILS_SCREEN_TAG)
         ) {
-            when {
-                state.isInitialLoading -> {
-                    UserDetailsInitialLoading()
+            when (state) {
+                is UserDetailsUiState.Loading -> {
+                    UserDetailsLoading()
                 }
-                state.initialError != null -> {
-                    UserDetailsInitialError(
-                        error = state.initialError,
+                is UserDetailsUiState.Error -> {
+                    UserDetailsError(
+                        error = state.error,
                         onActionClick = onErrorActionClick
                     )
                 }
-                state.content != null -> {
-                    UserDetailsContent(content = state.content)
+                is UserDetailsUiState.Success -> {
+                    UserDetailsSuccess(userDetails = state.userDetails)
                 }
             }
         }
@@ -115,7 +115,7 @@ internal fun UserDetailsScreen(
 }
 
 @Composable
-private fun UserDetailsInitialLoading() {
+private fun UserDetailsLoading() {
     CircularProgressIndicator(
         modifier = Modifier
             .fillMaxSize()
@@ -124,7 +124,7 @@ private fun UserDetailsInitialLoading() {
 }
 
 @Composable
-private fun UserDetailsInitialError(
+private fun UserDetailsError(
     error: UiError,
     onActionClick: () -> Unit
 ) {
@@ -135,10 +135,9 @@ private fun UserDetailsInitialError(
 }
 
 @Composable
-private fun UserDetailsContent(
-    content: UserDetailsContent
+private fun UserDetailsSuccess(
+    userDetails: UserDetails
 ) {
-    val userDetails = content.userDetails
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -202,10 +201,8 @@ private fun UserDetailsContent(
 private fun UserDetailsScreenPreview() {
     AppTheme {
         UserDetailsScreen(
-            state = UserDetailsUiState(
-                content = UserDetailsContent(
-                    userDetails = UserDetailsPreviewData.item
-                )
+            state = UserDetailsUiState.Success(
+                userDetails = UserDetailsPreviewData.item
             ),
             onNavigationClick = {},
             onErrorActionClick = {}

@@ -23,7 +23,7 @@ internal class UserDetailsViewModel(
     )
 
     val uiState: StateFlow<UserDetailsUiState>
-        field = MutableStateFlow(UserDetailsUiState())
+        field = MutableStateFlow<UserDetailsUiState>(UserDetailsUiState.Loading)
 
     init {
         loadUserDetails()
@@ -33,16 +33,14 @@ internal class UserDetailsViewModel(
         viewModelScope.launchCatching(
             onFailure = { e ->
                 errorHandler.proceed(e) { uiError ->
-                    uiState.value = UserDetailsUiState(initialError = uiError)
+                    uiState.value = UserDetailsUiState.Error(error = uiError)
                 }
             }
         ) {
-            uiState.value = UserDetailsUiState(isInitialLoading = true)
+            uiState.value = UserDetailsUiState.Loading
 
             val userDetails = getUserDetailsUseCase.invoke(login = args.login)
-            uiState.value = UserDetailsUiState(
-                content = UserDetailsContent(userDetails = userDetails)
-            )
+            uiState.value = UserDetailsUiState.Success(userDetails = userDetails)
         }
     }
 

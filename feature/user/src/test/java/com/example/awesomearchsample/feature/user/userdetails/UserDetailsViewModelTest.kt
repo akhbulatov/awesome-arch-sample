@@ -46,18 +46,12 @@ class UserDetailsViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(UserDetailsUiState(), awaitItem())
-
-            // Loading phase
-            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(UserDetailsUiState(isInitialLoading = true), awaitItem())
+            assertEquals(UserDetailsUiState.Loading, awaitItem())
 
             // Success phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                UserDetailsUiState(
-                    content = UserDetailsContent(userDetails = expected)
-                ),
+                UserDetailsUiState.Success(userDetails = expected),
                 awaitItem()
             )
 
@@ -86,18 +80,12 @@ class UserDetailsViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(UserDetailsUiState(), awaitItem())
-
-            // Loading phase
-            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(UserDetailsUiState(isInitialLoading = true), awaitItem())
+            assertEquals(UserDetailsUiState.Loading, awaitItem())
 
             // Error phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                UserDetailsUiState(
-                    initialError = UiError(UiText.Plain("boom"))
-                ),
+                UserDetailsUiState.Error(UiError(UiText.Plain("boom"))),
                 awaitItem()
             )
 
@@ -136,18 +124,12 @@ class UserDetailsViewModelTest {
 
         // Assert
         viewModel.uiState.test {
-            assertEquals(UserDetailsUiState(), awaitItem())
-
-            // Initial loading phase
-            mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(UserDetailsUiState(isInitialLoading = true), awaitItem())
+            assertEquals(UserDetailsUiState.Loading, awaitItem())
 
             // Error phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                UserDetailsUiState(
-                    initialError = UiError(UiText.Plain("boom"))
-                ),
+                UserDetailsUiState.Error(UiError(UiText.Plain("boom"))),
                 awaitItem()
             )
 
@@ -157,13 +139,11 @@ class UserDetailsViewModelTest {
             // Assert
             // Retry loading phase
             mainDispatcherRule.testDispatcher.scheduler.runCurrent()
-            assertEquals(UserDetailsUiState(isInitialLoading = true), awaitItem())
+            assertEquals(UserDetailsUiState.Loading, awaitItem())
             // Retry success phase
             mainDispatcherRule.testDispatcher.scheduler.advanceUntilIdle()
             assertEquals(
-                UserDetailsUiState(
-                    content = UserDetailsContent(userDetails = expected)
-                ),
+                UserDetailsUiState.Success(userDetails = expected),
                 awaitItem()
             )
 

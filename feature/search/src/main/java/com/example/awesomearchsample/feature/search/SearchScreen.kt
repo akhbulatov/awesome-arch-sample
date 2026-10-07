@@ -41,6 +41,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.designsystem.ErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
+import com.example.awesomearchsample.core.ui.mvvm.CollectUiEffects
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.domain.search.model.SearchQuery
 import com.example.awesomearchsample.domain.search.model.SearchResult
@@ -59,11 +60,9 @@ internal fun SearchScreen(
     )
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        viewModel.uiEffects.collect { effect ->
-            when (effect) {
-                is SearchUiEffect.NavigateToRepoDetails -> onNavigateToRepoDetails(effect.repoId)
-            }
+    CollectUiEffects(viewModel.uiEffects) { effect ->
+        when (effect) {
+            is SearchUiEffect.NavigateToRepoDetails -> onNavigateToRepoDetails(effect.repoId)
         }
     }
 

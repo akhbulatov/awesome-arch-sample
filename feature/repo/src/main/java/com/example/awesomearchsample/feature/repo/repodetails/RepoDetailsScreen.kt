@@ -18,7 +18,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -31,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.designsystem.ErrorComponent
 import com.example.awesomearchsample.core.ui.error.UiError
+import com.example.awesomearchsample.core.ui.mvvm.CollectUiEffects
 import com.example.awesomearchsample.domain.repo.model.RepoDetails
 import com.example.awesomearchsample.feature.repo.R
 import com.example.awesomearchsample.feature.repo.navigation.repodetails.RepoDetailsRoute
@@ -62,11 +62,9 @@ internal fun RepoDetailsScreen(
     )
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        viewModel.uiEffects.collect { effect ->
-            when (effect) {
-                is RepoDetailsUiEffect.NavigateToUserDetails -> onNavigateToUserDetails(effect.login)
-            }
+    CollectUiEffects(viewModel.uiEffects) { effect ->
+        when (effect) {
+            is RepoDetailsUiEffect.NavigateToUserDetails -> onNavigateToUserDetails(effect.login)
         }
     }
 

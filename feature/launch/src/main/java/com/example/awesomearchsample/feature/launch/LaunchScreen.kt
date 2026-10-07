@@ -1,8 +1,8 @@
 package com.example.awesomearchsample.feature.launch
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.awesomearchsample.core.ui.mvvm.CollectUiEffects
 import com.example.awesomearchsample.feature.launch.di.LaunchScreenDependencies
 
 @Composable
@@ -14,11 +14,9 @@ internal fun LaunchScreen(
         factory = LaunchViewModel.viewModelFactory(dependencies = dependencies)
     )
 
-    LaunchedEffect(Unit) {
-        viewModel.uiEffects.collect { effect ->
-            when (effect) {
-                LaunchUiEffect.NavigateToMainHost -> onNavigateToMainHost()
-            }
+    CollectUiEffects(viewModel.uiEffects) { effect ->
+        when (effect) {
+            LaunchUiEffect.NavigateToMainHost -> onNavigateToMainHost()
         }
     }
 }

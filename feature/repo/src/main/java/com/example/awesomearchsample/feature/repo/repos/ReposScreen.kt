@@ -15,7 +15,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -31,6 +30,7 @@ import com.example.awesomearchsample.core.ui.designsystem.EmptyDataComponent
 import com.example.awesomearchsample.core.ui.designsystem.ErrorComponent
 import com.example.awesomearchsample.core.ui.designsystem.UiEmptyData
 import com.example.awesomearchsample.core.ui.error.UiError
+import com.example.awesomearchsample.core.ui.mvvm.CollectUiEffects
 import com.example.awesomearchsample.core.ui.text.UiText
 import com.example.awesomearchsample.domain.repo.model.Repo
 import com.example.awesomearchsample.feature.repo.R
@@ -55,15 +55,13 @@ internal fun ReposScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
-        viewModel.uiEffects.collect { effect ->
-            when (effect) {
-                ReposUiEffect.NavigateToSearch -> onNavigateToSearch()
-                ReposUiEffect.NavigateToSettings -> onNavigateToSettings()
-                is ReposUiEffect.NavigateToRepoDetails -> onNavigateToRepoDetails(effect.repoId)
-                is ReposUiEffect.ShowErrorMessage -> {
-                    snackbarHostState.showSnackbar(effect.message.asString(context))
-                }
+    CollectUiEffects(viewModel.uiEffects) { effect ->
+        when (effect) {
+            ReposUiEffect.NavigateToSearch -> onNavigateToSearch()
+            ReposUiEffect.NavigateToSettings -> onNavigateToSettings()
+            is ReposUiEffect.NavigateToRepoDetails -> onNavigateToRepoDetails(effect.repoId)
+            is ReposUiEffect.ShowErrorMessage -> {
+                snackbarHostState.showSnackbar(effect.message.asString(context))
             }
         }
     }

@@ -49,7 +49,6 @@ class AwesomeAndroidApplicationConventionsPlugin : Plugin<Project> {
         extensions.configure(KotlinAndroidProjectExtension::class.java) {
             compilerOptions {
                 jvmTarget.set(JvmTarget.JVM_21)
-                freeCompilerArgs.add("-Xexplicit-backing-fields")
             }
         }
     }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "app_preferences")
 
-class DataStoreAppPreferences(
+internal class DataStoreAppPreferences(
     private val context: Context
 ) : AppPreferences {
 

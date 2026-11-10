@@ -14,7 +14,7 @@ fun backStackAppNavigator(
     backStack: NavBackStack<NavKey>
 ): AppNavigator = BackStackAppNavigator(backStack)
 
-internal class BackStackAppNavigator(
+private class BackStackAppNavigator(
     private val backStack: NavBackStack<NavKey>
 ) : AppNavigator {
     override fun navigateTo(destination: NavKey) {

@@ -10,7 +10,7 @@ import com.example.awesomearchsample.core.serialization.di.SerializationFactory
 import com.example.awesomearchsample.core.ui.di.UiFactory
 
 class CoreFactory(
-    val context: Context,
+    context: Context,
     private val networkBaseApiUrl: String
 ) {
 

@@ -6,6 +6,7 @@ import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent
 import com.example.awesomearchsample.core.testing.FakeErrorHandler
 import com.example.awesomearchsample.core.ui.designsystem.AppTheme
 import com.example.awesomearchsample.core.ui.di.UiFactory
+import com.example.awesomearchsample.di.AppDependencies
 import com.example.awesomearchsample.domain.appsettings.repository.AppSettingsRepository
 import com.example.awesomearchsample.domain.di.DomainFactory
 import com.example.awesomearchsample.domain.repo.model.Repo
@@ -39,37 +40,38 @@ internal fun testAppContent(
     appSettingsRepository: AppSettingsRepository = FakeAppSettingsRepository()
 ): @Composable () -> Unit {
     val domainFactory = DomainFactory(
-        repoRepository = FakeRepoRepository(),
-        searchRepository = FakeSearchRepository,
-        userRepository = FakeUserRepository,
-        appSettingsRepository = appSettingsRepository
+        repoRepositoryProvider = { FakeRepoRepository() },
+        searchRepositoryProvider = { FakeSearchRepository },
+        userRepositoryProvider = { FakeUserRepository },
+        appSettingsRepositoryProvider = { appSettingsRepository }
     )
     val uiFactory = UiFactory(FakeErrorHandler())
-    val launchGraph = LaunchFeatureGraph(domainFactory)
-    val searchGraph = SearchFeatureGraph(domainFactory, uiFactory)
-    val settingsGraph = SettingsFeatureGraph(domainFactory)
-    val userGraph = UserFeatureGraph(domainFactory, uiFactory)
     val repoGraph = object : RepoFeatureDependencies {
-        override val reposScreenDependencies = object : ReposScreenDependencies {
-            override val getReposUseCase = domainFactory.repoDomainFactory.getReposUseCase
-            override val uiErrorHandler = uiFactory.uiErrorHandler
-            override val analyticsEventSender = AnalyticsEventSender(NoOpAnalyticsClient)
+        override val reposScreenDependencies: ReposScreenDependencies by lazy {
+            object : ReposScreenDependencies {
+                override val getReposUseCase = domainFactory.repoDomainFactory.getReposUseCase
+                override val uiErrorHandler = uiFactory.uiErrorHandler
+                override val analyticsEventSender = AnalyticsEventSender(NoOpAnalyticsClient)
+            }
         }
-        override val repoDetailsScreenDependencies = object : RepoDetailsScreenDependencies {
-            override val getRepoDetailsUseCase = domainFactory.repoDomainFactory.getRepoDetailsUseCase
-            override val uiErrorHandler = uiFactory.uiErrorHandler
+        override val repoDetailsScreenDependencies: RepoDetailsScreenDependencies by lazy {
+            object : RepoDetailsScreenDependencies {
+                override val getRepoDetailsUseCase = domainFactory.repoDomainFactory.getRepoDetailsUseCase
+                override val uiErrorHandler = uiFactory.uiErrorHandler
+            }
         }
+    }
+    val dependencies = object : AppDependencies {
+        override val launchFeatureDependencies = LaunchFeatureGraph(domainFactory)
+        override val repoFeatureDependencies = repoGraph
+        override val searchFeatureDependencies = SearchFeatureGraph(domainFactory, uiFactory)
+        override val settingsFeatureDependencies = SettingsFeatureGraph(domainFactory)
+        override val userFeatureDependencies = UserFeatureGraph(domainFactory, uiFactory)
     }
 
     return {
         AppTheme {
-            AppNavHost(
-                launchFeatureDependencies = launchGraph,
-                repoFeatureDependencies = repoGraph,
-                searchFeatureDependencies = searchGraph,
-                settingsFeatureDependencies = settingsGraph,
-                userFeatureDependencies = userGraph
-            )
+            AppNavHost(dependencies = dependencies)
         }
     }
 }

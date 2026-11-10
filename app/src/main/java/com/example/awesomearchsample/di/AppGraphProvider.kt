@@ -1,5 +1,5 @@
 package com.example.awesomearchsample.di
 
 interface AppGraphProvider {
-    val appGraph: AppGraph
+    val appDependencies: AppDependencies
 }

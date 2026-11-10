@@ -1,5 +1,6 @@
 package com.example.awesomearchsample.data.di
 
+import android.content.Context
 import androidx.room3.Room
 import com.example.awesomearchsample.core.network.di.NetworkFactory
 import com.example.awesomearchsample.core.preferences.di.PreferencesFactory
@@ -10,14 +11,14 @@ import com.example.awesomearchsample.data.search.di.SearchDataFactory
 import com.example.awesomearchsample.data.user.di.UserDataFactory
 
 class DataFactory(
-    appContextProvider: AppContextProvider,
+    appContext: Context,
     networkFactory: NetworkFactory,
     preferencesFactory: PreferencesFactory
 ) {
 
     private val appDatabase: AppDatabase by lazy {
         Room.databaseBuilder(
-            context = appContextProvider.appContext,
+            context = appContext,
             klass = AppDatabase::class.java,
             name = "awesomearchsample.db"
         )

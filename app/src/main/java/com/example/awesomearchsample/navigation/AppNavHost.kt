@@ -8,6 +8,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.example.awesomearchsample.core.ui.navigation.backStackAppNavigator
 import com.example.awesomearchsample.core.ui.navigation.HostEntryProvider
+import com.example.awesomearchsample.di.AppDependencies
 import com.example.awesomearchsample.feature.launch.di.LaunchFeatureDependencies
 import com.example.awesomearchsample.feature.launch.host.LaunchHostScreen
 import com.example.awesomearchsample.feature.launch.navigation.addLaunchEntries
@@ -31,13 +32,7 @@ import com.example.awesomearchsample.feature.user.navigation.addUserEntries
 import com.example.awesomearchsample.feature.user.navigation.userdetails.navigateToUserDetails
 
 @Composable
-fun AppNavHost(
-    launchFeatureDependencies: LaunchFeatureDependencies,
-    repoFeatureDependencies: RepoFeatureDependencies,
-    searchFeatureDependencies: SearchFeatureDependencies,
-    settingsFeatureDependencies: SettingsFeatureDependencies,
-    userFeatureDependencies: UserFeatureDependencies
-) {
+fun AppNavHost(dependencies: AppDependencies) {
     val rootBackStack = rememberNavBackStack(LaunchHostRoute)
     val rootNavigator = backStackAppNavigator(rootBackStack)
     NavDisplay(
@@ -52,7 +47,7 @@ fun AppNavHost(
                 LaunchHostScreen(
                     startDestination = LaunchRoute,
                     entryProvider = launchHostEntryProvider(
-                        launchFeatureDependencies = launchFeatureDependencies,
+                        launchFeatureDependencies = dependencies.launchFeatureDependencies,
                         onNavigateToMainHost = rootNavigator::navigateToMainHost
                     )
                 )
@@ -61,10 +56,10 @@ fun AppNavHost(
                 MainHostScreen(
                     startDestination = ReposRoute,
                     entryProvider = mainHostEntryProvider(
-                        repoFeatureDependencies = repoFeatureDependencies,
-                        searchFeatureDependencies = searchFeatureDependencies,
-                        settingsFeatureDependencies = settingsFeatureDependencies,
-                        userFeatureDependencies = userFeatureDependencies
+                        repoFeatureDependencies = dependencies.repoFeatureDependencies,
+                        searchFeatureDependencies = dependencies.searchFeatureDependencies,
+                        settingsFeatureDependencies = dependencies.settingsFeatureDependencies,
+                        userFeatureDependencies = dependencies.userFeatureDependencies
                     )
                 )
             }

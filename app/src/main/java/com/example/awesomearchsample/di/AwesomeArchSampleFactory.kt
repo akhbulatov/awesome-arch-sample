@@ -1,32 +1,26 @@
 package com.example.awesomearchsample.di
 
-import android.content.Context
+import android.app.Application
 import com.example.awesomearchsample.BuildConfig
 import com.example.awesomearchsample.core.corefactory.di.CoreFactory
 import com.example.awesomearchsample.data.di.DataFactory
-import com.example.awesomearchsample.data.di.AppContextProvider
 import com.example.awesomearchsample.domain.di.DomainFactory
 import com.example.awesomearchsample.feature.common.di.CommonFeatureFactory
 
 class AwesomeArchSampleFactory(
-    context: Context
+    application: Application
 ) {
 
     val coreFactory: CoreFactory by lazy {
         CoreFactory(
-            context = context,
+            context = application,
             networkBaseApiUrl = BuildConfig.NETWORK_API_BASE_URL
         )
     }
 
-    val appContextProvider: AppContextProvider = object : AppContextProvider {
-        override val appContext: Context
-            get() = coreFactory.context
-    }
-
     private val dataFactory: DataFactory by lazy {
         DataFactory(
-            appContextProvider = appContextProvider,
+            appContext = application,
             networkFactory = coreFactory.networkFactory,
             preferencesFactory = coreFactory.preferencesFactory
         )
@@ -34,10 +28,10 @@ class AwesomeArchSampleFactory(
 
     val domainFactory: DomainFactory by lazy {
         DomainFactory(
-            repoRepository = dataFactory.repoDataFactory.repoRepository,
-            searchRepository = dataFactory.searchDataFactory.searchRepository,
-            userRepository = dataFactory.userDataFactory.userRepository,
-            appSettingsRepository = dataFactory.appSettingsDataFactory.appSettingsRepository
+            repoRepositoryProvider = { dataFactory.repoDataFactory.repoRepository },
+            searchRepositoryProvider = { dataFactory.searchDataFactory.searchRepository },
+            userRepositoryProvider = { dataFactory.userDataFactory.userRepository },
+            appSettingsRepositoryProvider = { dataFactory.appSettingsDataFactory.appSettingsRepository }
         )
     }
 

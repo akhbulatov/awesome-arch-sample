@@ -10,30 +10,30 @@ import com.example.awesomearchsample.domain.user.di.UserDomainFactory
 import com.example.awesomearchsample.domain.user.repository.UserRepository
 
 class DomainFactory(
-    repoRepository: RepoRepository,
-    searchRepository: SearchRepository,
-    userRepository: UserRepository,
-    appSettingsRepository: AppSettingsRepository
+    repoRepositoryProvider: () -> RepoRepository,
+    searchRepositoryProvider: () -> SearchRepository,
+    userRepositoryProvider: () -> UserRepository,
+    appSettingsRepositoryProvider: () -> AppSettingsRepository
 ) {
 
     val repoDomainFactory: RepoDomainFactory by lazy {
         RepoDomainFactory(
-            repoRepository = repoRepository
+            repoRepository = repoRepositoryProvider()
         )
     }
     val searchDomainFactory: SearchDomainFactory by lazy {
         SearchDomainFactory(
-            searchRepository = searchRepository
+            searchRepository = searchRepositoryProvider()
         )
     }
     val userDomainFactory: UserDomainFactory by lazy {
         UserDomainFactory(
-            userRepository = userRepository
+            userRepository = userRepositoryProvider()
         )
     }
     val appSettingsDomainFactory: AppSettingsDomainFactory by lazy {
         AppSettingsDomainFactory(
-            appSettingsRepository = appSettingsRepository
+            appSettingsRepository = appSettingsRepositoryProvider()
         )
     }
 }

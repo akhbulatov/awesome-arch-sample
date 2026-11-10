@@ -12,17 +12,11 @@ class AwesomeArchSampleActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val appGraph = (application as AppGraphProvider).appGraph
+        val appDependencies = (application as AppGraphProvider).appDependencies
 
         setContent {
             AppTheme {
-                AppNavHost(
-                    launchFeatureDependencies = appGraph.launchFeatureDependencies,
-                    repoFeatureDependencies = appGraph.repoFeatureDependencies,
-                    searchFeatureDependencies = appGraph.searchFeatureDependencies,
-                    settingsFeatureDependencies = appGraph.settingsFeatureDependencies,
-                    userFeatureDependencies = appGraph.userFeatureDependencies
-                )
+                AppNavHost(dependencies = appDependencies)
             }
         }
     }

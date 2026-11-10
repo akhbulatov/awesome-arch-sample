@@ -1,6 +1,6 @@
 package com.example.awesomearchsample.di
 
-import android.content.Context
+import android.app.Application
 import com.example.awesomearchsample.core.commonapi.app.AppInitializers
 import com.example.awesomearchsample.feature.launch.di.LaunchFeatureDependencies
 import com.example.awesomearchsample.feature.launch.di.LaunchFeatureGraph
@@ -13,23 +13,23 @@ import com.example.awesomearchsample.feature.settings.di.SettingsFeatureGraph
 import com.example.awesomearchsample.feature.user.di.UserFeatureDependencies
 import com.example.awesomearchsample.feature.user.di.UserFeatureGraph
 
-class AppGraph(
-    context: Context
-) {
+internal class AppGraph(
+    application: Application
+) : AppDependencies {
 
     private val appFactory: AwesomeArchSampleFactory by lazy {
         AwesomeArchSampleFactory(
-            context = context
+            application = application
         )
     }
 
-    val launchFeatureDependencies: LaunchFeatureDependencies by lazy {
+    override val launchFeatureDependencies: LaunchFeatureDependencies by lazy {
         LaunchFeatureGraph(
             domainFactory = appFactory.domainFactory
         )
     }
 
-    val repoFeatureDependencies: RepoFeatureDependencies by lazy {
+    override val repoFeatureDependencies: RepoFeatureDependencies by lazy {
         RepoFeatureGraph(
             domainFactory = appFactory.domainFactory,
             uiFactory = appFactory.coreFactory.uiFactory,
@@ -37,21 +37,21 @@ class AppGraph(
         )
     }
 
-    val searchFeatureDependencies: SearchFeatureDependencies by lazy {
+    override val searchFeatureDependencies: SearchFeatureDependencies by lazy {
         SearchFeatureGraph(
             domainFactory = appFactory.domainFactory,
             uiFactory = appFactory.coreFactory.uiFactory
         )
     }
 
-    val userFeatureDependencies: UserFeatureDependencies by lazy {
+    override val userFeatureDependencies: UserFeatureDependencies by lazy {
         UserFeatureGraph(
             domainFactory = appFactory.domainFactory,
             uiFactory = appFactory.coreFactory.uiFactory
         )
     }
 
-    val settingsFeatureDependencies: SettingsFeatureDependencies by lazy {
+    override val settingsFeatureDependencies: SettingsFeatureDependencies by lazy {
         SettingsFeatureGraph(
             domainFactory = appFactory.domainFactory
         )

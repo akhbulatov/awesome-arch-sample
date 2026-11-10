@@ -1,15 +1,17 @@
 package com.example.awesomearchsample
 
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onAllNodesWithTag
-import androidx.compose.ui.test.onNodeWithTag
-import com.example.awesomearchsample.feature.repo.repos.REPOS_SCREEN_TAG
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.awesomearchsample.feature.repo.R as RepoR
 
+@OptIn(ExperimentalTestApi::class)
 @RunWith(AndroidJUnit4::class)
 class AppStartTest {
 
@@ -18,10 +20,8 @@ class AppStartTest {
 
     @Test
     fun appStart_showsMainReposTitle() {
-        composeRule.waitUntil(timeoutMillis = 5_000) {
-            composeRule.onAllNodesWithTag(REPOS_SCREEN_TAG).fetchSemanticsNodes().isNotEmpty()
-        }
-
-        composeRule.onNodeWithTag(REPOS_SCREEN_TAG).assertIsDisplayed()
+        val title = composeRule.activity.getString(RepoR.string.repos_title)
+        composeRule.waitUntilExactlyOneExists(hasText(title), timeoutMillis = 5_000)
+        composeRule.onNodeWithText(title).assertIsDisplayed()
     }
 }

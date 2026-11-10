@@ -1,101 +1,94 @@
 package com.example.awesomearchsample
 
-import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.semantics.getOrNull
-import androidx.compose.ui.test.SemanticsMatcher
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onAllNodesWithTag
-import androidx.compose.ui.test.onFirst
+import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.junit4.StateRestorationTester
+import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.awesomearchsample.feature.repo.repodetails.REPO_DETAILS_SCREEN_TAG
 import com.example.awesomearchsample.feature.repo.repodetails.REPO_DETAILS_AUTHOR_TAG
-import com.example.awesomearchsample.feature.repo.repos.component.REPO_ITEM_TAG_PREFIX
+import com.example.awesomearchsample.feature.repo.repodetails.REPO_DETAILS_SCREEN_TAG
 import com.example.awesomearchsample.feature.repo.repos.REPOS_SEARCH_BUTTON_TAG
-import com.example.awesomearchsample.feature.repo.repos.REPOS_SCREEN_TAG
+import com.example.awesomearchsample.feature.repo.repos.component.REPO_ITEM_TAG_PREFIX
 import com.example.awesomearchsample.feature.search.SEARCH_SCREEN_TAG
-import com.example.awesomearchsample.feature.user.userdetails.USER_DETAILS_SCREEN_TAG
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@OptIn(ExperimentalTestApi::class)
 @RunWith(AndroidJUnit4::class)
 class RepoNavigationTest {
 
     @get:Rule
-    val composeRule = createAndroidComposeRule<AwesomeArchSampleActivity>()
+    val composeRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun appStart_clickRepoItem_navigatesToRepoDetails() {
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodesWithTag(REPOS_SCREEN_TAG).fetchSemanticsNodes().isNotEmpty()
-        }
+    fun clickRepoItem_opensDetailsAndBackReturnsToRepos() {
+        composeRule.setContent(testAppContent())
 
-        val repoItemMatcher = SemanticsMatcher("hasRepoItemTag") { node ->
-            val tag = node.config.getOrNull(SemanticsProperties.TestTag)
-            tag?.startsWith(REPO_ITEM_TAG_PREFIX) == true
-        }
+        openRepoDetails()
+        composeRule.onNodeWithTag(REPO_DETAILS_SCREEN_TAG).assertIsDisplayed()
 
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodes(repoItemMatcher).fetchSemanticsNodes().isNotEmpty()
-        }
-
-        composeRule.onAllNodes(repoItemMatcher).onFirst().performClick()
-
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodesWithTag(REPO_DETAILS_SCREEN_TAG).fetchSemanticsNodes().isNotEmpty()
-        }
-
-        composeRule.onNodeWithTag(REPO_DETAILS_SCREEN_TAG).assertExists()
+        pressBack()
+        composeRule.onNodeWithTag(repoItemTag).assertIsDisplayed()
     }
 
     @Test
-    fun appStart_searchIconNavigatesToSearch() {
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodesWithTag(REPOS_SCREEN_TAG).fetchSemanticsNodes().isNotEmpty()
-        }
+    fun clickSearchIcon_opensSearch() {
+        composeRule.setContent(testAppContent())
+        composeRule.waitUntilExactlyOneExists(hasTestTag(REPOS_SEARCH_BUTTON_TAG))
 
         composeRule.onNodeWithTag(REPOS_SEARCH_BUTTON_TAG).performClick()
 
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodesWithTag(SEARCH_SCREEN_TAG).fetchSemanticsNodes().isNotEmpty()
-        }
-
-        composeRule.onNodeWithTag(SEARCH_SCREEN_TAG).assertExists()
+        composeRule.onNodeWithTag(SEARCH_SCREEN_TAG).assertIsDisplayed()
     }
 
     @Test
-    fun appStart_repoDetailsAuthorNavigatesToUserDetails() {
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodesWithTag(REPOS_SCREEN_TAG).fetchSemanticsNodes().isNotEmpty()
-        }
+    fun clickRepoAuthor_opensUserDetails() {
+        composeRule.setContent(testAppContent())
 
-        val repoItemMatcher = SemanticsMatcher("hasRepoItemTag") { node ->
-            val tag = node.config.getOrNull(SemanticsProperties.TestTag)
-            tag?.startsWith(REPO_ITEM_TAG_PREFIX) == true
-        }
+        openUserDetails()
 
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodes(repoItemMatcher).fetchSemanticsNodes().isNotEmpty()
-        }
+        composeRule.onNodeWithText(TEST_AUTHOR_NAME).assertIsDisplayed()
+    }
 
-        composeRule.onAllNodes(repoItemMatcher).onFirst().performClick()
+    @Test
+    fun restoreSavedState_preservesUserDetailsAndItsBackStack() {
+        val restorationTester = StateRestorationTester(composeRule)
+        restorationTester.setContent(testAppContent())
+        openUserDetails()
 
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodesWithTag(REPO_DETAILS_SCREEN_TAG).fetchSemanticsNodes().isNotEmpty()
-        }
+        restorationTester.emulateSavedInstanceStateRestore()
 
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodesWithTag(REPO_DETAILS_AUTHOR_TAG).fetchSemanticsNodes().isNotEmpty()
-        }
+        composeRule.waitUntilExactlyOneExists(hasText(TEST_AUTHOR_NAME))
+        composeRule.onNodeWithText(TEST_AUTHOR_NAME).assertIsDisplayed()
+        pressBack()
+        composeRule.onNodeWithTag(REPO_DETAILS_SCREEN_TAG).assertIsDisplayed()
+        pressBack()
+        composeRule.onNodeWithTag(repoItemTag).assertIsDisplayed()
+    }
 
+    private val repoItemTag = REPO_ITEM_TAG_PREFIX + TEST_REPO_ID
+
+    private fun openRepoDetails() {
+        composeRule.waitUntilExactlyOneExists(hasTestTag(repoItemTag))
+        composeRule.onNodeWithTag(repoItemTag).performClick()
+    }
+
+    private fun openUserDetails() {
+        openRepoDetails()
+        composeRule.waitUntilExactlyOneExists(hasTestTag(REPO_DETAILS_AUTHOR_TAG))
         composeRule.onNodeWithTag(REPO_DETAILS_AUTHOR_TAG).performClick()
+        composeRule.waitUntilExactlyOneExists(hasText(TEST_AUTHOR_NAME))
+    }
 
-        composeRule.waitUntil(timeoutMillis = 10_000) {
-            composeRule.onAllNodesWithTag(USER_DETAILS_SCREEN_TAG).fetchSemanticsNodes().isNotEmpty()
-        }
-
-        composeRule.onNodeWithTag(USER_DETAILS_SCREEN_TAG).assertExists()
+    private fun pressBack() {
+        val activity = composeRule.activity
+        composeRule.runOnIdle { activity.onBackPressedDispatcher.onBackPressed() }
     }
 }

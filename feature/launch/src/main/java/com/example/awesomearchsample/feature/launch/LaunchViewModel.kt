@@ -10,6 +10,7 @@ import com.example.awesomearchsample.domain.appsettings.usecase.SetIsFirstLaunch
 import com.example.awesomearchsample.feature.launch.di.LaunchScreenDependencies
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 internal class LaunchViewModel(
     private val isFirstLaunchUseCase: IsFirstLaunchUseCase,
@@ -18,9 +19,13 @@ internal class LaunchViewModel(
 
     init {
         viewModelScope.launch {
-            if (!isFirstLaunchUseCase().first()) {
-                AppLogger.d("FIRST APP LAUNCH!")
-                setIsFirstLaunchUseCase(true)
+            try {
+                if (!isFirstLaunchUseCase().first()) {
+                    AppLogger.d("First app launch detected")
+                    setIsFirstLaunchUseCase(true)
+                }
+            } catch (e: IOException) {
+                AppLogger.e(e)
             }
 
             emitEffect(LaunchUiEffect.NavigateToMainHost)

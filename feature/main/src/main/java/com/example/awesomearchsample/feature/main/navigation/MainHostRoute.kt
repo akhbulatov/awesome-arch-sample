@@ -5,7 +5,7 @@ import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-object MainHostRoute : NavRoute
+data object MainHostRoute : NavRoute
 
 fun AppNavigator.navigateToMainHost() {
     resetTo(MainHostRoute)

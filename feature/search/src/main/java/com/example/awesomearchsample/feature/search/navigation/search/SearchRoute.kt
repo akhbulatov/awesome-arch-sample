@@ -5,7 +5,7 @@ import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal object SearchRoute : NavRoute
+internal data object SearchRoute : NavRoute
 
 fun AppNavigator.navigateToSearch() {
     navigateTo(SearchRoute)

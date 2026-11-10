@@ -4,4 +4,4 @@ import com.example.awesomearchsample.core.ui.navigation.NavRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-object ReposRoute : NavRoute
+data object ReposRoute : NavRoute

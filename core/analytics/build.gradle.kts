@@ -7,9 +7,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.commonApi)
-
-    implementation(libs.kermit)
+    api(projects.core.commonApi)
 
     testImplementation(libs.junit4)
     testImplementation(libs.robolectric)

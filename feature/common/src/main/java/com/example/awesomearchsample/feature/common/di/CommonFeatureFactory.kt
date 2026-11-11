@@ -1,13 +1,13 @@
 package com.example.awesomearchsample.feature.common.di
 
-import com.example.awesomearchsample.core.analytics.di.AnalyticsFactory
+import com.example.awesomearchsample.core.analytics.api.AnalyticsClient
 import com.example.awesomearchsample.feature.common.analytics.AnalyticsEventSender
 
 class CommonFeatureFactory(
-    analyticsFactory: AnalyticsFactory
+    analyticsClientProvider: () -> AnalyticsClient
 ) {
 
-    val analyticsEventSender: AnalyticsEventSender = AnalyticsEventSender(
-        analyticsClient = analyticsFactory.analyticsClient
-    )
+    val analyticsEventSender: AnalyticsEventSender by lazy {
+        AnalyticsEventSender(analyticsClient = analyticsClientProvider())
+    }
 }

@@ -1,6 +1,5 @@
 package com.example.awesomearchsample.data.search.di
 
-import com.example.awesomearchsample.core.network.di.NetworkFactory
 import com.example.awesomearchsample.data.AppDatabase
 import com.example.awesomearchsample.data.search.SearchRepositoryImpl
 import com.example.awesomearchsample.data.search.local.database.SearchQueryDao
@@ -9,14 +8,15 @@ import com.example.awesomearchsample.data.search.remote.network.SearchApi
 import com.example.awesomearchsample.data.search.local.SearchLocalDataSource
 import com.example.awesomearchsample.data.search.remote.SearchRemoteDataSource
 import com.example.awesomearchsample.domain.search.repository.SearchRepository
+import io.ktor.client.HttpClient
 
 class SearchDataFactory internal constructor(
     private val appDatabase: AppDatabase,
-    private val networkFactory: NetworkFactory
+    httpClientProvider: () -> HttpClient
 ) {
 
     private val searchApi: SearchApi by lazy {
-        KtorSearchApi(httpClient = networkFactory.httpClient)
+        KtorSearchApi(httpClient = httpClientProvider())
     }
 
     private val searchQueryDao: SearchQueryDao by lazy {

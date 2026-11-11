@@ -21,8 +21,8 @@ class AwesomeArchSampleFactory(
     private val dataFactory: DataFactory by lazy {
         DataFactory(
             appContext = application,
-            networkFactory = coreFactory.networkFactory,
-            preferencesFactory = coreFactory.preferencesFactory
+            httpClientProvider = { coreFactory.networkFactory.httpClient },
+            appPreferencesProvider = { coreFactory.preferencesFactory.appPreferences }
         )
     }
 
@@ -37,7 +37,7 @@ class AwesomeArchSampleFactory(
 
     val commonFeatureFactory: CommonFeatureFactory by lazy {
         CommonFeatureFactory(
-            analyticsFactory = coreFactory.analyticsFactory
+            analyticsClientProvider = { coreFactory.analyticsFactory.analyticsClient }
         )
     }
 

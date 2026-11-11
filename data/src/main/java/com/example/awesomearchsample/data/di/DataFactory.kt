@@ -2,18 +2,18 @@ package com.example.awesomearchsample.data.di
 
 import android.content.Context
 import androidx.room3.Room
-import com.example.awesomearchsample.core.network.di.NetworkFactory
-import com.example.awesomearchsample.core.preferences.di.PreferencesFactory
+import com.example.awesomearchsample.core.preferences.AppPreferences
 import com.example.awesomearchsample.data.AppDatabase
 import com.example.awesomearchsample.data.appsettings.di.AppSettingsDataFactory
 import com.example.awesomearchsample.data.repo.di.RepoDataFactory
 import com.example.awesomearchsample.data.search.di.SearchDataFactory
 import com.example.awesomearchsample.data.user.di.UserDataFactory
+import io.ktor.client.HttpClient
 
 class DataFactory(
     appContext: Context,
-    networkFactory: NetworkFactory,
-    preferencesFactory: PreferencesFactory
+    httpClientProvider: () -> HttpClient,
+    appPreferencesProvider: () -> AppPreferences
 ) {
 
     private val appDatabase: AppDatabase by lazy {
@@ -28,23 +28,23 @@ class DataFactory(
 
     val repoDataFactory: RepoDataFactory by lazy {
         RepoDataFactory(
-            networkFactory = networkFactory
+            httpClientProvider = httpClientProvider
         )
     }
     val searchDataFactory: SearchDataFactory by lazy {
         SearchDataFactory(
             appDatabase = appDatabase,
-            networkFactory = networkFactory
+            httpClientProvider = httpClientProvider
         )
     }
     val userDataFactory: UserDataFactory by lazy {
         UserDataFactory(
-            networkFactory = networkFactory
+            httpClientProvider = httpClientProvider
         )
     }
     val appSettingsDataFactory: AppSettingsDataFactory by lazy {
         AppSettingsDataFactory(
-            preferencesFactory = preferencesFactory
+            appPreferencesProvider = appPreferencesProvider
         )
     }
 }

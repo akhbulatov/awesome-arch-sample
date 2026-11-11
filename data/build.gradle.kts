@@ -14,12 +14,9 @@ room3 {
 }
 
 dependencies {
-    implementation(projects.core.network)
-    implementation(projects.core.preferences)
+    api(projects.core.network)
+    api(projects.core.preferences)
     implementation(projects.domain)
-
-    implementation(platform(libs.ktor.bom))
-    implementation(libs.ktor.client.core)
 
     implementation(libs.serialization.json)
 

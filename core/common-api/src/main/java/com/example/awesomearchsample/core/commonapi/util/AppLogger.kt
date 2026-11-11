@@ -22,4 +22,8 @@ object AppLogger {
     fun e(message: String) {
         logger.e { message }
     }
+
+    fun e(message: String, throwable: Throwable) {
+        logger.e(throwable) { message }
+    }
 }

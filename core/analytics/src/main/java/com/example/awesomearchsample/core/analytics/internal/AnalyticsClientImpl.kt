@@ -10,6 +10,12 @@ internal class AnalyticsClientImpl(
 
     override fun sendEvent(event: AnalyticsEvent) {
         AppLogger.d("Sending event: $event")
-        analyticsSet.forEach { it.sendEvent(event) }
+        analyticsSet.forEach { analytics ->
+            try {
+                analytics.sendEvent(event)
+            } catch (error: Exception) {
+                AppLogger.e("Failed to send analytics event via ${analytics.javaClass.simpleName}", error)
+            }
+        }
     }
 }

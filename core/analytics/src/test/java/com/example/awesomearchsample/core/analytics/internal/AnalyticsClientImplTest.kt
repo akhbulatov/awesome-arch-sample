@@ -32,7 +32,23 @@ class AnalyticsClientImplTest {
         assertSame(event, second.lastEvent)
     }
 
-    private class FakeAnalytics : Analytics {
+    @Test
+    fun sendEvent_continuesWhenFirstProviderThrows() {
+        val first = FakeAnalytics(failOnSend = true)
+        val second = FakeAnalytics()
+        val client = AnalyticsClientImpl(analyticsSet = setOf(first, second))
+        val event = FakeAnalyticsEvent(name = "test_event", params = Bundle())
+
+        client.sendEvent(event)
+
+        assertEquals(1, first.callCount)
+        assertEquals(1, second.callCount)
+        assertSame(event, second.lastEvent)
+    }
+
+    private class FakeAnalytics(
+        private val failOnSend: Boolean = false
+    ) : Analytics {
         var callCount = 0
             private set
         var lastEvent: AnalyticsEvent? = null
@@ -44,6 +60,7 @@ class AnalyticsClientImplTest {
 
         override fun sendEvent(event: AnalyticsEvent) {
             callCount += 1
+            check(!failOnSend) { "Event delivery failed" }
             lastEvent = event
         }
     }

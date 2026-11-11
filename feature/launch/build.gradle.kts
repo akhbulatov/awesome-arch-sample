@@ -11,5 +11,9 @@ dependencies {
     implementation(projects.core.ui)
     implementation(projects.domain)
 
+    implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.lifecycle.viewmodel.navigation3)
+    implementation(libs.navigation3.ui)
+
     implementation(libs.serialization.core)
 }

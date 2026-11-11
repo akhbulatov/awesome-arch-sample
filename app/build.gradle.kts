@@ -34,9 +34,16 @@ dependencies {
     implementation(projects.feature.settings)
     implementation(projects.feature.user)
 
+    implementation(libs.activity)
+    implementation(libs.activity.compose)
+    implementation(libs.lifecycle.viewmodel.navigation3)
+    implementation(libs.navigation3.ui)
+
+    androidTestImplementation(projects.core.testing)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.coroutines.core)
     debugImplementation(libs.compose.ui.test.manifest)
 }

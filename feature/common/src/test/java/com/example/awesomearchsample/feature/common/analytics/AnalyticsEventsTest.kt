@@ -1,11 +1,9 @@
 package com.example.awesomearchsample.feature.common.analytics
 
+import com.example.awesomearchsample.core.analytics.api.AnalyticsParam
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 
-@RunWith(RobolectricTestRunner::class)
 class AnalyticsEventsTest {
 
     @Test
@@ -19,7 +17,7 @@ class AnalyticsEventsTest {
 
         // Assert
         assertEquals("repo_click", event.name)
-        assertEquals(repoId.toString(), event.params.getString("repo_id"))
-        assertEquals(repoName, event.params.getString("repo_name"))
+        assertEquals(AnalyticsParam.Text(repoId.toString()), event.params["repo_id"])
+        assertEquals(AnalyticsParam.Text(repoName), event.params["repo_name"])
     }
 }

@@ -1,8 +1,8 @@
 package com.example.awesomearchsample.feature.common.analytics
 
-import android.os.Bundle
 import com.example.awesomearchsample.core.analytics.api.AnalyticsClient
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent
+import com.example.awesomearchsample.core.analytics.api.AnalyticsParam
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
@@ -62,6 +62,6 @@ class AnalyticsEventSenderTest {
     private class FakeAnalyticsEvent(
         override val name: String
     ) : AnalyticsEvent {
-        override val params = Bundle()
+        override val params: Map<String, AnalyticsParam> = emptyMap()
     }
 }

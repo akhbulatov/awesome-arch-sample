@@ -1,7 +1,7 @@
 package com.example.awesomearchsample.core.analytics.internal
 
-import android.os.Bundle
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent
+import com.example.awesomearchsample.core.analytics.api.AnalyticsParam
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Test
@@ -17,10 +17,7 @@ class AnalyticsClientImplTest {
         val first = FakeAnalytics()
         val second = FakeAnalytics()
         val client = AnalyticsClientImpl(analyticsSet = setOf(first, second))
-        val event = FakeAnalyticsEvent(
-            name = "test_event",
-            params = Bundle()
-        )
+        val event = FakeAnalyticsEvent(name = "test_event")
 
         // Act
         client.sendEvent(event)
@@ -37,7 +34,7 @@ class AnalyticsClientImplTest {
         val first = FakeAnalytics(failOnSend = true)
         val second = FakeAnalytics()
         val client = AnalyticsClientImpl(analyticsSet = setOf(first, second))
-        val event = FakeAnalyticsEvent(name = "test_event", params = Bundle())
+        val event = FakeAnalyticsEvent(name = "test_event")
 
         client.sendEvent(event)
 
@@ -66,7 +63,8 @@ class AnalyticsClientImplTest {
     }
 
     private class FakeAnalyticsEvent(
-        override val name: String,
-        override val params: Bundle
-    ) : AnalyticsEvent
+        override val name: String
+    ) : AnalyticsEvent {
+        override val params: Map<String, AnalyticsParam> = emptyMap()
+    }
 }

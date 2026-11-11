@@ -1,7 +1,7 @@
 package com.example.awesomearchsample.feature.common.analytics
 
-import android.os.Bundle
 import com.example.awesomearchsample.core.analytics.api.AnalyticsEvent
+import com.example.awesomearchsample.core.analytics.api.AnalyticsParam
 
 object AnalyticsEvents {
 
@@ -13,10 +13,10 @@ object AnalyticsEvents {
         ) : AnalyticsEvent {
 
             override val name: String = "repo_click"
-            override val params: Bundle = Bundle().apply {
-                putString("repo_id", repoId.toString())
-                putString("repo_name", repoName)
-            }
+            override val params: Map<String, AnalyticsParam> = mapOf(
+                "repo_id" to AnalyticsParam.Text(repoId.toString()),
+                "repo_name" to AnalyticsParam.Text(repoName)
+            )
         }
     }
 }

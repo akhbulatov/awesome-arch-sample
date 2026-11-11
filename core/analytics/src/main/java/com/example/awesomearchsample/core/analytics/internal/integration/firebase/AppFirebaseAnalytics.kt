@@ -15,7 +15,7 @@ internal class AppFirebaseAnalytics(
     override fun init() {}
 
     override fun sendEvent(event: AnalyticsEvent) {
-        val firebaseEvent = event.toFirebaseEvent()
-//        firebaseAnalytics.logEvent(firebaseEvent.name, firebaseEvent.params)
+        val firebaseParams = event.toFirebaseParams()
+//        firebaseAnalytics.logEvent(event.name, firebaseParams)
     }
 }

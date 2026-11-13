@@ -24,4 +24,7 @@ dependencies {
     ksp(libs.room3.compiler)
 
     testImplementation(libs.junit4)
+    testImplementation(libs.ktor.client.contentNegotiation)
+    testImplementation(libs.ktor.client.mock)
+    testImplementation(libs.ktor.serialization.json)
 }

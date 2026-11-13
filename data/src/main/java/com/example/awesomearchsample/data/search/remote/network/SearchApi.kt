@@ -5,6 +5,7 @@ import com.example.awesomearchsample.data.search.remote.network.model.SearchResu
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 
 internal interface SearchApi {
     suspend fun getReposSearchResult(query: String): SearchResultNetModel<List<RepoNetModel>>
@@ -15,7 +16,8 @@ internal class KtorSearchApi(
 ) : SearchApi {
 
     override suspend fun getReposSearchResult(query: String): SearchResultNetModel<List<RepoNetModel>> {
-        return httpClient.get(urlString = "search/repositories?q=$query")
-            .body()
+        return httpClient.get(urlString = "search/repositories") {
+            parameter("q", query)
+        }.body()
     }
 }

@@ -13,7 +13,7 @@ import com.example.awesomearchsample.feature.settings.di.SettingsFeatureGraph
 import com.example.awesomearchsample.feature.user.di.UserFeatureDependencies
 import com.example.awesomearchsample.feature.user.di.UserFeatureGraph
 
-internal class AppGraph(
+class AppGraph(
     application: Application
 ) : AppDependencies {
 

@@ -26,6 +26,7 @@ class CoreFactory(
 
     val networkFactory: NetworkFactory by lazy {
         NetworkFactory(
+            context = context,
             json = serializationFactory.json,
             baseApiUrl = networkBaseApiUrl
         )

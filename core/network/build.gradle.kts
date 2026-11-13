@@ -21,4 +21,8 @@ dependencies {
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.client.okhttp)
     implementation(libs.ktor.serialization.json)
+
+    debugImplementation(libs.chucker)
+    "betaImplementation"(libs.chucker.no.op)
+    releaseImplementation(libs.chucker.no.op)
 }
